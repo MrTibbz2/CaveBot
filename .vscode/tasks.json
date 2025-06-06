@@ -1,0 +1,75 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Configure Pico Project",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        "microcontrollers",
+        "-B",
+        "microcontrollers/build",
+        "-G",
+        "Ninja"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Pico Project",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "microcontrollers/build"
+      ],
+      "group": "build",
+      "dependsOn": "Configure Pico Project",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash to Pico",
+      "type": "shell",
+      "windows": {
+        "command": "copy",
+        "args": [
+          "microcontrollers\\build\\sensor_controller.uf2",
+          "${input:picoDriveLetter}:/"
+        ]
+      },
+      "linux": {
+        "command": "cp",
+        "args": [
+          "microcontrollers/build/sensor_controller.uf2",
+          "/media/${env:USER}/RPI-RP2/"
+        ]
+      },
+      "osx": {
+        "command": "cp",
+        "args": [
+          "microcontrollers/build/sensor_controller.uf2",
+          "/Volumes/RPI-RP2/"
+        ]
+      },
+      "dependsOn": "Build Pico Project",
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "picoDriveLetter",
+      "type": "promptString",
+      "description": "Enter the drive letter of the mounted Pico (e.g., E)",
+      "default": "E"
+    }
+  ]
+}
