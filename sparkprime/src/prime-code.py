@@ -16,7 +16,6 @@ keyboard.register(stdin)
 
 encoding = 'utf-8'
 
-
 while True:
 
     # Let the remote program know we are ready for a command.
