@@ -10,7 +10,7 @@ async def main():
     hub = PybricksHubClient()
     if await hub.connect():
         print("Start the program on the hub now with the button.")
-        await hub.send(b"hey")
+        await hub.send(b"hey!!")
         print("done.")
         await hub.disconnect()
 

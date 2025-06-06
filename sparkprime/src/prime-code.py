@@ -27,7 +27,7 @@ while True:
         wait(10)
 
     # Read three bytes.
-    cmd = stdin.buffer.read(3)
+    cmd = stdin.buffer.read(5)
 
     hub.light.on(Color.RED)
     hub.display.text(str(cmd, encoding))
