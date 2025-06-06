@@ -2,6 +2,15 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Update Submodules",
+      "type": "shell",
+      "command": "git submodule update --init --recursive",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
       "label": "Configure Pico Project",
       "type": "shell",
       "command": "cmake",

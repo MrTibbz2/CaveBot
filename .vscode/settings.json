@@ -1,0 +1,5 @@
+{
+  "git.ignoredRepositories": [
+    "microcontrollers/pico-sdk"
+  ]
+}
