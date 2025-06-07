@@ -1,7 +1,0 @@
-C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool/picotool.exe
-C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool/picotoolTargets.cmake
-C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool/picotoolTargets-release.cmake
-C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool/picotoolConfig.cmake
-C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool/picotoolConfigVersion.cmake
-C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool/enc_bootloader.elf
-C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool/enc_bootloader_mbedtls.elf
