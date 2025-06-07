@@ -1,43 +1,37 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include <tusb.h>
-#define MAX_MESSAGE_LENGTH 12
-int main()
-{
-stdio_init_all();
-while (!tud_cdc_connected())
-{
-sleep_ms(100);
-}
-printf("tud_cdc_connected()\n");
-while (true)
-{
-//Check to see if anything is available in the serial receive buffer
-while (tud_cdc_available())
-{
-//Create a place to hold the incoming message
-static char message[MAX_MESSAGE_LENGTH];
-static unsigned int message_pos = 0;
-//Read the next available byte in the serial receive buffer
-char inByte = getchar();
-//Message coming in (check not terminating character) and guard for over message size
-if ( inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1) )
-{
-//Add the incoming byte to our message
-message[message_pos] = inByte;
-message_pos++;
-}
-//Full message received...
-else
-{
-//Add null character to string
-message[message_pos] = '\0';
-printf("%s\n",message);
-//Reset for the next message
-message_pos = 0;
-}
-}
-}
 
-return 0;
+#define MAX_MESSAGE_LENGTH 16
+
+int main() {
+    stdio_init_all();  // Initialize USB serial I/O
+
+    // Wait for USB connection
+    while (!tud_cdc_connected()) {
+        sleep_ms(100);
+    }
+    printf("USB connected!\n");
+
+    char input[MAX_MESSAGE_LENGTH + 1]; // Buffer for incoming message
+    unsigned int message_pos = 0; // Tracks the position in the buffer
+
+    while (true) {
+        // Check if there is data available in the USB serial buffer
+        while (tud_cdc_available()) {
+            char inByte = getchar();  // Read one character at a time
+
+            // Add the character to the buffer unless it's a newline
+            if (inByte != '\n' && message_pos < MAX_MESSAGE_LENGTH) {
+                input[message_pos++] = inByte;
+            } else { 
+                // Null-terminate and print when a newline is received
+                input[message_pos] = '\0';
+                printf("Your message is: %s\n", input);
+                message_pos = 0;  // Reset buffer for next message
+            }
+        }
+    }
+
+    return 0;
 }
