@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include <tusb.h>
+#include "distance_sensor.h" // YES!!!
 
 #define MAX_MESSAGE_LENGTH 16
 
