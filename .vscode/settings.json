@@ -1,5 +1,8 @@
 {
-  "git.ignoredRepositories": [
-    "microcontrollers/pico-sdk"
+  "git.repositoryScanMaxDepth": 1,
+  "git.repositories": [
+    {
+      "path": "${workspaceFolder}"
+    }
   ]
 }

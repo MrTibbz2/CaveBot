@@ -1,14 +1,12 @@
 {
   "version": "2.0.0",
   "tasks": [
+    
     {
       "label": "Update Submodules",
       "type": "shell",
       "command": "git submodule update --init --recursive",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "group": "build"
     },
     {
       "label": "Configure Pico Project",
@@ -62,7 +60,7 @@
         ]
       },
       "dependsOn": "Build Pico Project",
-      "group": "none",
+      "group": "build",
       "presentation": {
         "echo": true,
         "reveal": "always",
