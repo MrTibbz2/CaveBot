@@ -1,17 +1,43 @@
+#include <stdio.h>
 #include "pico/stdlib.h"
+#include <tusb.h>
+#define MAX_MESSAGE_LENGTH 12
+int main()
+{
+stdio_init_all();
+while (!tud_cdc_connected())
+{
+sleep_ms(100);
+}
+printf("tud_cdc_connected()\n");
+while (true)
+{
+//Check to see if anything is available in the serial receive buffer
+while (tud_cdc_available())
+{
+//Create a place to hold the incoming message
+static char message[MAX_MESSAGE_LENGTH];
+static unsigned int message_pos = 0;
+//Read the next available byte in the serial receive buffer
+char inByte = getchar();
+//Message coming in (check not terminating character) and guard for over message size
+if ( inByte != '\n' && (message_pos < MAX_MESSAGE_LENGTH - 1) )
+{
+//Add the incoming byte to our message
+message[message_pos] = inByte;
+message_pos++;
+}
+//Full message received...
+else
+{
+//Add null character to string
+message[message_pos] = '\0';
+printf("%s\n",message);
+//Reset for the next message
+message_pos = 0;
+}
+}
+}
 
-int main() {
-    const int LED_PIN = PICO_DEFAULT_LED_PIN;  // usually GPIO 25
-
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
-
-    while (true) {
-        gpio_put(LED_PIN, 1);   // LED on
-        sleep_ms(500);
-        gpio_put(LED_PIN, 0);   // LED off
-        sleep_ms(500);
-    }
-
-    return 0;
+return 0;
 }

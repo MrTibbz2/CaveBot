@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/Lachlan/innovation-team-2/microcontrollers/build/_deps/picotool-build/enc_bootloader/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
