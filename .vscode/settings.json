@@ -4,5 +4,6 @@
     {
       "path": "${workspaceFolder}"
     }
-  ]
+  ],
+  "cmake.sourceDirectory": "C:/Users/Lachlan/innovation-team-4/microcontrollers"
 }

@@ -1,0 +1,24 @@
+# CMake build folders
+microcontrollers/build/
+build/
+
+# VS Code settings
+.vscode/
+
+# Compiled object files and binaries
+*.elf
+*.uf2
+*.bin
+*.hex
+*.map
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
