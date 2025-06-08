@@ -7,7 +7,7 @@
 #include "pico/stdlib.h"
 #include <tusb.h>
 #include "distance_sensor.h"
-#define MAX_MESSAGE_LENGTH 16
+#define MAX_MESSAGE_LENGTH 24
 status::SystemState status::currentState;
 status::Core1Status status::currentCore1State;
 // Example function implementations
