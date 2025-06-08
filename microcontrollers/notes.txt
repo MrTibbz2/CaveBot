@@ -1,9 +1,0 @@
-what ive done so far: 
-- install cmake https://cmake.org/download/
- - install ninja with choclatey: choco install ninja (you can install with brew or apt or whatever)
-- might need to add cmake to PATH depending on install
-- get arm-gnu-toolchain-14.2.rel1-mingw-YOUR_SYSTEM-arm-none-eabi.exe from arm developer: https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
-- will need to add to path
-- install cmake tools extension
-- cmake: Configure
- 

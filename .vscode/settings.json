@@ -6,5 +6,9 @@
     }
   ],
   "cmake.sourceDirectory": "C:/Users/Lachlan/innovation-team-4/microcontrollers",
-  "C_Cpp.default.compileCommands": "${workspaceFolder}/microcontrollers/build/compile_commands.json"
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/microcontrollers/build/compile_commands.json",
+  "files.associations": {
+    "system_error": "cpp",
+    "random": "cpp"
+  }
 }
