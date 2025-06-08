@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include "pico/multicore.h"
+#include "serial_handler.h"
 #include "pico/stdlib.h"
 #include <tusb.h>
 #include "distance_sensor.h" // YES!!!
@@ -6,33 +8,34 @@
 #define MAX_MESSAGE_LENGTH 16
 
 int main() {
-    stdio_init_all();  // Initialize USB serial I/O
-
-    // Wait for USB connection
-    while (!tud_cdc_connected()) {
-        sleep_ms(100);
-    }
-    printf("USB connected!\n");
-
-    char input[MAX_MESSAGE_LENGTH + 1]; // Buffer for incoming message
-    unsigned int message_pos = 0; // Tracks the position in the buffer
-
+    status::currentState.initialised = stdio_init_all();  // Initialize USB serial I/O
+    tud_cdc_available();
+    tud_cdc_connected();
+    commands cmdHandler;  // Create an instance of the commands handler
     while (true) {
-        // Check if there is data available in the USB serial buffer
-        while (tud_cdc_available()) {
-            char inByte = getchar();  // Read one character at a time
-
-            // Add the character to the buffer unless it's a newline
-            if (inByte != '\n' && message_pos < MAX_MESSAGE_LENGTH) {
-                input[message_pos++] = inByte;
-            } else { 
-                // Null-terminate and print when a newline is received
-                input[message_pos] = '\0';
-                printf("Your message is: %s\n", input);
-                message_pos = 0;  // Reset buffer for next message
-            }
+        char* stringcommand = cmdHandler.ReadBufferuntilCommand(tud_cdc_connected, tud_cdc_available);
+        if (strcmp(stringcommand, "error") == 0) {
+            printf("Error reading input, lasterror: %s\n", status::currentState.lastError);
+            continue;  // Skip to the next iteration if there was an error
         }
-    }
+        strncpy(status::currentState.lastCommand, stringcommand, sizeof(status::currentState.lastCommand) - 1);
+        status::currentState.lastCommand[sizeof(status::currentState.lastCommand) - 1] = '\0';  // Ensure null-termination
+        commands::Command command = cmdHandler.checkCommands(stringcommand);  // Check if the command is valid
+        
+        if (command.commandCall[0] != '\0') {  // If a valid command was found
+            int result = cmdHandler.ExecuteCommand(command);  // Execute the command
+            if (result != 0) {
+                printf("Command execution failed with error: %d\n", status::currentState.lastError);
+            }
+           else {
+                printf("command %s exited succesfully.", status::currentState.lastCommand);  
+            }
+        } else {
+            printf("Invalid command: %s\n", stringcommand);  // Handle invalid command
+            strncpy(status::currentState.lastError, "err: no_cmd", sizeof(status::currentState.lastError) - 1);
+            status::currentState.lastError[sizeof(status::currentState.lastError) - 1] = '\0';  // Ensure null-termination
+        }
 
+    }
     return 0;
 }
