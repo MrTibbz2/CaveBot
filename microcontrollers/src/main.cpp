@@ -60,7 +60,7 @@ int main() {
                 if (result == 0) {
                     char payload[128];
                     snprintf(payload, sizeof(payload), "{ \"command_name\": \"%s\", \"message\": \"Command executed successfully.\" }", inp);
-                    output::logData({LogIdentifier::COMMAND, "execution_result", LogStatus::SUCCESS, "{ \"command_name\": \"YOUR_COMMAND_NAME\", \"message\": \"Command executed successfully.\" }"});
+                    output::logData({LogIdentifier::COMMAND, "execution_result", LogStatus::SUCCESS, payload});
                 }
             }
             if (strncmp(stringcommand, "CMD_START_", 10) == 0) {// checks if the received stringcommand is a CMD_START
