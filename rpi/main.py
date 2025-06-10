@@ -7,8 +7,6 @@ BAUDRATE = 115200
 sr = PicoSerialInterface(baudrate=BAUDRATE)
 time.sleep(2)
 
-sr.find_pico_port()
-
 
 result = sr.connect()
 if not result:
