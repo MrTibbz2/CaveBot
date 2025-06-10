@@ -22,7 +22,8 @@ add_subdirectory(hc-sr04-lib)
 # Link libraries
 target_link_libraries(sensor_controller
     pico_stdlib
-    distance-sensor # <-- Link the distance-sensor library
+    distance-sensor
+    pico_multicore # <-- Link the distance-sensor library
 )
 
 pico_add_extra_outputs(sensor_controller)

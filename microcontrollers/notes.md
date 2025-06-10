@@ -18,7 +18,7 @@ This document outlines the communication protocol for the RPi Pico system, so th
 
 All messages from the RPi Pico to the Python Controller adhere to a JSON-like string format for easy parsing into Python dictionaries.
 
-**Format:** `<IDENTIFIER>: { "type": "<MESSAGE_TYPE>", "status": "<STATUS_CODE>", [ "payload": <DATA_OR_MESSAGE> ] }`
+**Format:** `<IDENTIFIER>: { "type": "<MESSAGE_TYPE>", "status": "<STATUS_CODE>", "payload": {<DATA_OR_MESSAGES>} }`
 
 * **`<IDENTIFIER>`**: `Core1`, `Command`, `INFO`, `ERROR` (indicates message origin/category).
 * **`"type"`**: Categorizes the specific message (e.g., `data_stream`, `thread_status`, `system_status`).
@@ -34,8 +34,8 @@ These are simple string commands sent from the Python Controller to the Pico.
 * **`CMD_START_<COMMAND_NAME>`**
     * **Purpose:** Initiate a specific task on Core1 (e.g., `CMD_START_SENSORREAD`).
     * **Pico Response (Example):**
-        * `Core1: { "type": "command_response", "status": "thread_started", "payload": "SENSOR_READ" }` (Success)
-        * `ERROR: { "type": "core1_management", "status": "thread_locked", "message": "Core1 busy." }` (Failure)
+        * `Core1: { "type": "command_response", "status": "thread_started", "payload": { <data> }` (Success)
+        * `ERROR: { "type": "core1_management", "status": "thread_locked"}` (Failure)
 
 * **`CMD_STOP`**
     * **Purpose:** Terminate the currently running Core1 thread.

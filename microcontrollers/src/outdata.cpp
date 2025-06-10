@@ -35,8 +35,9 @@ const char* getStatusString(LogStatus status) {
     }
 }
 
-int output::logData(output::outdata data) {
-    if (!status::currentState.initialised || !status::currentState.isConnected) { return 1; }
+int output::logData(const output::outdata& data) {
+    status::SystemState state = status::getCurrentState();
+    if (!state.initialised || !state.isConnected) { return 1; }
 
     char outputBuffer[MAX_OUTPUT_BUFFER_SIZE];
     int bytesWritten = 0;
