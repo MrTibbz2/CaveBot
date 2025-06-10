@@ -6,7 +6,7 @@
 #include "pico/stdlib.h"
 #include <tusb.h>
 #include "distance_sensor.h"
-
+const uint32_t interval_ms = 50;
 int sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
     DistanceSensor** sensors = new DistanceSensor*[sensorcount];
     for (int i = 0; i < sensorcount; ++i) {
@@ -37,6 +37,7 @@ int sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
     }
     int* sensorreads = new int[sensorcount];
     while (!status::isCore1StopRequested) {
+        uint32_t start = to_ms_since_boot(get_absolute_time());
         for (int i = 0; i < sensorcount; ++i) {
             if (!sensors[i]->is_sensing) {
                 char buff[32];
@@ -70,7 +71,10 @@ int sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
         });
         delete[] buff;
         
-
+        uint32_t elapsed = to_ms_since_boot(get_absolute_time()) - start;
+        if (elapsed < interval_ms) {
+        sleep_ms(interval_ms - elapsed); // Wait the remaining time
+    }
     }
     
     
@@ -80,5 +84,6 @@ int sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
     }
     delete[] sensors;
     delete[] sensorreads;
+    
     
 }
