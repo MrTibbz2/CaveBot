@@ -7,12 +7,12 @@
 #include <tusb.h>
 #include "distance_sensor.h"
 const uint32_t interval_ms = 50;
-int sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
+void sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
     DistanceSensor** sensors = new DistanceSensor*[sensorcount];
     for (int i = 0; i < sensorcount; ++i) {
         PIO pio = (i < 4) ? pio0 : pio1;
         int sm = i % 4; // 0-3 for each PIO
-        sensors[i] = new DistanceSensor{pio, sm, sensorpins[i]};
+        sensors[i] = new DistanceSensor{pio, (uint)sm, (uint)sensorpins[i]}; // Cast to uint to avoid narrowing warning
     }
 
     for (int i = 0; i < sensorcount; ++i) {
@@ -30,7 +30,7 @@ int sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
                 delete sensors[j];
             }
             delete[] sensors;
-            return -1; // Return error code
+            return; // Early exit, no value
         }
         sensors[i]->TriggerRead(); // Start sensing
 

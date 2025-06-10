@@ -79,7 +79,7 @@ class sensor;
 class sensor {
 public:
     
-    int BeginSensorRead(int sensorcount, int* sensorpins);
+    void BeginSensorRead(int sensorcount, int* sensorpins);
 };
 
 class status {

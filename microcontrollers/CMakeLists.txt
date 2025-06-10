@@ -7,7 +7,7 @@ project(sensor_controller C CXX ASM)
 
 pico_sdk_init()
 
-add_executable(sensor_controller src/main.cpp src/serial_handler.cpp src/outdata.cpp)
+add_executable(sensor_controller src/main.cpp src/serial_handler.cpp src/outdata.cpp src/distanceScan.cpp)
 
 # Add your include directories
 target_include_directories(sensor_controller
