@@ -4,9 +4,11 @@ from pybricksconnect import PybricksHubClient
 
 PYBRICKS_COMMAND_EVENT_CHAR_UUID = "c5f50002-8280-46da-89f4-6d8051e4aeef"
 
+hub_name = "NSE_Pybricks"  # Replace with your hub's name
+
 # Example usage:
 async def main():
-    hub = PybricksHubClient()
+    hub = PybricksHubClient(hub_name)
     if await hub.connect():
         print("Start the program on the hub now with the button.")
         await hub.send(b"motor1")
