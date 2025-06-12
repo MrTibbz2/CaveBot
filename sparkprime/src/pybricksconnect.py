@@ -5,7 +5,7 @@ from bleak import BleakScanner, BleakClient
 PYBRICKS_COMMAND_EVENT_CHAR_UUID = "c5f50002-8280-46da-89f4-6d8051e4aeef"
 
 class PybricksHubClient:
-    def __init__(self, hub_name="Pybricks Hub"):
+    def __init__(self, hub_name="NSE_Pybricks"):
         self.hub_name = hub_name
         self.client = None
         self.ready_event = asyncio.Event()

@@ -27,10 +27,16 @@ while True:
         wait(10)
 
     # Read three bytes.
-    cmd = stdin.buffer.read(5)
+    cmd = stdin.buffer.read(6)
 
-    hub.light.on(Color.RED)
-    hub.display.text(str(cmd, encoding))
+    if cmd == b'motor1':
+        hub.light.on(Color.RED)
+    elif cmd == b'motor2':
+        hub.light.on(Color.GREEN)
+    elif cmd == b'motor3':
+        hub.light.on(Color.BLUE)
+    elif cmd == b'motor4':
+        hub.light.on(Color.YELLOW)
     wait(5000)
 
 
