@@ -29,14 +29,24 @@ pip install pybricksconnect
 - You do **not** need to install the `pybricks` package on your computer unless you are developing for the hub directly.  
   The hub runs Pybricks code natively.
 
-## Running the Project
+## Uploading and Running Your Python Code on SPIKE Prime
 
-1. **Upload your Python script to the SPIKE Prime hub** and start it by pressing the center button.
-2. **Run your desired Python script** (e.g., `visualdemo.py` or `sendhi.py`) on your computer:
-   ```sh
-   python3 src/visualdemo.py
-   ```
-3. **Interact with the GUI or script** to send commands to the hub.
+1. **Connect your SPIKE Prime hub to your computer** via USB.
+2. **Open the [Pybricks Code editor](https://code.pybricks.com/)** in your web browser.
+3. **Open your Python file** (for example, `prime-code.py`) in the Pybricks Code editor.
+4. **Click the "Run" (⬇️) button** in the Pybricks Code editor to upload your script to the hub.
+5. **Once uploaded, press the center button on the SPIKE Prime hub** to start running your script.  
+   The hub is now ready to receive commands from your computer.
+
+## Order of Operations
+
+- **First**, run your Python script on your computer (for example, `visualdemo.py` or `sendhi.py`).
+- **Then**, press the center button on the SPIKE Prime hub to start your uploaded program.
+- **Now**, you can send commands from your computer to the hub.
+
+> **Tip:**  
+> The SPIKE Prime hub will only respond to commands while your Python program (like `prime-code.py`) is running.  
+> If you restart the hub or upload a new program, you’ll need to press the center button again to start it before sending commands.
 
 ## Troubleshooting
 
