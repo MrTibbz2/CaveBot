@@ -50,3 +50,4 @@ class PybricksHubClient:
             b"\x06" + data,
             response=True
         )
+        print("sent")

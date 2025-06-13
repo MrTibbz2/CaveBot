@@ -10,10 +10,10 @@ hub_name = "NSE_Pybricks"  # Replace with your hub's name
 async def main():
     hub = PybricksHubClient(hub_name)
     if await hub.connect():
-        print("Start the program on the hub now with the button.")
-        await hub.send(b"motor1")
-        print("done.")
-        await hub.disconnect()
+        while True:
+            thing = input("What motor: ")
+            await hub.send(bytes(thing, "utf-8"))
+            print("done.")
 
 if __name__ == "__main__":
     with suppress(asyncio.CancelledError):

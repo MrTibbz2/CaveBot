@@ -8,6 +8,8 @@ from usys import stdin, stdout
 from uselect import poll
 
 hub = PrimeHub()
+motorA = Motor(Port.A)
+motorB = Motor(Port.B)
 
 # Optional: Register stdin for polling. This allows
 # you to wait for incoming data without blocking.
@@ -21,23 +23,26 @@ while True:
     # Let the remote program know we are ready for a command.
     stdout.buffer.write(b"rdy")
 
-    # Optional: Check available input.
-    while not keyboard.poll(0):
-        # Optional: Do something here.
-        wait(10)
 
     # Read three bytes.
-    cmd = stdin.buffer.read(6)
+    cmd = stdin.buffer.read(4)
 
-    if cmd == b'motor1':
-        hub.light.on(Color.RED)
-    elif cmd == b'motor2':
-        hub.light.on(Color.GREEN)
-    elif cmd == b'motor3':
-        hub.light.on(Color.BLUE)
-    elif cmd == b'motor4':
+    if cmd == b'on.A':
         hub.light.on(Color.YELLOW)
-    wait(5000)
+        motorA.dc(50)
+    elif cmd == b'on.B':
+        hub.light.on(Color.YELLOW)
+        motorB.dc(50)
+    elif cmd == b'offA':
+        hub.light.on(Color.GREEN)
+        motorA.dc(0)
+    elif cmd == b'offB':
+        hub.light.on(Color.GREEN)
+        motorB.dc(0)
+    else:
+        hub.display.text(str(cmd, 'utf-8'))
+
+
 
 
 
