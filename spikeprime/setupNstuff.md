@@ -5,7 +5,7 @@
 - Python 3.8 or newer (recommended: 3.10+)
 - [pip](https://pip.pypa.io/en/stable/installation/) (Python package manager)
 - A computer with Bluetooth Low Energy (BLE) support (for wireless connection)
-- LEGO SPIKE Prime hub with [Pybricks firmware](https://pybricks.com/firmware/) installed
+- LEGO SPIKE Prime hub with [Pybricks firmware](https://pybricks.com/learn/getting-started/install-pybricks/) installed
 
 ## Installation
 
