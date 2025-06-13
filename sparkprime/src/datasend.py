@@ -9,23 +9,45 @@ class HubController:
         self.hub = None
         self.loop = asyncio.new_event_loop()
         self.connected = False
-        Thread(target=self._start_loop, daemon=True).start()
-        self.loop.call_soon_threadsafe(self._connect)
+        try:
+            Thread(target=self._start_loop, daemon=True).start()
+            self.loop.call_soon_threadsafe(self._connect)
+        except Exception as e:
+            print(f"Error starting event loop thread: {e}")
 
     def _start_loop(self):
-        asyncio.set_event_loop(self.loop)
-        self.loop.run_forever()
+        try:
+            asyncio.set_event_loop(self.loop)
+            self.loop.run_forever()
+        except Exception as e:
+            print(f"Error in event loop: {e}")
 
     async def _connect_async(self):
-        self.hub = PybricksHubClient(self.hub_name)
-        self.connected = await self.hub.connect()
+        try:
+            self.hub = PybricksHubClient(self.hub_name)
+            self.connected = await self.hub.connect()
+        except Exception as e:
+            print(f"Error in async connect: {e}")
+            self.connected = False
 
     def _connect(self):
-        asyncio.run_coroutine_threadsafe(self._connect_async(), self.loop)
+        try:
+            asyncio.run_coroutine_threadsafe(self._connect_async(), self.loop)
+        except Exception as e:
+            print(f"Error in _connect: {e}")
 
     def send(self, msg):
-        if self.connected:
-            asyncio.run_coroutine_threadsafe(self.hub.send(bytes(msg, "utf-8")), self.loop)
-            print("Sent " + msg)
-        else:
-            print("Not connected to hub!")
+        try:
+            if not isinstance(msg, str):
+                raise ValueError("Message must be a string.")
+            if not msg.endswith("."):
+                print(msg + "\n")
+                print("Command didn't have a full stop at the end. Make sure you add one!")
+                return
+            if self.connected:
+                asyncio.run_coroutine_threadsafe(self.hub.send(bytes(msg, "utf-8")), self.loop)
+                print("Sent " + msg)
+            else:
+                print("Not connected to hub!")
+        except Exception as e:
+            print(f"Error in send: {e}")
