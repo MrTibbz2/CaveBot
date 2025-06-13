@@ -3,7 +3,6 @@ from pybricks.hubs import PrimeHub
 from pybricks.parameters import Port, Color
 from pybricks.tools import wait
 
-# Standard MicroPython modules
 from usys import stdin, stdout
 from uselect import poll
 
@@ -11,21 +10,23 @@ hub = PrimeHub()
 motorA = Motor(Port.A)
 motorB = Motor(Port.B)
 
-# Optional: Register stdin for polling. This allows
-# you to wait for incoming data without blocking.
 keyboard = poll()
 keyboard.register(stdin)
 
 encoding = 'utf-8'
 
 while True:
-
-    # Let the remote program know we are ready for a command.
     stdout.buffer.write(b"rdy")
 
+    # Read bytes until newline is received
+    cmd = b""
+    while not cmd.endswith(b"."):
+        byte = stdin.buffer.read(1)
+        if not byte:
+            continue  # No data, keep waiting
+        cmd += byte
 
-    # Read three bytes.
-    cmd = stdin.buffer.read(4)
+    cmd = cmd.strip()  # Remove newline and any extra whitespace
 
     if cmd == b'on.A':
         hub.light.on(Color.YELLOW)
@@ -39,18 +40,16 @@ while True:
     elif cmd == b'offB':
         hub.light.on(Color.GREEN)
         motorB.dc(0)
-    elif cmd == b'ally':
+    elif cmd == b'ally.':
         hub.light.on(Color.YELLOW)
         motorA.dc(50)
         motorB.dc(50)
-    elif cmd == b'alln':
+    elif cmd == b'alln.':
         motorA.dc(0)
         motorB.dc(0)
-
     else:
-        hub.display.text(str(cmd, 'utf-8'))
-
-
-
-
-
+        # Show the received command for debugging
+        try:
+            hub.display.text(str(cmd, 'utf-8'))
+        except Exception:
+            hub.display.text("BAD")
