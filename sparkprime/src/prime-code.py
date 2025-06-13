@@ -28,6 +28,8 @@ while True:
 
     cmd = cmd.strip()  # Remove newline and any extra whitespace
 
+    stdout.buffer.write(bytes(cmd, encoding))
+
     if cmd == b'allMotorsOn.':
         motorA.dc(50)
         motorB.dc(50)

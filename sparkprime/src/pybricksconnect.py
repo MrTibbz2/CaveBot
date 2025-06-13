@@ -10,6 +10,7 @@ class PybricksHubClient:
         self.client = None
         self.ready_event = asyncio.Event()
         self.main_task = None
+        self.last_payload = None 
 
     def handle_disconnect(self, _):
         print("Hub was disconnected.")
@@ -19,11 +20,16 @@ class PybricksHubClient:
     def handle_rx(self, _, data: bytearray):
         if data[0] == 0x01:  # "write stdout" event (0x01)
             payload = data[1:]
+            self.last_payload = str(payload, 'utf-8')
             if payload == b"rdy":
                 self.ready_event.set()
                 return "rdy"
             else:
                 print("Received:", payload)
+
+    def get_last_payload(self):
+        print("Last payload from hub:", self.last_payload)
+        return self.last_payload
 
     async def connect(self):
         device = await BleakScanner.find_device_by_name(self.hub_name)
