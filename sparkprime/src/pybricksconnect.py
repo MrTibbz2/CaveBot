@@ -21,6 +21,7 @@ class PybricksHubClient:
             payload = data[1:]
             if payload == b"rdy":
                 self.ready_event.set()
+                return "rdy"
             else:
                 print("Received:", payload)
 

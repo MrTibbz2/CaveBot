@@ -5,8 +5,6 @@ import tkinter as tk
 from threading import Thread
 from datasend import HubController
 
-PYBRICKS_COMMAND_EVENT_CHAR_UUID = "c5f50002-8280-46da-89f4-6d8051e4aeef"
-
 hub_name = "NSE_Pybricks"  # Replace with your hub's name
 
 def main():
