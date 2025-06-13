@@ -31,7 +31,7 @@ class HubController:
     def send(self, msg):
         if self.connected:
             asyncio.run_coroutine_threadsafe(self.hub.send(bytes(msg, "utf-8")), self.loop)
-            print("Sent" + msg)
+            print("Sent " + msg)
         else:
             print("Not connected to hub!")
 
@@ -41,11 +41,23 @@ def main():
     root = tk.Tk()
     root.title("Pybricks Hub Control")
 
-    btn_ally = tk.Button(root, text="Send 'ally'", command=lambda: controller.send("ally."))
-    btn_ally.pack(padx=20, pady=10)
+    btn_allMotorsOn = tk.Button(root, text="Turn on All Motors", command=lambda: controller.send("allMotorsOn."))
+    btn_allMotorsOn.pack(padx=20, pady=10)
 
-    btn_alln = tk.Button(root, text="Send 'alln'", command=lambda: controller.send("alln."))
-    btn_alln.pack(padx=20, pady=10)
+    btn_allMotorsOff = tk.Button(root, text="Turn off All Motors", command=lambda: controller.send("allMotorsOff."))
+    btn_allMotorsOff.pack(padx=20, pady=10)
+
+    btn_motorAOn = tk.Button(root, text="Turn On Motor A", command=lambda: controller.send("motorAOn."))
+    btn_motorAOn.pack(padx=20, pady=10)
+
+    btn_motorAOff = tk.Button(root, text="Turn Off Motor A", command=lambda: controller.send("motorAOff."))
+    btn_motorAOff.pack(padx=20, pady=10)
+
+    btn_motorBOn = tk.Button(root, text="Turn On Motor B", command=lambda: controller.send("motorBOn."))
+    btn_motorBOn.pack(padx=20, pady=10)
+
+    btn_motorBOff = tk.Button(root, text="Turn Off Motor B", command=lambda: controller.send("motorBOff."))
+    btn_motorBOff.pack(padx=20, pady=10)
 
     entry = tk.Entry(root, width=30)
     entry.pack(padx=20, pady=10)

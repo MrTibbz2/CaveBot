@@ -28,27 +28,21 @@ while True:
 
     cmd = cmd.strip()  # Remove newline and any extra whitespace
 
-    if cmd == b'on.A':
-        hub.light.on(Color.YELLOW)
+    if cmd == b'allMotorsOn.':
         motorA.dc(50)
-    elif cmd == b'on.B':
-        hub.light.on(Color.YELLOW)
         motorB.dc(50)
-    elif cmd == b'offA':
-        hub.light.on(Color.GREEN)
+    elif cmd == b'allMotorsOff.':
         motorA.dc(0)
-    elif cmd == b'offB':
-        hub.light.on(Color.GREEN)
         motorB.dc(0)
-    elif cmd == b'ally.':
-        hub.light.on(Color.YELLOW)
+    elif cmd == b'motorAOn.':
         motorA.dc(50)
-        motorB.dc(50)
-    elif cmd == b'alln.':
+    elif cmd == b'motorAOff.':
         motorA.dc(0)
+    elif cmd == b'motorBOn.':
+        motorB.dc(50)
+    elif cmd == b'motorBOff.':
         motorB.dc(0)
     else:
-        # Show the received command for debugging
         try:
             hub.display.text(str(cmd, 'utf-8'))
         except Exception:
