@@ -3,8 +3,6 @@ from contextlib import suppress
 from pybricksconnect import PybricksHubClient
 from threading import Thread
 
-PYBRICKS_COMMAND_EVENT_CHAR_UUID = "c5f50002-8280-46da-89f4-6d8051e4aeef"
-
 class HubController:
     def __init__(self, hub_name):
         self.hub_name = hub_name
