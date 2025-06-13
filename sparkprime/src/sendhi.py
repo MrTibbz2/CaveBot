@@ -5,6 +5,7 @@ hub_name = "NSE_Pybricks"
 
 controller = HubController(hub_name)
 
+# Make sure you add a full stop Eg: "Hello World."
 cmd = "hi."
 
 # Wait until connected
@@ -23,5 +24,5 @@ while True:
 
 # Send the string "hi" as bytes
 controller.send(cmd)
-print("Sent " + cmd +" to hub.")
+print("Sent " + cmd + " to hub.")
 time.sleep(2)
