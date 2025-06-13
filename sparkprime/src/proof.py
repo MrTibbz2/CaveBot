@@ -56,7 +56,6 @@ def main():
         command=lambda: controller.send(entry.get() + ".")
     )
     btn_send_entry.pack(padx=20, pady=10)
-
     root.mainloop()
 
 if __name__ == "__main__":
