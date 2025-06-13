@@ -13,16 +13,14 @@ Open a terminal in the project directory and run:
 
 ```sh
 pip install bleak
-pip install pybricksconnect
 ```
 
 > **Note:**  
-> `pybricksconnect` is a Python package for connecting to Pybricks hubs over BLE.  
 > `bleak` is the BLE backend used by `pybricksconnect`.
 
 ## Additional Notes
 
-- `tkinter` is used for the GUI. It is included with most Python installations.  
+- `tkinter` is used for the GUI in the Visual Demo. It is included with most Python installations.  
   If you get an error about `tkinter`, install it via your system package manager:
   - **macOS (with Homebrew):** `brew install python-tk`
   - **Ubuntu/Debian:** `sudo apt-get install python3-tk`
@@ -40,9 +38,9 @@ pip install pybricksconnect
 
 ## Order of Operations
 
-- **First**, run your Python script on your computer (for example, `visualdemo.py` or `sendhi.py`).
-- **Then**, press the center button on the SPIKE Prime hub to start your uploaded program.
-- **Now**, you can send commands from your computer to the hub.
+- **1**, run your Python script on your computer (for example, `visualdemo.py` or `sendhi.py`).
+- **2**, press the center button on the SPIKE Prime hub to start your uploaded program.
+- **3**, you can send commands from your computer to the hub.
 
 > **Tip:**  
 > The SPIKE Prime hub will only respond to commands while your Python program (like `prime-code.py`) is running.  
