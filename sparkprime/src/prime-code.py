@@ -39,6 +39,14 @@ while True:
     elif cmd == b'offB':
         hub.light.on(Color.GREEN)
         motorB.dc(0)
+    elif cmd == b'ally':
+        hub.light.on(Color.YELLOW)
+        motorA.dc(50)
+        motorB.dc(50)
+    elif cmd == b'alln':
+        motorA.dc(0)
+        motorB.dc(0)
+
     else:
         hub.display.text(str(cmd, 'utf-8'))
 
