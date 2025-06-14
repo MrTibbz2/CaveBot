@@ -5,7 +5,7 @@
       "path": "${workspaceFolder}"
     }
   ],
-  "cmake.sourceDirectory": "C:/Users/lachl/innovation-team/microcontrollers",
+  "cmake.sourceDirectory": "${workspaceFolder}/microcontrollers",
   "C_Cpp.default.compileCommands": "${workspaceFolder}/microcontrollers/build/compile_commands.json",
   "files.associations": {
     "system_error": "cpp",
