@@ -6,6 +6,10 @@
 #include "pico/stdlib.h"
 #include <tusb.h>
 #include "distance_sensor.h"
+#define SENSORCOUNT 1
+static const int SENSORPINS[SENSORCOUNT] = { 0 }; // sensor pins array
+
+
 
 // Private static variables for encapsulated state
 status::SystemState status::currentState;
@@ -24,7 +28,7 @@ void status::setCore1StatusMessage(const char* msg) {
     currentCore1State.statusMessage[MAX_STATUS_MSG_LENGTH] = '\0';
 }
 
-// Example function implementations
+// function implementations
 
 void output::get_string_until_delimiter(char* dest, const char* source, char delimiter, size_t dest_size) const {
     if (dest == nullptr || source == nullptr || dest_size == 0) {
@@ -56,12 +60,12 @@ int executeGetState() {
     char status_payload_buffer[128];
     status::SystemState state = status::getCurrentState(); // Use getter for encapsulation
     int payload_len = snprintf(status_payload_buffer, sizeof(status_payload_buffer),
-                               "{ "
-                                   "\"is_connected\": %s, "
-                                   "\"initialised\": %s, "
-                                   "\"ready_for_command\": %s, "
-                                   "\"system_healthy\": \"%s\""
-                               " }",
+                                "{ "
+                                    "\"is_connected\": %s, "
+                                    "\"initialised\": %s, "
+                                    "\"ready_for_command\": %s, "
+                                    "\"system_healthy\": \"%s\""
+                                " }",
                                state.isConnected ? "true" : "false",
                                state.initialised ? "true" : "false",
                                state.readyForCommand ? "true" : "false",
@@ -86,7 +90,44 @@ int executeInitAll() {
 
     return 0;
 }
+int executeBeginScan() {
+    sensor sensorInstance;
+    sensorInstance.BeginSensorRead(SENSORCOUNT, SENSORPINS);
+    output::logData({
+        LogIdentifier::COMMAND,
+        "exec_result",
+        LogStatus::SUCCESS,
+    });
+    return 0;
+}
+int executeEndScan() {
+    // Placeholder for actual end scan logic
+    status::setCore1StopRequested(true); // Set stop requested to true
+    int mssinceon = to_ms_since_boot(get_absolute_time());
+    while (status::getCurrentCore1State().isRunning == true) {
+        // Wait for the core to stop
+        if ((to_ms_since_boot(get_absolute_time()) - mssinceon) > 10000) {
+            output::logData({
+                LogIdentifier::COMMAND,
+                "core1_status",
+                LogStatus::THREAD_LOCKED,
+                "{\"error\": \"core1_stop_timeout\"}"
+            });
+            return 1; 
 
+        }
+        sleep_ms(100);
+
+    }
+    status::setCore1StopRequested(false); // Reset stop requested
+    output::logData({
+        LogIdentifier::COMMAND,
+        "core1_status",
+        LogStatus::THREAD_STOPPED
+    });
+    return 0;
+
+}
 // Constructor or initialization function for commands
 commands::commands() {
     // Set up getState command
@@ -103,9 +144,25 @@ commands::commands() {
     InitAll.name[MAX_COMMAND_LENGTH] = '\0';
     InitAll.execution = &executeInitAll;
 
+
+    // Set up BeginScan command
+    std::strncpy(BeginScan.commandCall, "BEGINSCAN", MAX_COMMAND_LENGTH);
+    BeginScan.commandCall[MAX_COMMAND_LENGTH] = '\0';
+    std::strncpy(BeginScan.name, "Begin Scan", MAX_COMMAND_LENGTH);
+    BeginScan.name[MAX_COMMAND_LENGTH] = '\0';
+    BeginScan.execution = &executeBeginScan; // TODO
+    // Set up EndScan command
+    std::strncpy(EndScan.commandCall, "ENDSCAN", MAX_COMMAND_LENGTH);
+
+    EndScan.commandCall[MAX_COMMAND_LENGTH] = '\0';
+    std::strncpy(EndScan.name, "End Scan", MAX_COMMAND_LENGTH);
+    EndScan.name[MAX_COMMAND_LENGTH] = '\0';
+    EndScan.execution = &executeEndScan; // TODO
     // Update ExecutableCommands array
     ExecutableCommands[0] = getState;
     ExecutableCommands[1] = InitAll;
+    ExecutableCommands[2] = BeginScan;
+    ExecutableCommands[3] = EndScan; 
 }
 commands::Command commands::checkCommand(const char* command) { // Use const for input
     for (int i = 0; i < sizeof(ExecutableCommands) / sizeof(ExecutableCommands[0]); i++) {

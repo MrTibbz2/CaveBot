@@ -78,8 +78,8 @@ class commands;
 class sensor;
 class sensor {
 public:
-    
-    void BeginSensorRead(int sensorcount, int* sensorpins);
+    sensor() = default; // Default constructor
+    void BeginSensorRead(const int sensorcount, const int* sensorpins);
 };
 
 class status {
@@ -127,13 +127,17 @@ public:
     };
     Command getState;
     Command InitAll;
+    Command BeginScan;
+    Command EndScan;
     commands(); // Constructor declaration
     commands::Command checkCommand(const char* command); // Use const for input
     int ExecuteCommand(const commands::Command& command); // Pass by const ref
 
-    Command ExecutableCommands[2] = {
+    Command ExecutableCommands[4] = {
         getState,
-        InitAll
+        InitAll,
+        BeginScan,
+        EndScan,
     };
     int init();
     char* ReadBuffer(bool (*tud_cdc_connected)(), unsigned long (*tud_cdc_available)()) const; // Mark as const

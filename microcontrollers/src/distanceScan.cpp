@@ -7,7 +7,8 @@
 #include <tusb.h>
 #include "distance_sensor.h"
 const uint32_t interval_ms = 50;
-void sensor::BeginSensorRead(int sensorcount, int* sensorpins) {
+
+void sensor::BeginSensorRead(const int sensorcount, const int* sensorpins) {
     DistanceSensor** sensors = new DistanceSensor*[sensorcount];
     for (int i = 0; i < sensorcount; ++i) {
         PIO pio = (i < 4) ? pio0 : pio1;
