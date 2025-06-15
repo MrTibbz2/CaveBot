@@ -6,7 +6,7 @@ hub_name = "NSE_Pybricks"
 controller = HubController(hub_name)
 
 # Make sure you add a full stop Eg: "Hello World."
-cmd = "hi."
+cmd = "allMotorsOn.70.3000!"
 
 # Wait until connected
 while not controller.connected:

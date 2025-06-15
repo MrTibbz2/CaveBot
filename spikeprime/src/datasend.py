@@ -40,7 +40,7 @@ class HubController:
         try:
             if not isinstance(msg, str):
                 raise ValueError("Message must be a string.")
-            if not msg.endswith("."):
+            if not msg.endswith("!"):
                 print(msg + "\n")
                 print("Command didn't have a full stop at the end. Make sure you add one!")
                 return
