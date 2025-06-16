@@ -19,12 +19,12 @@ class Prime():
         time.sleep(2)
     
     def turnLeft(self, turnAngle):
-        duration = str((turnAngle/90)*300)
+        duration = str(int((turnAngle/90)*300))
         self.hub.send("turnleft.100." + duration + "!")
         time.sleep(2)
 
     def turnRight(self, turnAngle):
-        duration = str((turnAngle/90)*300)
+        duration = str(int((turnAngle/90)*300))
         self.hub.send("turnright.100." + duration + "!")
         time.sleep(2)
     
