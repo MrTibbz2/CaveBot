@@ -13,22 +13,22 @@ def main():
     root = tk.Tk()
     root.title("Pybricks Hub Control")
 
-    btn_allMotorsOn = tk.Button(root, text="Turn on All Motors", command=lambda: controller.send("allMotorsOn."))
+    btn_allMotorsOn = tk.Button(root, text="Turn on All Motors", command=lambda: controller.send("allMotorsOn.100.0!"))
     btn_allMotorsOn.pack(padx=20, pady=10)
 
-    btn_allMotorsOff = tk.Button(root, text="Turn off All Motors", command=lambda: controller.send("allMotorsOff."))
+    btn_allMotorsOff = tk.Button(root, text="Turn off All Motors", command=lambda: controller.send("allMotorsOff.0.0!"))
     btn_allMotorsOff.pack(padx=20, pady=10)
 
-    btn_motorAOn = tk.Button(root, text="Turn On Motor A", command=lambda: controller.send("motorAOn."))
+    btn_motorAOn = tk.Button(root, text="Turn On Motor A", command=lambda: controller.send("motorAOn.100.0!"))
     btn_motorAOn.pack(padx=20, pady=10)
 
-    btn_motorAOff = tk.Button(root, text="Turn Off Motor A", command=lambda: controller.send("motorAOff."))
+    btn_motorAOff = tk.Button(root, text="Turn Off Motor A", command=lambda: controller.send("motorAOff.0.0!"))
     btn_motorAOff.pack(padx=20, pady=10)
 
-    btn_motorBOn = tk.Button(root, text="Turn On Motor B", command=lambda: controller.send("motorBOn."))
+    btn_motorBOn = tk.Button(root, text="Turn On Motor B", command=lambda: controller.send("motorBOn.100.0!"))
     btn_motorBOn.pack(padx=20, pady=10)
 
-    btn_motorBOff = tk.Button(root, text="Turn Off Motor B", command=lambda: controller.send("motorBOff."))
+    btn_motorBOff = tk.Button(root, text="Turn Off Motor B", command=lambda: controller.send("motorBOff.0.0!"))
     btn_motorBOff.pack(padx=20, pady=10)
 
     entry = tk.Entry(root, width=30)
@@ -37,7 +37,7 @@ def main():
     btn_send_entry = tk.Button(
         root,
         text="Send Entry Text",
-        command=lambda: controller.send(entry.get() + ".")
+        command=lambda: controller.send(entry.get() + "!")
     )
     btn_send_entry.pack(padx=20, pady=10)
     root.mainloop()
