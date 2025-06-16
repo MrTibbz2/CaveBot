@@ -13,6 +13,7 @@ class HubController:
         try:
             Thread(target=self._start_loop, daemon=True).start()
             self.loop.call_soon_threadsafe(self._connect)
+            self.wait_until_ready()
         except Exception as e:
             print(f"Error starting event loop thread: {e}")
 

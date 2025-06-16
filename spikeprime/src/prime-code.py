@@ -29,17 +29,17 @@ def parse_command(cmd_string):
             params.append(int(p))
     return command, params
 
-def all_motors_on(speed, howLong):
-    motorA.dc(speed)
+def all_motors_off(speed, howLong):
+    motorA.dc(0)
+    motorB.dc(0)
+
+def move_forward(speed, howLong):
+    motorA.dc(-speed)
     motorB.dc(speed)
     if howLong >= 1:
         wait(howLong)
         motorA.dc(0)
         motorB.dc(0)
-
-def all_motors_off(speed, howLong):
-    motorA.dc(0)
-    motorB.dc(0)
 
 def motorA_on(speed, howLong):
     motorA.dc(speed)
@@ -60,7 +60,7 @@ def motorB_off(speed, howLong):
     motorB.dc(0)
 
 command_map = {
-    'allMotorsOn': all_motors_on,
+    'allMotorsOn': move_forward,
     'allMotorsOff': all_motors_off,
     'motorAOn': motorA_on,
     'motorAOff': motorA_off,
