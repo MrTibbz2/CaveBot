@@ -2,6 +2,7 @@ import asyncio
 from contextlib import suppress
 from pybricksconnect import PybricksHubClient
 from threading import Thread
+import time
 
 class HubController:
     def __init__(self, hub_name):
@@ -51,3 +52,17 @@ class HubController:
                 print("Not connected to hub!")
         except Exception as e:
             print(f"Error in send: {e}")
+    
+    def wait_until_ready(self, poll_interval=0.1):
+        # Wait until connected
+        while not self.connected:
+            time.sleep(poll_interval)
+        print("Connected to hub.")
+
+        # Wait for 'rdy' from the hub program
+        while True:
+            last = self.hub.get_last_payload()
+            if last and "rdy" in last:
+                print("Hub program is ready.")
+                break
+            time.sleep(poll_interval)
