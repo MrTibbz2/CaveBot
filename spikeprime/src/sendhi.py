@@ -5,7 +5,7 @@ hub_name = "NSE_Pybricks"
 
 controller = HubController(hub_name)
 
-# Make sure you add a full stop Eg: "Hello World."
+# Make sure you add a ! Eg: "Hello World!" to show the end of the bytes
 cmd = "allMotorsOn.70.3000!"
 
 # Wait until connected
