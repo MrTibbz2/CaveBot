@@ -1,22 +1,41 @@
 from datasend import HubController
 import time
+import math
 
 class Prime():
 
     def __init__(self, hub_name):
         self.hub = HubController(hub_name)
 
-    def moveForward(self, speed, duration):
-        speed = str(speed)
-        duration = str(duration)
-        self.hub.send("moveforward." + speed + "." + duration + "!")
-        time.sleep(2)
+    def moveForward(self, distance):
+        if distance == 0:
+            self.hub.send("moveforward.100.0!")
+            time.sleep(1)
+        elif distance > 0 and distance < 10:
+            duration = str(math.ceil((distance/30.8) * 1000))
+            self.hub.send("moveforward.100." + duration + "!")
+            time.sleep(1)
+        elif distance >= 10:
+            duration = str(math.ceil((distance/30.8) * 1000))
+            self.hub.send("moveforward.100." + duration + "!")
+            time.sleep(1)
+        else:
+            print("Move Forward: Can't have a negative number!")
     
-    def moveBackwards(self, speed, duration):
-        speed = str(speed)
-        duration = str(duration)
-        self.hub.send("movebackwards." + speed + "." + duration + "!")
-        time.sleep(2)
+    def moveBackwards(self, distance):
+        if distance == 0:
+            self.hub.send("movebackwards.100.0!")
+            time.sleep(1)
+        elif distance > 0 and distance < 10:
+            duration = str(math.ceil((distance/30.8) * 1000))
+            self.hub.send("movebackwards.100." + duration + "!")
+            time.sleep(1)
+        elif distance >= 10:
+            duration = str(math.ceil((distance/30.8) * 1000))
+            self.hub.send("movebackwards.100." + duration + "!")
+            time.sleep(1)
+        else:
+            print("Move Backwards: Can't have a negative number!")
     
     def turnLeft(self, turnAngle):
         duration = str(int((turnAngle/90)*300))
