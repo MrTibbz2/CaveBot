@@ -41,31 +41,36 @@ def move_forward(speed, howLong):
         motorA.dc(0)
         motorB.dc(0)
 
-def motorA_on(speed, howLong):
+def move_backwards(speed, howLong):
     motorA.dc(speed)
+    motorB.dc(-speed)
     if howLong >= 1:
         wait(howLong)
         motorA.dc(0)
+        motorB.dc(0)
 
-def motorA_off(speed, howLong):
-    motorA.dc(0)
-
-def motorB_on(speed, howLong):
+def turnLeft(speed, howLong):
+    motorA.dc(speed)
     motorB.dc(speed)
     if howLong >= 1:
         wait(howLong)
+        motorA.dc(0)
         motorB.dc(0)
 
-def motorB_off(speed, howLong):
-    motorB.dc(0)
+def turnRight(speed, howLong):
+    motorA.dc(-speed)
+    motorB.dc(-speed)
+    if howLong >= 1:
+        wait(howLong)
+        motorA.dc(0)
+        motorB.dc(0)
 
 command_map = {
-    'allMotorsOn': move_forward,
-    'allMotorsOff': all_motors_off,
-    'motorAOn': motorA_on,
-    'motorAOff': motorA_off,
-    'motorBOn': motorB_on,
-    'motorBOff': motorB_off,
+    'moveforward': move_forward,
+    'movebackwards': move_backwards,
+    'motorsoff': all_motors_off,
+    'turnleft': turnLeft,
+    'turnright': turnRight,
 }
 
 while True:

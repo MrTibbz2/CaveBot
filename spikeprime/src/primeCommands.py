@@ -7,18 +7,22 @@ class Prime():
         self.hub = HubController(hub_name)
 
     def moveForward(self, speed, duration):
-        self.hub.send("allMotorsOn." + speed + "." + duration + "!")
+        self.hub.send("moveforward." + speed + "." + duration + "!")
         time.sleep(2)
     
     def moveBackwards(self, speed, duration):
-        self.hub.send("allMotorsOn." + "-" + speed + "." + duration + "!")
-        time.sleep(2)
-    
-    def turnLeft(self, turnAngle):
-        self.hub.send("turnLeft." + turnAngle + "!")
+        self.hub.send("movebackwards." + speed + "." + duration + "!")
         time.sleep(2)
 
-    def turnRight(self, turnAngle):
-        self.hub.send("turnRight." + turnAngle + "!")
+    def motorsOff(self):
+        self.hub.send("motorsoff.0.0!")
+        time.sleep(2)
+    
+    def turnLeft(self, speed, duration):
+        self.hub.send("turnleft." + speed + "." + duration + "!")
+        time.sleep(2)
+
+    def turnRight(self, speed, duration):
+        self.hub.send("turnright." + speed + "." + duration + "!")
         time.sleep(2)
     
