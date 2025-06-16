@@ -26,3 +26,7 @@ class Prime():
         self.hub.send("turnright." + speed + "." + duration + "!")
         time.sleep(2)
     
+    def stop(self, speed, duration):
+        self.hub.send("stop." + speed + "." + duration + "!")
+        time.sleep(2)
+    

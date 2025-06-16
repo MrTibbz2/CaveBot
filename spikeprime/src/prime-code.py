@@ -68,7 +68,7 @@ def turnRight(speed, howLong):
 command_map = {
     'moveforward': move_forward,
     'movebackwards': move_backwards,
-    'motorsoff': all_motors_off,
+    'stop': all_motors_off,
     'turnleft': turnLeft,
     'turnright': turnRight,
 }
