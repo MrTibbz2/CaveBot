@@ -16,7 +16,7 @@ class Prime():
             self.hub.send("moveforward.100." + duration + "!")
             time.sleep(1)
         elif distance >= 10:
-            duration = str(math.ceil((distance/30.8) * 1000))
+            duration = str(math.ceil(((distance/30.8 - (distance/100)) * 1000)))
             self.hub.send("moveforward.100." + duration + "!")
             time.sleep(1)
         else:
@@ -31,7 +31,7 @@ class Prime():
             self.hub.send("movebackwards.100." + duration + "!")
             time.sleep(1)
         elif distance >= 10:
-            duration = str(math.ceil((distance/30.8) * 1000))
+            duration = str(math.ceil(((distance/30.8 - (distance/100)) * 1000)))
             self.hub.send("movebackwards.100." + duration + "!")
             time.sleep(1)
         else:
