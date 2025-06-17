@@ -12,6 +12,7 @@ prime.turnRight(180)
 # Goes back the way it came
 prime.moveForward(130)
 
+# Party Time
 prime.partyTime()
 
 

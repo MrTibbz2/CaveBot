@@ -68,6 +68,8 @@ def turnRight(speed, howLong):
 def spin_around(speed, howLong):
     motorA.dc(-speed)
     motorB.dc(-speed)
+    colorlist = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.VIOLET}
+    hub.light.animate(colorlist, 500)
 
 command_map = {
     'moveforward': move_forward,
