@@ -36,6 +36,7 @@ class Prime:
 
     def turnLeft(self, turnAngle, factor):
         turnAngle = float(turnAngle)
+        factor = float(factor)
         if turnAngle < 0:
             print("Error in turnLeft, might be using negatives!")
             return
@@ -49,6 +50,7 @@ class Prime:
 
     def turnRight(self, turnAngle, factor):
         turnAngle = float(turnAngle)
+        factor = float(factor)
         if turnAngle < 0:
             print("Error in turnRight, might be using negatives!")
             return
