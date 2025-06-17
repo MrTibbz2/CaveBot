@@ -10,30 +10,30 @@ class Prime():
     def moveForward(self, distance):
         if distance == 0:
             self.hub.send("moveforward.100.0!")
-            time.sleep(1)
+            time.sleep(int(duration)/1000)
         elif distance > 0 and distance < 10:
             duration = str(math.ceil((distance/30.8) * 1000))
             self.hub.send("moveforward.100." + duration + "!")
-            time.sleep(1)
+            time.sleep(int(duration)/1000)
         elif distance >= 10:
             duration = str(math.ceil(((distance/30.8 - (distance/100)) * 1000)))
             self.hub.send("moveforward.100." + duration + "!")
-            time.sleep(1)
+            time.sleep(int(duration)/1000)
         else:
             print("Move Forward: Can't have a negative number!")
     
     def moveBackwards(self, distance):
         if distance == 0:
             self.hub.send("movebackwards.100.0!")
-            time.sleep(1)
+            time.sleep(int(duration)/1000)
         elif distance > 0 and distance < 10:
             duration = str(math.ceil((distance/30.8) * 1000))
             self.hub.send("movebackwards.100." + duration + "!")
-            time.sleep(1)
+            time.sleep(int(duration)/1000)
         elif distance >= 10:
             duration = str(math.ceil(((distance/30.8 - (distance/100)) * 1000)))
             self.hub.send("movebackwards.100." + duration + "!")
-            time.sleep(1)
+            time.sleep(int(duration)/1000)
         else:
             print("Move Backwards: Can't have a negative number!")
     
@@ -42,7 +42,7 @@ class Prime():
             a = turnAngle/90
             duration = str(int((a * 300) - (a * 50)))
             self.hub.send("turnleft.100." + duration + "!")
-            time.sleep(2)
+            time.sleep(int(duration)/1000)
         elif turnAngle > 180:
             print("Just use the turnRight Command!")
         else:
@@ -53,7 +53,7 @@ class Prime():
             a = turnAngle/90
             duration = str(int((a * 300) - (a * 50)))
             self.hub.send("turnright.100." + duration + "!")
-            time.sleep(2)
+            time.sleep(int(duration)/1000)
         elif turnAngle >= 180:
             print("Just use the turnLeft Command!")
         else:
