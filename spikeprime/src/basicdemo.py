@@ -1,18 +1,9 @@
-import primeCommands
+from primeCommands import Prime
 
-# Connects to spike prime and does some behinds the scenes stuff
-prime = primeCommands.Prime("NSE_Pybricks")
+prime = Prime("NSE_Pybricks")  # Replace with your hub's name
 
-# Goes forward 130 cm
-prime.moveForward(130)
-
-# Turns 180 degress (so around itself)
-prime.turnRight(180, 10)
-
-# Goes back the way it came
-prime.moveForward(130)
-
-# Party Time
-prime.partyTime()
-
-
+prime.moveForward(100)         # Move forward 100 cm
+prime.turnRight(90)            # Turn right 90 degrees
+prime.moveBackwards(50)        # Move backwards 50 cm
+prime.stop(0, 0)               # Stop the motors
+prime.partyTime()              # Do a fun action
