@@ -4,13 +4,13 @@ import primeCommands
 prime = primeCommands.Prime("NSE_Pybricks")
 
 # Goes forward 130 cm
-prime.moveForward(100)
+prime.moveForward(130)
 
 # Turns 180 degress (so around itself)
-#prime.turnRight(180)
+prime.turnRight(180)
 
 # Goes back the way it came
-#prime.moveForward(130)
+prime.moveForward(130)
 
 prime.partyTime()
 
