@@ -65,12 +65,17 @@ def turnRight(speed, howLong):
         motorA.dc(0)
         motorB.dc(0)
 
+def spin_around(speed, howLong):
+    motorA.dc(-speed)
+    motorB.dc(-speed)
+
 command_map = {
     'moveforward': move_forward,
     'movebackwards': move_backwards,
     'stop': all_motors_off,
     'turnleft': turnLeft,
     'turnright': turnRight,
+    'spinaround': spin_around,
 }
 
 while True:

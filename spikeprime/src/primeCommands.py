@@ -65,3 +65,7 @@ class Prime:
         duration = str(duration)
         self.hub.send(f"stop.{speed}.{duration}!")
         time.sleep(2)
+    
+    def partyTime(self):
+        self.hub.send("spinaround.100.0!")
+        time.sleep(2)
