@@ -16,67 +16,70 @@ keyboard.register(stdin)
 encoding = 'utf-8'
 
 def parse_command(cmd_string):
-    # Remove the trailing '!' if present
     if cmd_string.endswith('!'):
         cmd_string = cmd_string[:-1]
-    # Split by '.'
     parts = cmd_string.split('.')
-    # The first part is the command, the rest are parameters
-    command = parts[0]
+    command = parts[0].lower()
     params = []
     for p in parts[1:]:
-        if p.isdigit():
+        try:
             params.append(int(p))
+        except Exception:
+            pass
     return command, params
 
-def all_motors_off(speed, howLong):
+def all_motors_off(speed=0, howLong=0):
     motorA.dc(0)
     motorB.dc(0)
 
-def move_forward(speed, howLong):
+def move_forward(speed=100, howLong=0):
     motorA.dc(-speed)
     motorB.dc(speed)
-    if howLong >= 1:
+    if howLong > 0:
         wait(howLong)
         motorA.dc(0)
         motorB.dc(0)
 
-def move_backwards(speed, howLong):
+def move_backwards(speed=100, howLong=0):
     motorA.dc(speed)
     motorB.dc(-speed)
-    if howLong >= 1:
+    if howLong > 0:
         wait(howLong)
         motorA.dc(0)
         motorB.dc(0)
 
-def turnLeft(speed, howLong):
+def turn_left(speed=100, howLong=0):
     motorA.dc(speed)
     motorB.dc(speed)
-    if howLong >= 1:
+    if howLong > 0:
         wait(howLong)
         motorA.dc(0)
         motorB.dc(0)
 
-def turnRight(speed, howLong):
+def turn_right(speed=100, howLong=0):
     motorA.dc(-speed)
     motorB.dc(-speed)
-    if howLong >= 1:
+    if howLong > 0:
         wait(howLong)
         motorA.dc(0)
         motorB.dc(0)
 
-def spin_around(speed, howLong):
+def spin_around(speed=100, howLong=1000):
     motorA.dc(-speed)
     motorB.dc(-speed)
-    colorlist = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.VIOLET}
+    colorlist = [Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.VIOLET]
     hub.light.animate(colorlist, 500)
+    if howLong > 0:
+        wait(howLong)
+        motorA.dc(0)
+        motorB.dc(0)
 
 command_map = {
     'moveforward': move_forward,
     'movebackwards': move_backwards,
     'stop': all_motors_off,
-    'turnleft': turnLeft,
-    'turnright': turnRight,
+    'turnleft': turn_left,
+    'turnright': turn_right,
     'spinaround': spin_around,
 }
 
@@ -96,15 +99,16 @@ while True:
     try:
         cmd_string = str(cmd, encoding)
         command, params = parse_command(cmd_string)
-        speed = params[0] if len(params) > 0 else 0
+        # Provide default values if not enough params
+        speed = params[0] if len(params) > 0 else 100
         howLong = params[1] if len(params) > 1 else 0
 
         if command in command_map:
             command_map[command](speed, howLong)
         else:
-            hub.display.text(command)
+            hub.display.text("BAD")
     except Exception as e:
         try:
-            hub.display.text("BAD")
+            hub.display.text("ERR")
         except Exception:
             pass
