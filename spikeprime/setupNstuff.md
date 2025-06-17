@@ -20,10 +20,6 @@ pip install bleak
 
 ## Additional Notes
 
-- `tkinter` is used for the GUI in the Visual Demo. It is included with most Python installations.  
-  If you get an error about `tkinter`, install it via your system package manager:
-  - **macOS (with Homebrew):** `brew install python-tk`
-  - **Ubuntu/Debian:** `sudo apt-get install python3-tk`
 - You do **not** need to install the `pybricks` package on your computer unless you are developing for the hub directly.  
   The hub runs Pybricks code natively.
 
