@@ -38,13 +38,30 @@ pip install bleak
 
 ## Order of Operations
 
-- **1**. run your Python script on your computer (for example, `visualdemo.py` or `sendhi.py`).
-- **2**. press the center button on the SPIKE Prime hub to start your uploaded program.
-- **3**. you can send commands from your computer to the hub.
+1. **Run your Python script on your computer** (for example, `basicdemo.py` or your own script using `primeCommands.Prime`).
+2. **Press the center button on the SPIKE Prime hub** to start your uploaded program (`prime-code.py`).
+3. **Send commands from your computer to the hub** using the provided API or GUI.
 
 > **Tip:**  
 > The SPIKE Prime hub will only respond to commands while your Python program (like `prime-code.py`) is running.  
 > If you restart the hub or upload a new program, you’ll need to press the center button again to start it before sending commands.
+
+## Example: Using the New Prime API
+
+Your `basicdemo.py` might look like this:
+
+```python
+import primeCommands
+
+# Connects to spike prime and does some behinds the scenes stuff
+prime = primeCommands.Prime("NSE_Pybricks")
+
+# Goes forward 100 cm
+prime.moveForward(100)
+
+# Spins around for fun
+prime.partyTime()
+```
 
 ## Troubleshooting
 
