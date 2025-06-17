@@ -38,14 +38,26 @@ class Prime():
             print("Move Backwards: Can't have a negative number!")
     
     def turnLeft(self, turnAngle):
-        duration = str(int((turnAngle/90)*300))
-        self.hub.send("turnleft.100." + duration + "!")
-        time.sleep(2)
+        if turnAngle < 180:
+            a = turnAngle/90
+            duration = str(int((a * 300) - (a * 50)))
+            self.hub.send("turnleft.100." + duration + "!")
+            time.sleep(2)
+        elif turnAngle > 180:
+            print("Just use the turnRight Command!")
+        else:
+            print("Error in turnLeft, might be using negatives!")
 
     def turnRight(self, turnAngle):
-        duration = str(int((turnAngle/90)*300))
-        self.hub.send("turnright.100." + duration + "!")
-        time.sleep(2)
+        if turnAngle <= 180:
+            a = turnAngle/90
+            duration = str(int((a * 300) - (a * 50)))
+            self.hub.send("turnright.100." + duration + "!")
+            time.sleep(2)
+        elif turnAngle >= 180:
+            print("Just use the turnLeft Command!")
+        else:
+            print("Error in turnRight, might be using negatives!")
     
     def stop(self, speed, duration):
         self.hub.send("stop." + speed + "." + duration + "!")
