@@ -7,7 +7,6 @@ class Prime:
         self.hub = HubController(hub_name)
 
     def moveForward(self, distance):
-        """Move forward by a given distance (cm)."""
         distance = float(distance)
         if distance < 0:
             print("Move Forward: Can't have a negative number!")
@@ -22,7 +21,6 @@ class Prime:
         time.sleep(int(duration) / 1000)
 
     def moveBackwards(self, distance):
-        """Move backward by a given distance (cm)."""
         distance = float(distance)
         if distance < 0:
             print("Move Backwards: Can't have a negative number!")
@@ -37,7 +35,6 @@ class Prime:
         time.sleep(int(duration) / 1000)
 
     def turnLeft(self, turnAngle):
-        """Turn left by a given angle (degrees, <180)."""
         turnAngle = float(turnAngle)
         if turnAngle < 0:
             print("Error in turnLeft, might be using negatives!")
@@ -51,7 +48,6 @@ class Prime:
             print("Just use the turnRight Command!")
 
     def turnRight(self, turnAngle):
-        """Turn right by a given angle (degrees, <=180)."""
         turnAngle = float(turnAngle)
         if turnAngle < 0:
             print("Error in turnRight, might be using negatives!")
@@ -65,7 +61,6 @@ class Prime:
             print("Just use the turnLeft Command!")
 
     def stop(self, speed, duration):
-        """Stop both motors."""
         speed = str(speed)
         duration = str(duration)
         self.hub.send(f"stop.{speed}.{duration}!")
