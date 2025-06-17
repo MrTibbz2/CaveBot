@@ -41,7 +41,7 @@ class Prime:
             return
         if turnAngle < 180:
             a = turnAngle / 90
-            duration = str(int((a * 300) - (a * 50)))
+            duration = str(int((a * 300) - (a * 10)))
             self.hub.send(f"turnleft.100.{duration}!")
             time.sleep(int(duration) / 1000)
         else:
@@ -54,7 +54,7 @@ class Prime:
             return
         if turnAngle <= 180:
             a = turnAngle / 90
-            duration = str(int((a * 300) - (a * 50)))
+            duration = str(int((a * 300) - (a * 10)))
             self.hub.send(f"turnright.100.{duration}!")
             time.sleep(int(duration) / 1000)
         else:
