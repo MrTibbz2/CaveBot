@@ -62,10 +62,8 @@ class Prime:
         else:
             print("Just use the turnLeft Command!")
 
-    def stop(self, speed, duration):
-        speed = str(speed)
-        duration = str(duration)
-        self.hub.send(f"stop.{speed}.{duration}!")
+    def stop(self):
+        self.hub.send(f"stop.0.0!")
         time.sleep(2)
     
     def partyTime(self):

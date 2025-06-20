@@ -34,8 +34,8 @@ def main():
                 prime.turnLeft(parts[1], parts[2])
             elif parts[0] == "right" and len(parts) == 3:
                 prime.turnRight(parts[1], parts[2])
-            elif parts[0] == "stop" and len(parts) == 3:
-                prime.stop(parts[1], parts[2])
+            elif parts[0] == "stop":
+                prime.stop()
             elif parts[0] == "party":
                 prime.partyTime()
             else:
