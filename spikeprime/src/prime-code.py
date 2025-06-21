@@ -32,7 +32,7 @@ def all_motors_off(speed=0, howLong=0):
     motorA.dc(0)
     motorB.dc(0)
 
-def move_forward(speed=100, howLong=0):
+def move_forward(speed=50, howLong=0):
     motorA.dc(-speed)
     motorB.dc(speed)
     if howLong > 0:
@@ -40,7 +40,7 @@ def move_forward(speed=100, howLong=0):
         motorA.dc(0)
         motorB.dc(0)
 
-def move_backwards(speed=100, howLong=0):
+def move_backwards(speed=50, howLong=0):
     motorA.dc(speed)
     motorB.dc(-speed)
     if howLong > 0:
@@ -48,7 +48,7 @@ def move_backwards(speed=100, howLong=0):
         motorA.dc(0)
         motorB.dc(0)
 
-def turn_left(speed=100, howLong=0):
+def turn_left(speed=50, howLong=0):
     motorA.dc(speed)
     motorB.dc(speed)
     if howLong > 0:
@@ -56,7 +56,7 @@ def turn_left(speed=100, howLong=0):
         motorA.dc(0)
         motorB.dc(0)
 
-def turn_right(speed=100, howLong=0):
+def turn_right(speed=50, howLong=0):
     motorA.dc(-speed)
     motorB.dc(-speed)
     if howLong > 0:
@@ -64,7 +64,7 @@ def turn_right(speed=100, howLong=0):
         motorA.dc(0)
         motorB.dc(0)
 
-def spin_around(speed=100, howLong=1000):
+def spin_around(speed=50, howLong=1000):
     motorA.dc(-speed)
     motorB.dc(-speed)
     colorlist = [Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.VIOLET]

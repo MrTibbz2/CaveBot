@@ -17,7 +17,7 @@ class Prime:
             duration = str(math.ceil((distance / 30.8) * 1000))
         else:
             duration = str(math.ceil(((distance / 30.8 - (distance / 100)) * 1000)))
-        self.hub.send(f"moveforward.100.{duration}!")
+        self.hub.send(f"moveforward.50.{duration}!")
         time.sleep(int(duration) / 1000)
 
     def moveBackwards(self, distance):
@@ -31,7 +31,7 @@ class Prime:
             duration = str(math.ceil((distance / 30.8) * 1000))
         else:
             duration = str(math.ceil(((distance / 30.8 - (distance / 100)) * 1000)))
-        self.hub.send(f"movebackwards.100.{duration}!")
+        self.hub.send(f"movebackwards.50.{duration}!")
         time.sleep(int(duration) / 1000)
 
     def turnLeft(self, turnAngle, factor):
