@@ -4,7 +4,9 @@ import time
 from collections import deque
 import threading
 import websockets
-
+import json
+import asyncio
+import queue # Add queue import
 # --- Global Data Queue for Sensor Readings ---
 # This deque will store sensor readings and robot pose.
 # It's intended to be exported (e.g., to a web frontend via a websocket) later.
@@ -19,7 +21,8 @@ class RobotSimulator:
         self.screen.bgcolor("white")
         self.screen.title("Robot Maze Navigation and Sensor Simulation")
         self.screen.tracer(0) # Turn off screen updates for smoother animation
-        self.wsconnected = False # Flag to indicate if WebSocket is connected
+        self.ws_send_queue = queue.Queue() # Queue for outgoing WebSocket messages
+        self.ws_connected_flag = False # Flag to indicate if a WebSocket sender is active
         # --- Maze Definition (Static Black Walls) ---
         self.maze_walls = [
             (-300, 300, 300, 300),  # Top outer wall
@@ -100,14 +103,12 @@ class RobotSimulator:
             "backleft": (-15, 5, 180),
             "backright": (-15, -5, 180)
         }
-    def add_ws(self, ws):
+    def add_ws_sender(self):
         """
-        Adds a WebSocket connection to the simulator.
-        This is used to send sensor data and robot pose to a frontend.
+        Registers that a WebSocket sender is active.
         """
-        self.ws = ws
-        self.wsconnected = True
-        print("WebSocket connection established for robot simulator.")
+        self.ws_connected_flag = True
+        print("WebSocket sender registered for robot simulator.")
     def _draw_maze(self):
         """Draws all maze walls on the screen."""
         for wall in self.maze_walls:
@@ -158,7 +159,7 @@ class RobotSimulator:
         """
         self.sensor_pen.clear()
         self.sensor_dot_pen.clear()
-
+        
         robot_x, robot_y = self.robot.xcor(), self.robot.ycor()
         robot_heading = self.robot.heading()
 
@@ -209,6 +210,8 @@ class RobotSimulator:
                 self.sensor_pen.goto(closest_intersection[0], closest_intersection[1])
                 current_sensor_readings[name] = round(min_distance, 2)
                 # Print only if a wall is detected (not inf)
+                print(f"  {name}: {min_distance:.2f} pixels detected at {closest_intersection}.")
+                
                 print(f"  {name}: {min_distance:.2f} pixels detected.")
             else:
                 self.sensor_pen.goto(ray_end_x, ray_end_y)
@@ -225,7 +228,16 @@ class RobotSimulator:
             "sensor_readings": current_sensor_readings
         })
         self.screen.update() # Update the screen after drawing all sensors
-
+        if self.ws_connected_flag:
+            data_to_send = {
+                "type": "sensor_readings",
+                "timestamp": time.time(),
+                "payload": current_sensor_readings
+            }
+            self.ws_send_queue.put(data_to_send) # Put data into the queue
+            print(f"data put into WebSocket queue: {current_sensor_readings}")
+        else:
+            print("WebSocket sender not registered. Skipping data send.")
     # --- Manual Movement Methods ---
     def move_forward(self):
         """Moves the robot forward and performs a scan."""
