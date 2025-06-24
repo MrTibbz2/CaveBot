@@ -15,6 +15,8 @@ def home(request: Request):
 
 @app.websocket("/ws")
 async def map_ws(ws: WebSocket):
+    global frontend_websocket
+    frontend_websocket = ws
     await ws.accept()
     await ws.send_text(json.dumps({
         "type": "log",
@@ -28,4 +30,18 @@ async def map_ws(ws: WebSocket):
     while True:
         #yeahhhh
         await asyncio.sleep(5)
+
+@app.websocket("/ws/readings")
+async def readings_ws(ws: WebSocket):
+    await ws.accept()
+    await frontend_websocket.send_text(json.dumps({
+        "type": "log",
+        "timestamp": datetime.now().isoformat(),
+        "subtype": "info",
+        "payload": {
+            "message": "WebSocket connection established for sensor readings",
+        }
+    }))
+    while True:
+        print("yeahhh")
         

@@ -1,37 +1,12 @@
 // Canvas setup
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
+import * as Map from './map.js';
 
-function setupCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-let state = {
-    zoom: 1.0,
-    origin: { x: canvas.width / 2, y: canvas.height * 0.75 }, // origin point for starting point
-    botLocation: { x: 0, y: 0 },
-    botAngle: 0, // angle facing in degrees, 0 is up/forward/starting point
-    pointhasBeenjoined: false,
-    lastpoint: { x: 0, y: 0 }, // point to join
-    currentpoint: { x: 0, y: 0 }, // point to draw
-    
-}
 
-setupCanvas();
-function ResetState() {
-    state = {
-    zoom: 1.0,
-    origin: { x: canvas.width / 2, y: canvas.height * 0.75 }, // origin point for starting point
-    botLocation: { x: 0, y: 0 },
-    botAngle: 0, // angle facing in degrees, 0 is up/forward/starting point
-    pointhasBeenjoined: false,
-    lastpoint: { x: 0, y: 0 }, // point to join
-    currentpoint: { x: 0, y: 0 }, // point to draw
-    
-    }
-}
+
+
+
 
 const ws = new WebSocket("ws://localhost:8000/ws");
 ws.onmessage = function(event) {
@@ -39,9 +14,31 @@ ws.onmessage = function(event) {
     if (data.type == "log") {
         logMessage(data);
     }
+    if (data.type == "data_stream") {
+        proccessMapData(data);
+    }
     
 
 };
+ws.onopen = function() {
+    console.log("WebSocket connection established.");
+};
+ws.onclose = function() {
+    console.log("WebSocket connection closed.");
+};
+function proccessMapData(data) {
+    // Process the map data and update the canvas
+    if (data.subtype === "distance_read") {
+        // draw points on the map based on bot location and angle
+
+    } else if (data.subtype === "botangle") {
+
+    } else if (data.subtype === "botpostion") {
+        
+    }
+        
+    
+}
 function logMessage(message) {
     const logcontainer = document.getElementById('log-container');
     const logEntry = document.createElement('div');
@@ -51,3 +48,5 @@ function logMessage(message) {
     // Scroll to bottom to show latest message
     logcontainer.scrollTop = logcontainer.scrollHeight;
 }
+
+
