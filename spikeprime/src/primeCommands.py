@@ -69,3 +69,14 @@ class Prime:
     def partyTime(self):
         self.hub.send("spinaround.100.0!")
         time.sleep(2)
+    
+    def turn_to(self, target_angle):
+        self.hub.send(f"turnto.100.{target_angle}!")
+        time.sleep(2)
+    
+    def turnleft(self):
+        self.hub.send(f"turnleft.100.90!")
+        time.sleep(2)
+    def turnright(self):
+        self.hub.send(f"turnright.100.90!")
+        time.sleep(2)
