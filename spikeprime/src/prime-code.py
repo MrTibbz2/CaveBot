@@ -15,6 +15,14 @@ keyboard.register(stdin)
 
 encoding = 'utf-8'
 
+# Global heading offset to simulate gyro zero reset
+heading_offset = 0
+
+def get_relative_heading():
+    raw = hub.imu.rotation(Axis.Z)
+    rel = (raw - heading_offset + 180) % 360 - 180
+    return rel
+
 def parse_command(cmd_string):
     if cmd_string.endswith('!'):
         cmd_string = cmd_string[:-1]
@@ -74,16 +82,43 @@ def spin_around(speed=50, howLong=1000):
         motorA.dc(0)
         motorB.dc(0)
 
-# --- NEW: gyro-based corrected movement ---
+# --- NEW: gyro-based corrected movement using relative heading ---
 
-def move_forward_corrected(speed=50, howLong=0):
-    initial_angle = 0
+def move_forward_corrected(speed=50, target_distance_cm=0):
+    """
+    Drives forward with heading correction until:
+    - target_distance_cm > 0: drive until reaching that distance in cm
+    - target_distance_cm == 0: drive indefinitely (like howLong==0 before)
+    """
+
     kp = 2
     stopwatch = StopWatch()
     stopwatch.reset()
-    while howLong == 0 or stopwatch.time() < howLong:
-        current_angle = hub.imu.rotation(Axis.Z)
-        error = current_angle - initial_angle
+
+    # Constants for distance calc
+    wheel_diameter = 0.056  # meters
+    wheel_circumference = wheel_diameter * 3.1416  # meters
+
+    # Reset motor angles
+    motorA.reset_angle(0)
+    motorB.reset_angle(0)
+
+    while True:
+        # Calculate traveled distance
+        avg_deg = (abs(motorA.angle()) + abs(motorB.angle())) / 2
+        distance_m = (avg_deg / 360) * wheel_circumference
+        distance_cm = distance_m * 100
+
+        # Print live distance
+        print(f"Distance traveled: {distance_cm:.1f} cm")
+
+        # Break if target distance reached (if given)
+        if target_distance_cm > 0 and distance_cm >= target_distance_cm:
+            break
+
+        # Heading correction
+        current_angle = get_relative_heading()
+        error = current_angle
         correction = kp * error
 
         left_speed = max(min(-speed - correction, 100), -100)
@@ -94,18 +129,47 @@ def move_forward_corrected(speed=50, howLong=0):
 
         wait(20)
 
+    # Stop motors at end
     motorA.dc(0)
     motorB.dc(0)
+    print(f"Reached target distance: {distance_cm:.1f} cm")
 
-def move_backwards_corrected(speed=50, howLong=0):
+
+def move_backwards_corrected(speed=50, target_distance_cm=0):
+    """
+    Drives backwards with heading correction until:
+    - target_distance_cm > 0: drive until reaching that distance in cm
+    - target_distance_cm == 0: drive indefinitely (like howLong==0 before)
+    """
+
+    kp = 2
     stopwatch = StopWatch()
     stopwatch.reset()
-    initial_angle = 0
-    kp = 2
 
-    while howLong == 0 or stopwatch.time() < howLong:
-        current_angle = hub.imu.rotation(Axis.Z)
-        error = current_angle - initial_angle
+    # Constants for distance calc
+    wheel_diameter = 0.056  # meters
+    wheel_circumference = wheel_diameter * 3.1416  # meters
+
+    # Reset motor angles
+    motorA.reset_angle(0)
+    motorB.reset_angle(0)
+
+    while True:
+        # Calculate traveled distance
+        avg_deg = (abs(motorA.angle()) + abs(motorB.angle())) / 2
+        distance_m = (avg_deg / 360) * wheel_circumference
+        distance_cm = distance_m * 100
+
+        # Print live distance
+        print(f"Distance traveled: {distance_cm:.1f} cm")
+
+        # Break if target distance reached (if given)
+        if target_distance_cm > 0 and distance_cm >= target_distance_cm:
+            break
+
+        # Heading correction
+        current_angle = get_relative_heading()
+        error = current_angle
         correction = kp * error
 
         left_speed = max(min(speed - correction, 100), -100)
@@ -116,14 +180,19 @@ def move_backwards_corrected(speed=50, howLong=0):
 
         wait(20)
 
+    # Stop motors at end
     motorA.dc(0)
     motorB.dc(0)
+    print(f"Reached target distance: {distance_cm:.1f} cm")
+
 
 def angle_error(target, current):
     # Wrap error to [-180, 180]
     return (target - current + 180) % 360 - 180
 
 def turn_to_angle(target_angle=90, max_speed=100):
+    global heading_offset
+
     kp = 1.5
     min_speed = 20
 
@@ -153,25 +222,27 @@ def turn_to_angle(target_angle=90, max_speed=100):
     motorA.dc(0)
     motorB.dc(0)
 
-    # Reset heading after turn completes, then wait briefly for IMU to settle
-    hub.imu.reset_heading(0)
+    # Update heading_offset to current absolute heading to reset relative zero
+    heading_offset = hub.imu.rotation(Axis.Z)
     wait(50)
 
 def turn_to_command(speed=100, target_angle=90):
     turn_to_angle(target_angle, max_speed=speed)
 
 def turn_left_gyro(speed=100, angle=90):
+    global heading_offset
     current_heading = hub.imu.rotation(Axis.Z)
     target = (current_heading + angle) % 360
     turn_to_angle(target, max_speed=speed)
-    hub.imu.reset_heading(0)
+    heading_offset = hub.imu.rotation(Axis.Z)
     wait(50)
 
 def turn_right_gyro(speed=100, angle=90):
+    global heading_offset
     current_heading = hub.imu.rotation(Axis.Z)
     target = (current_heading - angle) % 360
     turn_to_angle(target, max_speed=speed)
-    hub.imu.reset_heading(0)
+    heading_offset = hub.imu.rotation(Axis.Z)
     wait(50)
 
 # --- COMMAND MAP ---
