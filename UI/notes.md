@@ -4,7 +4,7 @@ what am I using?
 
 - htmx probably cause I know it
 - tailwind looks good
-- web sockets (also htmx)
+- web sockets using native js es6
 - fastapi because easy (apparently)
 - canvas for drawing
 - yeah thats about it
