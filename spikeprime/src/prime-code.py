@@ -40,38 +40,6 @@ def all_motors_off(speed=0, howLong=0):
     motorA.dc(0)
     motorB.dc(0)
 
-def move_forward(speed=50, howLong=0):
-    motorA.dc(-speed)
-    motorB.dc(speed)
-    if howLong > 0:
-        wait(howLong)
-        motorA.dc(0)
-        motorB.dc(0)
-
-def move_backwards(speed=50, howLong=0):
-    motorA.dc(speed)
-    motorB.dc(-speed)
-    if howLong > 0:
-        wait(howLong)
-        motorA.dc(0)
-        motorB.dc(0)
-
-def turn_left(speed=50, howLong=0):
-    motorA.dc(speed)
-    motorB.dc(speed)
-    if howLong > 0:
-        wait(howLong)
-        motorA.dc(0)
-        motorB.dc(0)
-
-def turn_right(speed=50, howLong=0):
-    motorA.dc(-speed)
-    motorB.dc(-speed)
-    if howLong > 0:
-        wait(howLong)
-        motorA.dc(0)
-        motorB.dc(0)
-
 def spin_around(speed=50, howLong=1000):
     motorA.dc(-speed)
     motorB.dc(-speed)
@@ -82,14 +50,7 @@ def spin_around(speed=50, howLong=1000):
         motorA.dc(0)
         motorB.dc(0)
 
-# --- NEW: gyro-based corrected movement using relative heading ---
-
 def move_forward_corrected(speed=50, target_distance_cm=0):
-    """
-    Drives forward with heading correction until:
-    - target_distance_cm > 0: drive until reaching that distance in cm
-    - target_distance_cm == 0: drive indefinitely (like howLong==0 before)
-    """
 
     kp = 2
     stopwatch = StopWatch()
@@ -108,9 +69,6 @@ def move_forward_corrected(speed=50, target_distance_cm=0):
         avg_deg = (abs(motorA.angle()) + abs(motorB.angle())) / 2
         distance_m = (avg_deg / 360) * wheel_circumference
         distance_cm = distance_m * 100
-
-        # Print live distance
-        print(f"Distance traveled: {distance_cm:.1f} cm")
 
         # Break if target distance reached (if given)
         if target_distance_cm > 0 and distance_cm >= target_distance_cm:
@@ -136,11 +94,6 @@ def move_forward_corrected(speed=50, target_distance_cm=0):
 
 
 def move_backwards_corrected(speed=50, target_distance_cm=0):
-    """
-    Drives backwards with heading correction until:
-    - target_distance_cm > 0: drive until reaching that distance in cm
-    - target_distance_cm == 0: drive indefinitely (like howLong==0 before)
-    """
 
     kp = 2
     stopwatch = StopWatch()
@@ -159,9 +112,6 @@ def move_backwards_corrected(speed=50, target_distance_cm=0):
         avg_deg = (abs(motorA.angle()) + abs(motorB.angle())) / 2
         distance_m = (avg_deg / 360) * wheel_circumference
         distance_cm = distance_m * 100
-
-        # Print live distance
-        print(f"Distance traveled: {distance_cm:.1f} cm")
 
         # Break if target distance reached (if given)
         if target_distance_cm > 0 and distance_cm >= target_distance_cm:
@@ -187,7 +137,6 @@ def move_backwards_corrected(speed=50, target_distance_cm=0):
 
 
 def angle_error(target, current):
-    # Wrap error to [-180, 180]
     return (target - current + 180) % 360 - 180
 
 def turn_to_angle(target_angle=90, max_speed=100):
@@ -222,7 +171,6 @@ def turn_to_angle(target_angle=90, max_speed=100):
     motorA.dc(0)
     motorB.dc(0)
 
-    # Update heading_offset to current absolute heading to reset relative zero
     heading_offset = hub.imu.rotation(Axis.Z)
     wait(50)
 
@@ -245,7 +193,6 @@ def turn_right_gyro(speed=100, angle=90):
     heading_offset = hub.imu.rotation(Axis.Z)
     wait(50)
 
-# --- COMMAND MAP ---
 command_map = {
     'moveforward': move_forward_corrected,
     'movebackwards': move_backwards_corrected,
@@ -256,7 +203,6 @@ command_map = {
     'turnright': turn_right_gyro,
 }
 
-# --- COMMAND LOOP ---
 while True:
     stdout.buffer.write(b"rdy")
 
