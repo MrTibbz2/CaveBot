@@ -7,65 +7,29 @@ class Prime:
         self.hub = HubController(hub_name)
 
     def moveForward(self, distance):
-        distance = float(distance)
-        if distance < 0:
-            print("Move Forward: Can't have a negative number!")
-            return
-        if distance == 0:
-            duration = "0"
-        elif distance < 10:
-            duration = str(math.ceil((distance / 30.8) * 1000))
-        else:
-            duration = str(math.ceil(((distance / 30.8 - (distance / 100)) * 1000)))
-        self.hub.send(f"moveforward.50.{duration}!")
-        time.sleep(int(duration) / 1000)
+        self.hub.send(f"moveforward.50.{distance}!")
+        time.sleep(4)
 
     def moveBackwards(self, distance):
-        distance = float(distance)
-        if distance < 0:
-            print("Move Backwards: Can't have a negative number!")
-            return
-        if distance == 0:
-            duration = "0"
-        elif distance < 10:
-            duration = str(math.ceil((distance / 30.8) * 1000))
-        else:
-            duration = str(math.ceil(((distance / 30.8 - (distance / 100)) * 1000)))
-        self.hub.send(f"movebackwards.50.{duration}!")
-        time.sleep(int(duration) / 1000)
-
-    def turnLeft(self, turnAngle, factor):
-        turnAngle = float(turnAngle)
-        factor = float(factor)
-        if turnAngle < 0:
-            print("Error in turnLeft, might be using negatives!")
-            return
-        if turnAngle < 180:
-            a = turnAngle / 90
-            duration = str(int((a * 300) - (a * factor)))
-            self.hub.send(f"turnleft.100.{duration}!")
-            time.sleep(int(duration) / 1000)
-        else:
-            print("Just use the turnRight Command!")
-
-    def turnRight(self, turnAngle, factor):
-        turnAngle = float(turnAngle)
-        factor = float(factor)
-        if turnAngle < 0:
-            print("Error in turnRight, might be using negatives!")
-            return
-        if turnAngle <= 180:
-            a = turnAngle / 90
-            duration = str(int((a * 300) - (a * factor)))
-            self.hub.send(f"turnright.100.{duration}!")
-            time.sleep(int(duration) / 1000)
-        else:
-            print("Just use the turnLeft Command!")
+        self.hub.send(f"movebackwards.50.{distance}!")
+        time.sleep(4)
 
     def stop(self):
         self.hub.send(f"stop.0.0!")
-        time.sleep(2)
+        time.sleep(4)
     
     def partyTime(self):
         self.hub.send("spinaround.100.0!")
-        time.sleep(2)
+        time.sleep(4)
+    
+    def turnTo(self, target_angle):
+        self.hub.send(f"turnto.100.{target_angle}!")
+        time.sleep(4)
+    
+    def turnLeft(self):
+        self.hub.send(f"turnleft.100.90!")
+        time.sleep(4)
+
+    def turnRight(self):
+        self.hub.send(f"turnright.100.90!")
+        time.sleep(4)
