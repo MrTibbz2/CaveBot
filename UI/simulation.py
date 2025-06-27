@@ -243,22 +243,43 @@ class RobotSimulator:
         """Moves the robot forward and performs a scan."""
         self.robot.forward(self.move_distance)
         self._update_robot_display()
+        self.ws_send_queue.put({
+            "type": "bot",
+            "timestamp": time.time(),
+            "subtype": "move",
+            "payload": { "distance": self.move_distance }})
         self._perform_scan()
 
     def move_backward(self):
         """Moves the robot backward and performs a scan."""
         self.robot.backward(self.move_distance)
         self._update_robot_display()
+        self.ws_send_queue.put({
+            "type": "bot",
+            "timestamp": time.time(),
+            "subtype": "move",
+            "payload": { "distance": -1 * self.move_distance }})
         self._perform_scan()
+        
 
     def turn_left(self):
         """Turns the robot left by 90 degrees and performs a scan."""
         self.robot.left(self.turn_angle)
         self._update_robot_display()
+        self.ws_send_queue.put({
+            "type": "bot",
+            "timestamp": time.time(),
+            "subtype": "rotate",
+            "payload": { "degrees": -1 * self.turn_angle }})
         self._perform_scan()
 
     def turn_right(self):
         """Turns the robot right by 90 degrees and performs a scan."""
         self.robot.right(self.turn_angle)
         self._update_robot_display()
+        self.ws_send_queue.put({
+            "type": "bot",
+            "timestamp": time.time(),
+            "subtype": "rotate",
+            "payload": { "degrees": self.turn_angle }})
         self._perform_scan()

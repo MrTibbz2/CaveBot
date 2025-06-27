@@ -5,6 +5,11 @@ from fastapi.templating import Jinja2Templates
 import asyncio, random
 import json
 from datetime import datetime
+import subprocess
+
+# This will run the command in the background, non-blocking
+#process = subprocess.Popen(["C:/Python313/python.exe", "c:/Users/lachl/innovation-team/UI/rb-api.py"])
+
 
 frontend_websocket = None # Initialize globally to None
 
@@ -15,12 +20,15 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
-
+# @app.get("/ui")
+# def ui(request: Request):
+#     return templates.TemplateResponse("ui.html", {"request": request})
 @app.websocket("/ws")
 async def map_ws(ws: WebSocket):
     global frontend_websocket
     frontend_websocket = ws # Set the global variable
     await ws.accept()
+    process = subprocess.Popen(["C:/Python313/python.exe", "c:/Users/lachl/innovation-team/UI/rb-api.py"])
     await ws.send_text(json.dumps({
         "type": "log",
         "timestamp": datetime.now().isoformat(),
@@ -64,20 +72,10 @@ async def readings_ws(ws: WebSocket):
         if not data:
             continue
         data = json.loads(data)
-        if data.get("type") == "sensor_readings":
-            if frontend_websocket: # Only send if frontend is connected
-                await frontend_websocket.send_text(json.dumps(data))
-            else:
-                print("Frontend WebSocket not connected. Skipping sensor data forward.")
-        else: 
-            if frontend_websocket: # Only send if frontend is connected
-                await frontend_websocket.send_text(json.dumps({
-                    "type": "log",
-                    "timestamp": datetime.now().isoformat(),
-                    "subtype": "error",
-                    "payload": {
-                        "message": "Invalid data type received"
-                    }
-                }))
-            else:
-                print("Frontend WebSocket not connected. Skipping error log.")
+        
+        if frontend_websocket: # Only send if frontend is connected
+            await frontend_websocket.send_json(data)
+        else:
+            print("Frontend WebSocket not connected. Skipping sensor data forward.")
+         
+            
