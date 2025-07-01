@@ -2,17 +2,13 @@
 
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
-
-// Cartesian plane setup: (0,0) is center, X+ right, Y+ up
-// Canvas Y+ is down, so we invert Y when drawing
 export function toRadians(degrees) {
   return degrees * (Math.PI / 180);
 }
 
-// Cartesian: 0° is right (X+), 90° is up (Y+), 180° is left (X-), 270° is down (Y-)
 export function getPointB(x, y, angleDegrees, distance) {
+  // Use 0° as right (X+), 90° as up (Y+), 180° as left (X-), 270° as down (Y-)
   const radians = toRadians(angleDegrees);
-  // X increases right, Y increases up
   const newX = x + Math.cos(radians) * distance;
   const newY = y + Math.sin(radians) * distance;
   return { x: newX, y: newY };
@@ -38,8 +34,8 @@ export const botMeasurements = {
 };
 export let state = {
     zoom: 1.0,
-    scale: 0.5, // scaling for visual display
-    origin: { x: canvas.width / 2, y: canvas.height / 2 }, // center of canvas is (0,0)
+    scale: 0.5, //    scaling for visual display
+    origin: { x: canvas.width / 2, y: canvas.height * 0.75 },
     botLocation: { x: 0, y: 0 },
     botAngle: 0,
     pointhasBeenjoined: false,
@@ -48,23 +44,26 @@ export let state = {
 }
 function ResetState() {
     state = {
-        zoom: 1.0,
-        origin: { x: canvas.width / 2, y: canvas.height / 2 },
-        botLocation: { x: 0, y: 0 },
-        botAngle: 0,
-        pointreadytojoin: false,
-        lastpoint: { x: 0, y: 0 },
-        currentpoint: { x: 0, y: 0 },
-    };
-// ...existing code...
+    zoom: 1.0,
+    origin: { x: canvas.width / 2, y: canvas.height * 0.75 }, // origin point for starting point
+    botLocation: { x: 0, y: 0 },
+    botAngle: 0, // angle facing in degrees, 0 is up/forward/starting point, clockwise
+    
+    pointreadytojoin: false,
+    lastpoint: { x: 0, y: 0 }, // point to join
+    currentpoint: { x: 0, y: 0 }, // point to draw
+    
+    }
+}
 
-function GetSensorVector(sensor) {
+
+export function GetSensorVector(sensor) {
     if (botMeasurements.sensors[sensor] == null) {
         console.error(`Sensor ${sensor} not found in bot measurements.`);
         return null;
     }
     const sensorData = botMeasurements.sensors[sensor];
-    // Rotate the sensor's offset by the bot's current angle (cartesian)
+    // Rotate the sensor's offset by the bot's current angle
     const botAngleRad = toRadians(state.botAngle);
     const rotatedX = sensorData.x * Math.cos(botAngleRad) - sensorData.y * Math.sin(botAngleRad);
     const rotatedY = sensorData.x * Math.sin(botAngleRad) + sensorData.y * Math.cos(botAngleRad);
@@ -78,13 +77,13 @@ function GetSensorVector(sensor) {
     };
     return sensorVec;
 }
-function CalcPoint(distance, sensor) {
+export function CalcPoint(distance, sensor) {
     let sensorVec = GetSensorVector(sensor);
     if (sensorVec == null) {
         console.error(`Failed to get sensor vector for ${sensor}.`);
         return;
+
     }
-    // No Y inversion here, keep cartesian
     points.push(getPointB(sensorVec.x, sensorVec.y, sensorVec.angle, distance * state.scale));
 }
 export function addpoints(distanceReads) {
@@ -105,13 +104,12 @@ export function clearCanvas() {
 }
 
 export function drawBot() {
-    // Convert cartesian botLocation to canvas coordinates
     let screenX = state.origin.x + state.botLocation.x * state.scale;
-    let screenY = state.origin.y - state.botLocation.y * state.scale; // invert Y for canvas
+    let screenY = state.origin.y + state.botLocation.y * state.scale;
 
     ctx.save();
     ctx.translate(screenX, screenY);
-    ctx.rotate((-state.botAngle || 0) * Math.PI / 180); // negative for cartesian to canvas
+    ctx.rotate((state.botAngle || 0) * Math.PI / 180);
 
     // Draw bot body
     ctx.fillStyle = 'blue';
@@ -127,51 +125,16 @@ export function drawBot() {
 
 export function updateMap() {
     clearCanvas();
-    ctx.save();
-    // Set up Cartesian coordinate system: origin at center, Y axis up
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    ctx.translate(centerX, centerY);
-    ctx.scale(1, -1);
-
-    // Draw axes
-    ctx.strokeStyle = '#aaa';
-    ctx.beginPath();
-    // X axis
-    ctx.moveTo(-centerX, 0);
-    ctx.lineTo(centerX, 0);
-    // Y axis
-    ctx.moveTo(0, -centerY);
-    ctx.lineTo(0, centerY);
-    ctx.stroke();
-
+    
     // Draw points as dots
     ctx.fillStyle = 'red';
     for (let point of points) {
-        let screenX = point.x * state.scale;
-        let screenY = point.y * state.scale;
+        let screenX = state.origin.x + point.x * state.scale;
+        let screenY = state.origin.y - point.y * state.scale;
         ctx.beginPath();
         ctx.arc(screenX, screenY, 2, 0, 2 * Math.PI);
         ctx.fill();
     }
-    // Draw bot
-    drawBotCartesian();
-    ctx.restore();
-}
-
-// Draw the bot in the new cartesian system
-function drawBotCartesian() {
-    let screenX = state.botLocation.x * state.scale;
-    let screenY = state.botLocation.y * state.scale;
-    ctx.save();
-    ctx.translate(screenX, screenY);
-    ctx.rotate(-toRadians(state.botAngle)); // negative for cartesian
-    // Draw bot body
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(-botMeasurements.widthcm * state.scale / 2, -botMeasurements.heightcm * state.scale / 2, 
-                botMeasurements.widthcm * state.scale, botMeasurements.heightcm * state.scale);
-    // Draw direction indicator
-    ctx.fillStyle = 'red';
-    ctx.fillRect(-2, -botMeasurements.heightcm * state.scale / 2 - 8, 4, 8);
-    ctx.restore(); 
+    
+    drawBot();
 }
