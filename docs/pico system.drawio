@@ -1,0 +1,107 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" version="27.1.4">
+  <diagram name="Page-1" id="QL-_q9Q_4GgjLxjCbrSr">
+    <mxGraphModel dx="725" dy="2031" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-6" value="&lt;div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="199" y="427.3" width="430" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-1" value="&lt;div&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;python controller&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;" style="fillColor=#ffffff;strokeColor=#dddddd;shadow=1;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=2;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=bottom;spacingLeft=0;fontColor=#999999;fontSize=12;whiteSpace=wrap;spacingBottom=2;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="80" width="130" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-2" value="" style="sketch=0;dashed=0;connectable=0;html=1;fillColor=#757575;strokeColor=none;shape=mxgraph.gcp2.circuit_board;part=1;" parent="yzfHZMEo2DtyXWeSIEuF-1" vertex="1">
+          <mxGeometry x="0.5" width="50" height="45" relative="1" as="geometry">
+            <mxPoint x="-25" y="12.5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-3" target="yzfHZMEo2DtyXWeSIEuF-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="595" />
+              <mxPoint x="360" y="595" />
+              <mxPoint x="360" y="537" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-3" value="sensor" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;fontColor=#4277BB;labelBackgroundColor=default;fontSize=12;spacingTop=3;image=img/lib/ibm/users/sensor.svg;" parent="1" vertex="1">
+          <mxGeometry x="530" y="515" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-4" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.usb" parent="1" vertex="1">
+          <mxGeometry x="140" y="285.3" width="50" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-5" value="" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.logic_composer;" parent="1" vertex="1">
+          <mxGeometry x="384" y="265.3" width="53.7" height="53.4" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-7" value="&lt;font style=&quot;font-size: 17px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;&lt;b&gt;CORE1 thread&lt;/b&gt;&lt;/font&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="384" y="530" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-8" target="yzfHZMEo2DtyXWeSIEuF-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="510" />
+              <mxPoint x="470" y="545" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-8" value="management" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#005F4B;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.veeam2.command_line;" parent="1" vertex="1">
+          <mxGeometry x="260" y="505.3" width="60" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-13" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.572;exitY=0.918;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-5" target="yzfHZMEo2DtyXWeSIEuF-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="305.3" as="sourcePoint" />
+            <mxPoint x="460" y="305.3" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-14" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;if core1thread is not locked,&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;execute start commands as thread&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;else return an error: core1 locked&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="yzfHZMEo2DtyXWeSIEuF-13" connectable="0" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="126" y="24" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.931;exitY=0.487;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-5" target="yzfHZMEo2DtyXWeSIEuF-17" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="285.3" as="sourcePoint" />
+            <mxPoint x="530" y="295.3" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-16" value="if command is a status request,&amp;nbsp;&lt;div&gt;execute as blocking (core0)&lt;/div&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="yzfHZMEo2DtyXWeSIEuF-15" connectable="0" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-17" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="320" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="700" y="350" />
+              <mxPoint x="210" y="350" />
+              <mxPoint x="210" y="380" />
+              <mxPoint x="168" y="380" />
+              <mxPoint x="168" y="340" />
+              <mxPoint x="170" y="340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-17" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#005F4B;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.veeam2.command_line;" parent="1" vertex="1">
+          <mxGeometry x="670" y="260" width="60" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-1" target="yzfHZMEo2DtyXWeSIEuF-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-20" value="if stop command, exit the thread" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="224" y="395.3" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-21" value="format for pico output&amp;nbsp;&lt;div&gt;&amp;lt;identifier&amp;gt;: code/output&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="295" y="83" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-25" value="&lt;span style=&quot;font-size: 31px;&quot;&gt;&lt;b&gt;RPI Pico system&lt;/b&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="220" y="-2" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.257;entryY=0.98;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-8" target="yzfHZMEo2DtyXWeSIEuF-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yzfHZMEo2DtyXWeSIEuF-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.102;entryY=0.64;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="yzfHZMEo2DtyXWeSIEuF-4" target="yzfHZMEo2DtyXWeSIEuF-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
