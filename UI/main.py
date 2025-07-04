@@ -6,6 +6,8 @@ import asyncio, random
 import json
 from datetime import datetime
 import subprocess
+import sys
+import os
 
 # This will run the command in the background, non-blocking
 #process = subprocess.Popen(["C:/Python313/python.exe", "c:/Users/lachl/innovation-team/UI/rb-api.py"])
@@ -28,7 +30,9 @@ async def map_ws(ws: WebSocket):
     global frontend_websocket
     frontend_websocket = ws # Set the global variable
     await ws.accept()
-    process = subprocess.Popen(["C:/Python313/python.exe", "c:/Users/lachl/innovation-team/UI/rb-api.py"])
+    process = subprocess.Popen(
+        [sys.executable, os.path.join(os.path.dirname(__file__), "rb-api.py")]
+    )
     await ws.send_text(json.dumps({
         "type": "log",
         "timestamp": datetime.now().isoformat(),
@@ -77,5 +81,5 @@ async def readings_ws(ws: WebSocket):
             await frontend_websocket.send_json(data)
         else:
             print("Frontend WebSocket not connected. Skipping sensor data forward.")
-         
-            
+
+

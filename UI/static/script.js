@@ -24,15 +24,14 @@ ws.onmessage = function(event) {
         logMessage(data);
     }
     if (data.type === "sensor_readings") {
-        Map.addpoints(data);
-        console.log(Map.points);
+        
     } else if (data.type === "bot") {
         if (data.subtype === "move") {
             // Cartesian: 0° is right (X+), 90° is up (Y+)
             let angleRadians = Map.toRadians(Map.state.botAngle);
             let distance = data.payload.distance;
-            Map.state.botLocation.x += distance * Math.cos(angleRadians);
-            Map.state.botLocation.y += distance * Math.sin(angleRadians);
+            Map.state.botLocation.x += distance * Math.sin(angleRadians);
+            Map.state.botLocation.y += distance * Math.cos(angleRadians);
             console.log(Map.state.botLocation);
         } else if (data.subtype === "rotate") {
             Map.state.botAngle += data.payload.degrees;

@@ -1,5 +1,3 @@
-
-
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 
@@ -26,14 +24,14 @@ export const botMeasurements = {
     // JS canvas: (0,0) is top-left, X+ right, Y+ down, but we keep bot (0,0) as center for math
     // Sensor config below matches Python's sensors_config
     sensors: {
-        leftfront:  { x: 5,  y: 15,  angle: 90 },   // left front
-        leftback:   { x: -5, y: 15,  angle: 90 },   // left back
-        rightfront: { x: 5,  y: -15, angle: 270 },  // right front
-        rightback:  { x: -5, y: -15, angle: 270 },  // right back
-        frontleft:  { x: 15, y: 5,   angle: 0 },    // front left
-        frontright: { x: 15, y: -5,  angle: 0 },    // front right
-        backleft:   { x: -15, y: 5,  angle: 180 },  // back left
-        backright:  { x: -15, y: -5, angle: 180 }   // back right
+        leftfront:  { x: 5,  y: 15,  angle: 90,  color: 'blue' },   // left front
+        leftback:   { x: -5, y: 15,  angle: 90,  color: 'blue' },   // left back
+        rightfront: { x: 5,  y: -15, angle: 270, color: 'orange' }, // right front
+        rightback:  { x: -5, y: -15, angle: 270, color: 'orange' }, // right back
+        frontleft:  { x: 15, y: 5,   angle: 0,   color: 'green' },  // front left
+        frontright: { x: 15, y: -5,  angle: 0,   color: 'green' },  // front right
+        backleft:   { x: -15, y: 5,  angle: 180, color: 'purple' }, // back left
+        backright:  { x: -15, y: -5, angle: 180, color: 'purple' }  // back right
     }
 };
 export let state = {
@@ -46,6 +44,7 @@ export let state = {
     lastpoint: { x: 0, y: 0 },
     currentpoint: { x: 0, y: 0 },
 }
+export let drawSensors = true; // Toggle to show/hide sensor lines
 function ResetState() {
     state = {
         zoom: 1.0,
@@ -56,7 +55,7 @@ function ResetState() {
         lastpoint: { x: 0, y: 0 },
         currentpoint: { x: 0, y: 0 },
     };
-// ...existing code...
+}
 
 function GetSensorVector(sensor) {
     if (botMeasurements.sensors[sensor] == null) {
@@ -79,13 +78,9 @@ function GetSensorVector(sensor) {
     return sensorVec;
 }
 function CalcPoint(distance, sensor) {
-    let sensorVec = GetSensorVector(sensor);
-    if (sensorVec == null) {
-        console.error(`Failed to get sensor vector for ${sensor}.`);
-        return;
-    }
-    // No Y inversion here, keep cartesian
-    points.push(getPointB(sensorVec.x, sensorVec.y, sensorVec.angle, distance * state.scale));
+    // shit is fucked, implement this counter for how bad it really is - mrtibbz
+    // hours wasted here: 11 
+
 }
 export function addpoints(distanceReads) {
     // Clear points for each new scan to avoid clutter
@@ -95,7 +90,7 @@ export function addpoints(distanceReads) {
         let distance = distanceReads.payload[sensor];
         if (distance == null) { continue; }
         else {
-            CalcPoint(distance, sensor);
+            // calc here TODO
         }
     }
 }
@@ -111,7 +106,7 @@ export function drawBot() {
 
     ctx.save();
     ctx.translate(screenX, screenY);
-    ctx.rotate((-state.botAngle || 0) * Math.PI / 180); // negative for cartesian to canvas
+    ctx.rotate((state.botAngle || 0) * Math.PI / 180); // negative for cartesian (unit circle), use positive for canvas
 
     // Draw bot body
     ctx.fillStyle = 'blue';
@@ -122,28 +117,33 @@ export function drawBot() {
     ctx.fillStyle = 'red';
     ctx.fillRect(-2, -botMeasurements.heightcm * state.scale / 2 - 8, 4, 8);
 
+    // Draw sensors as small lines in their direction if enabled
+    if (drawSensors) {
+        ctx.lineWidth = 2;
+        for (const key in botMeasurements.sensors) {
+            const sensor = botMeasurements.sensors[key];
+            const sensorX = sensor.x * state.scale;
+            const sensorY = sensor.y * state.scale;
+            const sensorAngleRad = (sensor.angle || 0) * Math.PI / 180;
+            const lineLength = 4; // px
+            const endX = sensorX + lineLength * Math.cos(sensorAngleRad);
+            const endY = sensorY + lineLength * Math.sin(sensorAngleRad);
+            ctx.strokeStyle = sensor.color || 'green';
+            ctx.beginPath();
+            ctx.moveTo(sensorX, sensorY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+        }
+    }
+
     ctx.restore();
 }
 
 export function updateMap() {
     clearCanvas();
-    ctx.save();
-    // Set up Cartesian coordinate system: origin at center, Y axis up
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    ctx.translate(centerX, centerY);
-    ctx.scale(1, -1);
 
-    // Draw axes
-    ctx.strokeStyle = '#aaa';
-    ctx.beginPath();
-    // X axis
-    ctx.moveTo(-centerX, 0);
-    ctx.lineTo(centerX, 0);
-    // Y axis
-    ctx.moveTo(0, -centerY);
-    ctx.lineTo(0, centerY);
-    ctx.stroke();
+
+
 
     // Draw points as dots
     ctx.fillStyle = 'red';
@@ -155,23 +155,7 @@ export function updateMap() {
         ctx.fill();
     }
     // Draw bot
-    drawBotCartesian();
-    ctx.restore();
+    drawBot();
+
 }
 
-// Draw the bot in the new cartesian system
-function drawBotCartesian() {
-    let screenX = state.botLocation.x * state.scale;
-    let screenY = state.botLocation.y * state.scale;
-    ctx.save();
-    ctx.translate(screenX, screenY);
-    ctx.rotate(-toRadians(state.botAngle)); // negative for cartesian
-    // Draw bot body
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(-botMeasurements.widthcm * state.scale / 2, -botMeasurements.heightcm * state.scale / 2, 
-                botMeasurements.widthcm * state.scale, botMeasurements.heightcm * state.scale);
-    // Draw direction indicator
-    ctx.fillStyle = 'red';
-    ctx.fillRect(-2, -botMeasurements.heightcm * state.scale / 2 - 8, 4, 8);
-    ctx.restore(); 
-}
