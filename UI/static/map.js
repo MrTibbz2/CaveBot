@@ -1,3 +1,5 @@
+import * as vecmath from './vecmath.js';
+
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 

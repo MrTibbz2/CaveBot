@@ -7,7 +7,8 @@ import json
 from datetime import datetime
 import subprocess
 import vecmath
-TVisualiser = vecmath.TurtleVisualizer()import sys
+TVisualiser = vecmath.TurtleVisualizer()
+import sys
 import os
 
 # This will run the command in the background, non-blocking
