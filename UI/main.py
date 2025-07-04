@@ -6,7 +6,8 @@ import asyncio, random
 import json
 from datetime import datetime
 import subprocess
-import sys
+import vecmath
+TVisualiser = vecmath.TurtleVisualizer()import sys
 import os
 
 # This will run the command in the background, non-blocking
@@ -22,6 +23,14 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+@app.get("/pointcalc")
+def pointcalc(request: Request, angle: float = 0, distance: float = 0):
+    """
+    Calculate the (x, y) offset from the origin after turning by 'angle' degrees and moving 'distance' units.
+    Example: /pointcalc?angle=90&distance=100
+    """
+    offset = TVisualiser.turn_and_move(angle, distance)
+    return {"x_pos": offset[0], "y_pos": offset[1]}
 # @app.get("/ui")
 # def ui(request: Request):
 #     return templates.TemplateResponse("ui.html", {"request": request})
