@@ -3,7 +3,7 @@
 // const ctx = canvas.getContext('2d');
 
 import * as Maplib from './mapperlib.js';
-import * as Map2 from './map.js';
+import * as Graph from './map.js';
 
 
 
@@ -26,24 +26,14 @@ ws.onmessage = function(event) {
     }
     if (data.type === "sensor_readings") {
         Maplib.addpoints(data);
-        console.log(Maplib.points);
+        
     } else if (data.type === "bot") {
         if (data.subtype === "move") {
-            // Cartesian: 0° is right (X+), 90° is up (Y+)
-            let angleRadians = Maplib.toRadians(Maplib.state.botAngle);
-            let distance = data.payload.distance;
-            Maplib.state.botLocation.x += distance * Math.sin(angleRadians);
-            Maplib.state.botLocation.y += distance * Math.cos(angleRadians);
-            console.log(Maplib.state.botLocation);
+            Graph.bot.move(data.payload.distance);
+            
         } else if (data.subtype === "rotate") {
-            Maplib.state.botAngle += data.payload.degrees;
-            if (Maplib.state.botAngle >= 360) {
-                Maplib.state.botAngle -= 360;
-            }
-            if (Maplib.state.botAngle < 0) {
-                Maplib.state.botAngle += 360;
-            }
-            console.log(Maplib.state.botAngle);
+            Graph.bot.rotate(data.payload.degrees);
+            console.log(Graph.bot.angle);
         }
     }
 };

@@ -45,10 +45,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -96,10 +92,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -149,14 +141,10 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
-    "id": "24",
+    "id": "Angle",
     "type": "expression",
     "latex": "R=0",
     "color": "#2d70b3",
@@ -201,10 +189,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "sliderBounds": {
       "min": "0",
       "max": "360",
@@ -213,7 +197,7 @@ export const expressions = [
     "playing": false
   },
   {
-    "id": "15",
+    "id": "X_Position",
     "type": "expression",
     "latex": "N=-0",
     "color": "#6042a6",
@@ -258,14 +242,10 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
-    "id": "16",
+    "id": "Y_Position",
     "type": "expression",
     "latex": "M=0",
     "color": "#000000",
@@ -309,10 +289,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -362,10 +338,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -413,10 +385,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -466,10 +434,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -517,10 +481,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -570,10 +530,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -621,10 +577,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -674,10 +626,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -725,10 +673,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -778,10 +722,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -828,10 +768,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -880,10 +816,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -930,10 +862,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -982,10 +910,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -1032,10 +956,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   },
@@ -1084,10 +1004,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -1135,10 +1051,6 @@ export const expressions = [
       "min": "",
       "max": ""
     },
-    "domain": {
-      "min": "0",
-      "max": "1"
-    },
     "playing": false
   },
   {
@@ -1185,10 +1097,6 @@ export const expressions = [
     "polarDomain": {
       "min": "",
       "max": ""
-    },
-    "domain": {
-      "min": "0",
-      "max": "1"
     },
     "playing": false
   }
