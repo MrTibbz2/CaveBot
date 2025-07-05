@@ -2,8 +2,8 @@
 // const canvas = document.getElementById('map');
 // const ctx = canvas.getContext('2d');
 
-import * as Map from './map.js';
-import * as Map2 from './map2.js';
+import * as Maplib from './mapperlib.js';
+import * as Map2 from './map.js';
 
 
 
@@ -11,7 +11,7 @@ import * as Map2 from './map2.js';
 
 // Animation loop
 function animate() {
-    Map.updateMap();
+    Maplib.updateMap();
     requestAnimationFrame(animate);
 }
 
@@ -25,25 +25,25 @@ ws.onmessage = function(event) {
         logMessage(data);
     }
     if (data.type === "sensor_readings") {
-        Map.addpoints(data);
-        console.log(Map.points);
+        Maplib.addpoints(data);
+        console.log(Maplib.points);
     } else if (data.type === "bot") {
         if (data.subtype === "move") {
             // Cartesian: 0° is right (X+), 90° is up (Y+)
-            let angleRadians = Map.toRadians(Map.state.botAngle);
+            let angleRadians = Maplib.toRadians(Maplib.state.botAngle);
             let distance = data.payload.distance;
-            Map.state.botLocation.x += distance * Math.sin(angleRadians);
-            Map.state.botLocation.y += distance * Math.cos(angleRadians);
-            console.log(Map.state.botLocation);
+            Maplib.state.botLocation.x += distance * Math.sin(angleRadians);
+            Maplib.state.botLocation.y += distance * Math.cos(angleRadians);
+            console.log(Maplib.state.botLocation);
         } else if (data.subtype === "rotate") {
-            Map.state.botAngle += data.payload.degrees;
-            if (Map.state.botAngle >= 360) {
-                Map.state.botAngle -= 360;
+            Maplib.state.botAngle += data.payload.degrees;
+            if (Maplib.state.botAngle >= 360) {
+                Maplib.state.botAngle -= 360;
             }
-            if (Map.state.botAngle < 0) {
-                Map.state.botAngle += 360;
+            if (Maplib.state.botAngle < 0) {
+                Maplib.state.botAngle += 360;
             }
-            console.log(Map.state.botAngle);
+            console.log(Maplib.state.botAngle);
         }
     }
 };
