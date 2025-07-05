@@ -1,7 +1,7 @@
 import * as vecmath from './vecmath.js';
 
-const canvas = document.getElementById('map');
-const ctx = canvas.getContext('2d');
+// const canvas = document.getElementById('map');
+// const ctx = canvas.getContext('2d');
 
 // Cartesian plane setup: (0,0) is center, X+ right, Y+ up
 // Canvas Y+ is down, so we invert Y when drawing
@@ -39,7 +39,7 @@ export const botMeasurements = {
 export let state = {
     zoom: 1.0,
     scale: 0.5, // scaling for visual display
-    origin: { x: canvas.width / 2, y: canvas.height / 2 }, // center of canvas is (0,0)
+    // origin: { x: canvas.width / 2, y: canvas.height / 2 }, // center of canvas is (0,0)
     botLocation: { x: 0, y: 0 },
     botAngle: 0,
     pointhasBeenjoined: false,

@@ -1,8 +1,9 @@
 // Canvas setup
-const canvas = document.getElementById('map');
-const ctx = canvas.getContext('2d');
+// const canvas = document.getElementById('map');
+// const ctx = canvas.getContext('2d');
+
 import * as Map from './map.js';
-window.CaveMap = Map;
+import * as Map2 from './map2.js';
 
 
 
@@ -13,8 +14,8 @@ function animate() {
     Map.updateMap();
     requestAnimationFrame(animate);
 }
-animate();
 
+// animate();
 
 const ws = new WebSocket("ws://localhost:8000/ws");
 ws.onmessage = function(event) {
