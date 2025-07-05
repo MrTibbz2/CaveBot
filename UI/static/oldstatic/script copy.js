@@ -2,7 +2,7 @@
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 import * as Map from '../map.js';
-
+window.CaveMap = Map;
 
 
 
@@ -28,17 +28,18 @@ ws.onmessage = function(event) {
         console.log(Map.points);
     } else if (data.type === "bot") {
         if (data.subtype === "move") {
-            let angleRadians = Map.state.botAngle * Math.PI / 180;
+            // Cartesian: 0° is right (X+), 90° is up (Y+)
+            let angleRadians = Map.toRadians(Map.state.botAngle);
             let distance = data.payload.distance;
             Map.state.botLocation.x += distance * Math.sin(angleRadians);
-            Map.state.botLocation.y -= distance * Math.cos(angleRadians);
+            Map.state.botLocation.y += distance * Math.cos(angleRadians);
             console.log(Map.state.botLocation);
         } else if (data.subtype === "rotate") {
             Map.state.botAngle += data.payload.degrees;
             if (Map.state.botAngle >= 360) {
                 Map.state.botAngle -= 360;
             }
-            if (Map.state.botAngle <= 0) {
+            if (Map.state.botAngle < 0) {
                 Map.state.botAngle += 360;
             }
             console.log(Map.state.botAngle);

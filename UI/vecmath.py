@@ -1,6 +1,13 @@
 import turtle
 import math
 
+
+def get_point_calc(angle, distance):
+    # angle in degrees, 0 = right (X+), 90 = up (Y+)
+    radians = math.radians(angle)
+    x_pos = math.sin(radians) * distance
+    y_pos = math.cos(radians) * distance
+    return {"x_pos": round(x_pos, 4), "y_pos": round(y_pos, 4)}
 class TurtleVisualizer:
     def __init__(self):
         self.t = turtle.Turtle()

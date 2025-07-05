@@ -2,7 +2,7 @@
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 import * as Map from './map.js';
-
+window.CaveMap = Map;
 
 
 
@@ -24,7 +24,8 @@ ws.onmessage = function(event) {
         logMessage(data);
     }
     if (data.type === "sensor_readings") {
-        
+        Map.addpoints(data);
+        console.log(Map.points);
     } else if (data.type === "bot") {
         if (data.subtype === "move") {
             // Cartesian: 0° is right (X+), 90° is up (Y+)

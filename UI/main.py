@@ -7,10 +7,10 @@ import json
 from datetime import datetime
 import subprocess
 import vecmath
-TVisualiser = vecmath.TurtleVisualizer()
+# TVisualiser = vecmath.TurtleVisualizer()
 import sys
 import os
-
+import math
 # This will run the command in the background, non-blocking
 #process = subprocess.Popen(["C:/Python313/python.exe", "c:/Users/lachl/innovation-team/UI/rb-api.py"])
 
@@ -30,8 +30,11 @@ def pointcalc(request: Request, angle: float = 0, distance: float = 0):
     Calculate the (x, y) offset from the origin after turning by 'angle' degrees and moving 'distance' units.
     Example: /pointcalc?angle=90&distance=100
     """
-    offset = TVisualiser.turn_and_move(angle, distance)
-    return {"x_pos": offset[0], "y_pos": offset[1]}
+    radians = math.radians(angle)
+    x_pos = math.sin(radians) * distance
+    y_pos = math.cos(radians) * distance
+    return {"x_pos": round(x_pos, 4), "y_pos": round(y_pos, 4)}
+
 # @app.get("/ui")
 # def ui(request: Request):
 #     return templates.TemplateResponse("ui.html", {"request": request})

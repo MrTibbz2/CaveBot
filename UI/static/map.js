@@ -47,6 +47,7 @@ export let state = {
     currentpoint: { x: 0, y: 0 },
 }
 export let drawSensors = true; // Toggle to show/hide sensor lines
+
 function ResetState() {
     state = {
         zoom: 1.0,
@@ -59,7 +60,25 @@ function ResetState() {
     };
 }
 
-function GetSensorVector(sensor) {
+// Utility: Recursively round all numbers in an object
+export function roundObjectNumbers(obj, decimals = 2) {
+    if (typeof obj === 'number') {
+        return Number(obj.toFixed(decimals));
+    }
+    if (Array.isArray(obj)) {
+        return obj.map(v => roundObjectNumbers(v, decimals));
+    }
+    if (typeof obj === 'object' && obj !== null) {
+        const result = {};
+        for (const key in obj) {
+            result[key] = roundObjectNumbers(obj[key], decimals);
+        }
+        return result;
+    }
+    return obj;
+}
+
+export function GetSensorVector(sensor) {
     if (botMeasurements.sensors[sensor] == null) {
         console.error(`Sensor ${sensor} not found in bot measurements.`);
         return null;
@@ -72,19 +91,33 @@ function GetSensorVector(sensor) {
     // Normalize angle to [0, 360)
     let angle = (sensorData.angle + state.botAngle) % 360;
     if (angle < 0) angle += 360;
+    // All coordinates are in cartesian (X+ right, Y+ up), no canvas transform here
     const sensorVec = {
         x: state.botLocation.x + rotatedX,
         y: state.botLocation.y + rotatedY,
         angle: angle
     };
-    return sensorVec;
+    return roundObjectNumbers(sensorVec, 2);
 }
-function CalcPoint(distance, sensor) {
-    // shit is fucked, implement this counter for how bad it really is - mrtibbz
-    // hours wasted here: 11 
-
+export async function CalcPoint(distance, sensor) {
+    const sensorVector = GetSensorVector(sensor);
+    if (!sensorVector || typeof sensorVector.angle !== 'number' || typeof sensorVector.x !== 'number' || typeof sensorVector.y !== 'number') {
+        console.error('CalcPoint: Invalid sensorVector for', sensor, sensorVector);
+        return { x: NaN, y: NaN };
+    }
+    const offsets = await vecmath.getPointCalc(sensorVector.angle, distance);
+    if (!offsets || typeof offsets.x_pos !== 'number' || typeof offsets.y_pos !== 'number' || isNaN(offsets.x_pos) || isNaN(offsets.y_pos)) {
+        console.error('CalcPoint: Invalid offsets from vecmath.getPointCalc:', offsets);
+        return { x: NaN, y: NaN };
+    }
+    // All coordinates are in cartesian (X+ right, Y+ up), no canvas transform here
+    const point = {
+        x: sensorVector.x + offsets.x_pos,
+        y: sensorVector.y + offsets.y_pos
+    };
+    return roundObjectNumbers(point, 2);
 }
-export function addpoints(distanceReads) {
+export async function addpoints(distanceReads) {
     // Clear points for each new scan to avoid clutter
     points.length = 0;
     for (let i = 0; i < Object.keys(botMeasurements.sensors).length; i++) {
@@ -92,7 +125,13 @@ export function addpoints(distanceReads) {
         let distance = distanceReads.payload[sensor];
         if (distance == null) { continue; }
         else {
-            // calc here TODO
+            // Calculate point based on sensor and distance
+            let point = await CalcPoint(distance, sensor);
+            if (point.x !== NaN && point.y !== NaN) {
+                points.push(point);
+            } else {
+                console.error(`Invalid point for sensor ${sensor}:`, point);
+            }
         }
     }
 }
@@ -108,7 +147,7 @@ export function drawBot() {
 
     ctx.save();
     ctx.translate(screenX, screenY);
-    ctx.rotate((state.botAngle || 0) * Math.PI / 180); // negative for cartesian (unit circle), use positive for canvas
+    ctx.rotate((state.botAngle || 0) * Math.PI / 180);
 
     // Draw bot body
     ctx.fillStyle = 'blue';
@@ -124,12 +163,13 @@ export function drawBot() {
         ctx.lineWidth = 2;
         for (const key in botMeasurements.sensors) {
             const sensor = botMeasurements.sensors[key];
+            // Sensor position in bot coordinates (cartesian)
             const sensorX = sensor.x * state.scale;
-            const sensorY = sensor.y * state.scale;
-            const sensorAngleRad = (sensor.angle || 0) * Math.PI / 180;
+            const sensorY = -sensor.y * state.scale; // invert Y for canvas
+            const sensorAngleRad = ((sensor.angle + state.botAngle) || 0) * Math.PI / 180;
             const lineLength = 4; // px
             const endX = sensorX + lineLength * Math.cos(sensorAngleRad);
-            const endY = sensorY + lineLength * Math.sin(sensorAngleRad);
+            const endY = sensorY - lineLength * Math.sin(sensorAngleRad);
             ctx.strokeStyle = sensor.color || 'green';
             ctx.beginPath();
             ctx.moveTo(sensorX, sensorY);
@@ -143,21 +183,16 @@ export function drawBot() {
 
 export function updateMap() {
     clearCanvas();
-
-
-
-
-    // Draw points as dots
+    // Draw points as dots (centered like bot)
     ctx.fillStyle = 'red';
     for (let point of points) {
-        let screenX = point.x * state.scale;
-        let screenY = point.y * state.scale;
+        let screenX = state.origin.x + point.x * state.scale;
+        let screenY = state.origin.y - point.y * state.scale;
         ctx.beginPath();
         ctx.arc(screenX, screenY, 2, 0, 2 * Math.PI);
         ctx.fill();
     }
     // Draw bot
     drawBot();
-
 }
 
