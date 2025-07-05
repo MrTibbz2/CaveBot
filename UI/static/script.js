@@ -8,7 +8,13 @@ import * as Graph from './map.js';
 
 
 
+function beans() {
+    let beans = 1;
+    beans++;
+    console.log("Beans: " + beans);
+    return beans;
 
+}
 // Animation loop
 function animate() {
     Maplib.updateMap();
