@@ -3,7 +3,7 @@ import * as Graph from './map.js';
 
 // this file took a HOT MINUTE so DONT TOUCH IT, i fucking mean it, and i fucking hate javascript. I WILL beat you up. - mrtibbz
 // 
-// total hours of my life I will never get back:      16.6
+// total hours of my life I will never get back:      18.1
 
 export function toRadians(degrees) {
   return degrees * (Math.PI / 180);
