@@ -5,7 +5,7 @@ export default function Navbar() {
   const [batteryPercent, setBatteryPercent] = useState(100)
   const [botstatus, setbotstatus] = useState('connected')
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-gray-950 p-4">
       <div className="flex justify-between items-center">
         <a href="#" className="text-white text-lg font-semibold hover:bg-gray-700 px-4 py-2 rounded-lg transition duration-300">
           CaveBot UI
