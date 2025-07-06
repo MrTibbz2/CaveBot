@@ -35,9 +35,9 @@ export default function App() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 bg-gray-600">
+    <div className="min-h-screen text-gray-800 bg-gray-600">
       <Navbar />
-      <div className="flex flex-row w-full min-h-[calc(100vh-64px)] h-[calc(100vh-64px)]">
+      <div className="bg-gray-600 flex flex-row w-full min-h-[calc(100vh-64px)] h-[calc(100vh-64px)]">
         <Sidebar logs={logs} />
         <MapContainer />
       </div>

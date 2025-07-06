@@ -41,9 +41,9 @@ export default function Sidebar({ logs }) {
   }, [isResizing])
 
   return (
-    <div className="relative flex-shrink-0" style={{ width: `${width}px` }}>
+    <div className="bg-gray-600 relative flex-shrink-0" style={{ width: `${width}px` }}>
       <aside className="h-full bg-gray-800 p-6 shadow-lg space-y-6 flex flex-col justify-stretch w-full">
-        <section className="bg-gray-900 p-4 rounded-lg shadow-sm mb-4 flex-1 flex flex-col">
+        <section className="bg-gray-900 p-4 rounded-lg shadow-sm flex-1 flex flex-col">
           <h2 className="text-lg font-semibold text-gray-100 mb-3">Logs</h2>
           <div 
             ref={logContainerRef}
@@ -69,7 +69,7 @@ export default function Sidebar({ logs }) {
         </section>
       </aside>
       <div 
-        className="absolute top-0 right-0 h-full w-2 cursor-col-resize bg-gray-700 opacity-50 hover:opacity-80 z-10"
+        className="absolute top-0 right-0 h-full w-2 cursor-col-resize bg-black opacity-50 hover:opacity-80 z-10"
         onMouseDown={handleMouseDown}
       />
     </div>

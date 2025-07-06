@@ -31,8 +31,8 @@ export default function MapContainer() {
   }, [])
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-4 h-full min-w-0">
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full h-full flex flex-col items-center justify-center">
+    <main className="bg-gray-600 flex-1 flex flex-col items-center justify-center h-full min-w-0">
+      <div className="bg-gray-800 p-6 shadow-lg w-full h-full flex flex-col items-center justify-center">
         <h2 className="text-xl font-semibold text-white mb-4">Minimap</h2>
         <div 
           ref={containerRef}
