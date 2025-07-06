@@ -6,13 +6,13 @@ import asyncio, random
 import json
 from datetime import datetime
 import subprocess
-import vecmath
+import pylib.vecmath
 # TVisualiser = vecmath.TurtleVisualizer()
 import sys
 import os
 import math
 # This will run the command in the background, non-blocking
-#process = subprocess.Popen(["C:/Python313/python.exe", "c:/Users/lachl/innovation-team/UI/rb-api.py"])
+#process = subprocess.Popen(["C:/Python313/python.exe", "c:/Users/lachl/innovation-team/UI/pylib/rb-api.py"])
 
 
 frontend_websocket = None # Initialize globally to None
@@ -44,7 +44,7 @@ async def map_ws(ws: WebSocket):
     frontend_websocket = ws # Set the global variable
     await ws.accept()
     process = subprocess.Popen(
-        [sys.executable, os.path.join(os.path.dirname(__file__), "rb-api.py")]
+        [sys.executable, os.path.join(os.path.dirname(__file__), "pylib/rb-api.py")]
     )
     await ws.send_text(json.dumps({
         "type": "log",

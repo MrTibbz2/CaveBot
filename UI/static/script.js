@@ -2,8 +2,8 @@
 // const canvas = document.getElementById('map');
 // const ctx = canvas.getContext('2d');
 
-import * as Maplib from './mapperlib.js';
-import * as Graph from './map.js';
+import * as Maplib from './lib/mapperlib.js';
+import * as Graph from './lib/map.js';
 
 
 
