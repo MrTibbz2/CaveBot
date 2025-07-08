@@ -3,7 +3,7 @@ microcontrollers/build/
 build/
 
 # VS Code settings
-.vscode/
+UI/frontend/node_modules
 
 # Compiled object files and binaries
 *.elf
