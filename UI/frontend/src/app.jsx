@@ -11,8 +11,6 @@ export default function App() {
   const { sendMessage } = useWebSocket('ws://localhost:8000/ws', {
     onMessage: (data) => {
       console.log('=== App WebSocket Message Received ===')
-      console.log('Data type:', data.type)
-      console.log('Data subtype:', data.subtype)
       console.log('Full data:', data)
       
       if (data.type === 'log') {
