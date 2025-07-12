@@ -15,15 +15,15 @@
       "type": "shell",
       "windows": {
         "command": "python",
-        "args": ["uvicorn", "-m", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+        "args": ["-m", "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
       },
       "linux": {
         "command": "python",
-        "args": ["uvicorn", "-m", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+        "args": ["-m", "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
       },
       "osx": {
         "command": "python3",
-        "args": ["uvicorn", "-m", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+        "args": ["-m", "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
       },
       "options": {
         "cwd": "${workspaceFolder}/UI"
