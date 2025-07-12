@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'preact/hooks'
+import { Router } from 'preact-router';
 import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
-import MapContainer from './components/MapContainer'
+import MapWindow from './pages/mapWindow';
+import NotFound from './pages/NotFound';
 import { useWebSocket } from './lib/websocket'
 import { bot } from './lib/bot'
 import { addpoints } from './lib/mapperlib'
 
 export default function App() {
   const [logs, setLogs] = useState([])
+  
+
   const { sendMessage } = useWebSocket('ws://localhost:8000/ws', {
     onMessage: (data) => {
       console.log('=== App WebSocket Message Received ===')
@@ -35,10 +38,10 @@ export default function App() {
   return (
     <div className="min-h-screen text-gray-800 bg-gray-600">
       <Navbar />
-      <div className="bg-gray-600 flex flex-row w-full min-h-[calc(100vh-64px)] h-[calc(100vh-64px)]">
-        <Sidebar logs={logs} />
-        <MapContainer />
-      </div>
+      <Router>
+        <MapWindow logs={logs} path="/"/>
+        <NotFound default />
+      </Router>
     </div>
   )
 }

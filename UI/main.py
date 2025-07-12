@@ -16,6 +16,7 @@ import math
 
 
 frontend_websocket = None # Initialize globally to None
+simulation_process = None # Track the simulation process
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -24,8 +25,21 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
 @app.get("/pointcalc")
 def pointcalc(request: Request, angle: float = 0, distance: float = 0):
+    """
+    Calculate the (x, y) offset from the origin after turning by 'angle' degrees and moving 'distance' units.
+    Example: /pointcalc?angle=90&distance=100
+    """
+    radians = math.radians(angle)
+    x_pos = math.sin(radians) * distance
+    y_pos = math.cos(radians) * distance
+    return {"x_pos": round(x_pos, 4), "y_pos": round(y_pos, 4)}
+
+@app.get("/{path:path}")
+def catch_all(request: Request, path: str):
+    return templates.TemplateResponse("index.html", {"request": request})
     """
     Calculate the (x, y) offset from the origin after turning by 'angle' degrees and moving 'distance' units.
     Example: /pointcalc?angle=90&distance=100
@@ -40,10 +54,16 @@ def pointcalc(request: Request, angle: float = 0, distance: float = 0):
 #     return templates.TemplateResponse("ui.html", {"request": request})
 @app.websocket("/ws")
 async def map_ws(ws: WebSocket):
-    global frontend_websocket
+    global frontend_websocket, simulation_process
+    
+    # Kill existing simulation process if it exists
+    if simulation_process and simulation_process.poll() is None:
+        simulation_process.terminate()
+        simulation_process = None
+    
     frontend_websocket = ws # Set the global variable
     await ws.accept()
-    process = subprocess.Popen(
+    simulation_process = subprocess.Popen(
         [sys.executable, os.path.join(os.path.dirname(__file__), "pylib/rb-api.py")]
     )
     await ws.send_text(json.dumps({

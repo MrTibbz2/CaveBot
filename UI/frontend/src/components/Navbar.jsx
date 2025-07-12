@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks'
-
+import { Link } from 'preact-router/match';
 
 export default function Navbar() {
   const [picobatteryPercent, setpicoBatteryPercent] = useState(100)
@@ -21,16 +21,16 @@ export default function Navbar() {
             
           </div>
           
-          <div className="flex space-x-4">
-            <button className="bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition duration-300">
+          <div className="flex bg-gray-800 rounded-lg overflow-hidden">
+            <Link href="/" activeClassName="bg-blue-600 border-b-4 border-blue-600 !border-r !border-r-gray-700" className="cursor-pointer bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 transition-all duration-500 border-r border-gray-700">
               map
-            </button>
-            <button className="bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition duration-300">
+            </Link>
+            <Link href="/CLI" activeClassName="bg-blue-600 border-b-4 border-blue-600 !border-r !border-r-gray-700" className="cursor-pointer bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 transition-all duration-500 border-r border-gray-700">
               CLI
-            </button>
-            <button className="bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition duration-300">
+            </Link>
+            <Link href="/settings" activeClassName="bg-blue-600 border-b-4 border-blue-600" className="cursor-pointer bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 transition-all duration-500">
               Settings
-            </button>
+            </Link>
           </div>
         </div>
       </div>

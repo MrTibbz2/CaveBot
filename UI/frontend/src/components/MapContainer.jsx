@@ -16,6 +16,9 @@ export default function MapContainer() {
       calculatorRef.current = initializeDesmos(containerRef.current)
       bot.setCalculator(calculatorRef.current)
       console.log('Setup complete')
+    } else if (calculatorRef.current) {
+      // Ensure bot has calculator reference after routing
+      bot.setCalculator(calculatorRef.current)
     }
 
     const handleResize = () => {
