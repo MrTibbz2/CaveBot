@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket, Request
+from fastapi.websockets import WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -7,6 +8,7 @@ import json
 from datetime import datetime
 import subprocess
 import pylib.vecmath
+from ssh_client import SSHClient
 # TVisualiser = vecmath.TurtleVisualizer()
 import sys
 import os
@@ -17,6 +19,7 @@ import math
 
 frontend_websocket = None # Initialize globally to None
 simulation_process = None # Track the simulation process
+ssh_client = SSHClient() # SSH client instance
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -52,6 +55,61 @@ def catch_all(request: Request, path: str):
 # @app.get("/ui")
 # def ui(request: Request):
 #     return templates.TemplateResponse("ui.html", {"request": request})
+@app.websocket("/ws/cli")
+async def cli_ws(ws: WebSocket):
+    await ws.accept()
+    ssh_client.set_websocket(ws)
+    print("CLI WebSocket connection established")
+    
+    try:
+        while True:
+            data = await ws.receive_text()
+            message = json.loads(data)
+            print(f"Received message: {message}")
+            
+            if message.get("type") == "ssh_connect":
+                payload = message.get("payload", {})
+                print(f"SSH connect request: {payload}")
+                success = await ssh_client.connect(
+                    host=payload.get("host"),
+                    username=payload.get("username"),
+                    password=payload.get("password"),
+                    port=payload.get("port", 22)
+                )
+                status = "connected" if success else "failed"
+                print(f"SSH connection result: {status}")
+                await ws.send_text(json.dumps({
+                    "type": "ssh_status",
+                    "payload": {"status": status}
+                }))
+                
+            elif message.get("type") == "cli_command":
+                command = message.get("payload", {}).get("command", "")
+                print(f"CLI command received: {command}")
+                await ssh_client.send_command(command)
+                
+            elif message.get("type") == "cli_interrupt":
+                print("CLI interrupt received")
+                await ssh_client.send_interrupt()
+                
+            elif message.get("type") == "ssh_disconnect":
+                print("SSH disconnect requested")
+                await ssh_client.disconnect()
+                await ws.send_text(json.dumps({
+                    "type": "ssh_status",
+                    "payload": {"status": "disconnected"}
+                }))
+                
+    except Exception as e:
+        print(f"CLI WebSocket error: {e}")
+    except WebSocketDisconnect:
+        print("WebSocket disconnected")
+    except Exception as e:
+        print(f"CLI WebSocket error: {e}")
+    finally:
+        print("Disconnecting SSH client")
+        await ssh_client.disconnect()
+
 @app.websocket("/ws")
 async def map_ws(ws: WebSocket):
     global frontend_websocket, simulation_process

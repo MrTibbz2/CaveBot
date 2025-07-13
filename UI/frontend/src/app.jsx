@@ -2,8 +2,9 @@ import { useState, useEffect } from 'preact/hooks'
 import { Router } from 'preact-router';
 import Navbar from './components/Navbar'
 import MapWindow from './pages/mapWindow';
+import CLI from './pages/CLI';
 import NotFound from './pages/NotFound';
-import { useWebSocket } from './lib/websocket'
+import { useWebSocket } from './lib/readingswebsocket'
 import { bot } from './lib/bot'
 import { addpoints } from './lib/mapperlib'
 
@@ -36,10 +37,11 @@ export default function App() {
   })
 
   return (
-    <div className="min-h-screen text-gray-800 bg-gray-600">
+    <div className="min-h-screen text-gray-800 bg-gray-900">
       <Navbar />
       <Router>
         <MapWindow logs={logs} path="/"/>
+        <CLI path="/CLI"/>
         <NotFound default />
       </Router>
     </div>
