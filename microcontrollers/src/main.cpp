@@ -14,7 +14,7 @@
 #include <cstdlib>
 
 
-
+#define CAVEBOT_VERSION_HASH 0xDEADBEEF
 #define PICO_LED_PIN 25
 
 // Function to turn the onboard LED ON
