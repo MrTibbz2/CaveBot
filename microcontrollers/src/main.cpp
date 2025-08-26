@@ -1,3 +1,10 @@
+// Copyright (c) 2025 Lachlan McKenna (MrTibbz2)
+
+// This source file is part of the CaveBot project, created for educational purposes.
+// Unauthorized reuse or reproduction in other robotics competitions (including FLL 2025) 
+// without written permission is strictly prohibited.
+// Redistribution or adaptation is allowed for personal study only.
+
 #include <stdio.h>
 #include "pico/multicore.h"
 #include "serial_handler.h"
@@ -7,7 +14,7 @@
 #include <cstdlib>
 
 
-
+#define CAVEBOT_VERSION_HASH 0xDEADBEEF
 #define PICO_LED_PIN 25
 
 // Function to turn the onboard LED ON
