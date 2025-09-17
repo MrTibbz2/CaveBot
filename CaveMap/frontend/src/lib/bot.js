@@ -6,6 +6,7 @@
 // Redistribution or adaptation is allowed for personal study only.
 
 import { getExpressionById } from './desmos'
+import { api } from './api'
 
 let calculatorInstance = null
 
@@ -40,6 +41,9 @@ export const bot = {
     this.pos.y += offset.y_pos
     console.log('New bot position:', this.pos)
     
+    // Store position in backend
+    await api.updateBotPosition(this.pos.x, this.pos.y, this.angle)
+    
     if (calculatorInstance) {
       const xExpr = getExpressionById(calculatorInstance, "X_Position")
       const yExpr = getExpressionById(calculatorInstance, "Y_Position")
@@ -54,11 +58,14 @@ export const bot = {
     }
   },
 
-  rotate(degrees) {
+  async rotate(degrees) {
     this.angle += degrees
     if (this.angle >= 360) this.angle -= 360
     if (this.angle < 0) this.angle += 360
     console.log('Bot rotated to angle:', this.angle)
+    
+    // Store position in backend
+    await api.updateBotPosition(this.pos.x, this.pos.y, this.angle)
     
     if (calculatorInstance) {
       const angleExpr = getExpressionById(calculatorInstance, "Angle")
@@ -72,8 +79,12 @@ export const bot = {
 
 let pointCounter = 0
 
-export function plotPoint(point) {
+export async function plotPoint(point, sensor = 'unknown') {
   console.log('Attempting to plot point:', point)
+  
+  // Store point in backend
+  await api.addMapPoint(point.x, point.y, sensor)
+  
   if (!calculatorInstance) {
     console.error('No calculator instance available for plotting')
     return

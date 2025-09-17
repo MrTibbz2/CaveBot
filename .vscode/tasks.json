@@ -26,7 +26,7 @@
         "args": ["-m", "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
       },
       "options": {
-        "cwd": "${workspaceFolder}/UI"
+        "cwd": "${workspaceFolder}/CaveMap"
       },
       "group": "build",
       "presentation": {
@@ -47,7 +47,7 @@
       "command": "npm",
       "args": ["run", "dev"],
       "options": {
-        "cwd": "${workspaceFolder}/UI/frontend"
+        "cwd": "${workspaceFolder}/CaveMap/frontend"
       },
       "group": "build",
       "presentation": {
@@ -68,7 +68,7 @@
       "command": "npm",
       "args": ["run", "build"],
       "options": {
-        "cwd": "${workspaceFolder}/UI/frontend"
+        "cwd": "${workspaceFolder}/CaveMap/frontend"
       },
       "group": "build",
       "presentation": {
@@ -84,7 +84,7 @@
       "command": "npm",
       "args": ["install"],
       "options": {
-        "cwd": "${workspaceFolder}/UI/frontend"
+        "cwd": "${workspaceFolder}/CaveMap/frontend"
       },
       "group": "build",
       "presentation": {

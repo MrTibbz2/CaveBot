@@ -6,6 +6,7 @@
 // Redistribution or adaptation is allowed for personal study only.
 
 import { useState, useRef, useEffect } from 'preact/hooks'
+import StateManager from './StateManager'
 
 export default function Sidebar({ logs }) {
   const [width, setWidth] = useState(288) // 18rem
@@ -90,17 +91,9 @@ export default function Sidebar({ logs }) {
                 ))}
               </div>
             </section>
-            {/* <section className="bg-gray-900 p-4 rounded-lg shadow-sm flex-none">
-              <h2 className="text-lg font-semibold text-gray-100 mb-3">Commands</h2>
-              <div className="flex flex-col space-y-3">
-                <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md">
-                  Start Bot
-                </button>
-                <button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">
-                  Stop Bot
-                </button>
-              </div>
-            </section> */}
+            <section className="flex-none">
+              <StateManager />
+            </section>
           </>
         )}
       </aside>

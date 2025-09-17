@@ -1,6 +1,3 @@
-[submodule "microcontrollers/pico-sdk"]
-	path = microcontrollers/pico-sdk
-	url = https://github.com/raspberrypi/pico-sdk.git
 [submodule "CaveSense/pico-sdk"]
 	path = CaveSense/pico-sdk
 	url = https://github.com/raspberrypi/pico-sdk.git
