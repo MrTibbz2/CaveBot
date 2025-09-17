@@ -117,7 +117,7 @@ export async function addpoints(distanceReads) {
             console.log(`Calculated point for ${sensor}:`, point);
             if (point.x !== NaN && point.y !== NaN) {
                 console.log(`Plotting point for ${sensor}:`, point);
-                plotPoint(point);
+                await plotPoint(point, sensor);
             } else {
                 console.error(`Invalid point for sensor ${sensor}:`, point);
             }
