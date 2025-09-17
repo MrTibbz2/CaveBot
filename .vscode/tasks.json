@@ -112,9 +112,9 @@
       "command": "cmake",
       "args": [
         "-S",
-        "microcontrollers",
+        "CaveSense",
         "-B",
-        "microcontrollers/build",
+        "CaveSense/build",
         "-G",
         "Ninja"
       ],
@@ -127,7 +127,7 @@
       "command": "cmake",
       "args": [
         "--build",
-        "microcontrollers/build"
+        "CaveSense/build"
       ],
       "group": "build",
       "dependsOn": "Configure Pico Project",
