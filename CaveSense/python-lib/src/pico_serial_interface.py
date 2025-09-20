@@ -5,8 +5,15 @@
 # without written permission is strictly prohibited.
 # Redistribution or adaptation is allowed for personal study only.
 
-import serial
-import serial.tools.list_ports
+import sys
+try:
+    # Import pyserial components directly
+    from serial import Serial, SerialException
+    from serial.tools import list_ports
+except ImportError as e:
+    print(f"pyserial not properly installed: {e}")
+    print("Install with: pip install pyserial")
+    sys.exit(1)
 import json
 import threading
 import time
@@ -48,7 +55,7 @@ class PicoSerialInterface:
             str or None: The name of the detected Pico port, or None if not found.
         """
         print("Searching for Pico serial port...")
-        ports = serial.tools.list_ports.comports()
+        ports = list_ports.comports()
         if not ports:
             print("No serial ports found.")
             return None
@@ -62,7 +69,7 @@ class PicoSerialInterface:
             temp_serial = None
             try:
                 # Attempt to connect
-                temp_serial = serial.Serial(port_name, self.baudrate, timeout=self.timeout)
+                temp_serial = Serial(port_name, self.baudrate, timeout=self.timeout)
                 # Give the Pico time to reset and initialize
                 time.sleep(2)
 
@@ -89,7 +96,7 @@ class PicoSerialInterface:
                 print(f"No valid response from {port_name} within {test_timeout} seconds.")
 
 
-            except serial.SerialException:
+            except SerialException:
                 pass # Ignore ports that can't be opened
             finally:
                 if temp_serial and temp_serial.isOpen():
@@ -108,7 +115,7 @@ class PicoSerialInterface:
                 return False
 
         try:
-            self.serial_connection = serial.Serial(
+            self.serial_connection = Serial(
                 self.port,
                 self.baudrate,
                 timeout=self.timeout
@@ -121,7 +128,7 @@ class PicoSerialInterface:
             self._stop_event.clear()
             
             return True
-        except serial.SerialException as e:
+        except SerialException as e:
             print(f"Error connecting to {self.port}: {e}")
             self.serial_connection = None
             return False
@@ -170,7 +177,7 @@ class PicoSerialInterface:
                                     self.ERRStream.append(json.loads(message))
                                 except Exception:
                                     pass
-            except serial.SerialException as e:
+            except SerialException as e:
                 print(f"Error reading from serial port: {e}")
                 break
             time.sleep(0.01)
@@ -207,10 +214,7 @@ class PicoSerialInterface:
                 time.sleep(0.1)
             print("No response received within the timeout period, assuming Pico is not responding.")
             return False, None 
-        except serial.SerialException as e:
-            print(f"Error polling status: {e}")
-            return None, None
-        except serial.SerialException as e:
+        except SerialException as e:
             print(f"Error polling status: {e}")
             return None, None
 

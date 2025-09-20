@@ -3,18 +3,6 @@ import dearpygui.dearpygui as dpg
 import dearpygui_extend as dpge
 
 
-class StdoutRedirector:
-    def __init__(self, log_parent):
-        self.log_parent = log_parent
-
-    def write(self, text):
-        if text.strip() != "":
-            dpg.add_text(text, parent=self.log_parent)
-            dpg.set_y_scroll(self.log_parent, dpg.get_y_scroll_max(self.log_parent))
-
-    def flush(self):
-        pass
-
 
 def show_plugin_info(name, description):
     tag = f"{name}_info"
@@ -97,8 +85,7 @@ with dpg.file_dialog(directory_selector=False, show=False, callback=callback, id
     dpg.add_file_extension(".lua", color=(0, 255, 0, 255), custom_text="[Lua]")
 
 
-# Redirect Python's stdout
-sys.stdout = StdoutRedirector("log_window")
+
 
 
 # Arrange docking AFTER startup
