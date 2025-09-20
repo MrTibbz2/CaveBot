@@ -139,7 +139,7 @@ int main() {
                 } else {
                     if (!status::getCurrentCore1State().isRunning) {
                         core1_func = executable.execution;
-                        strncpy(executable.name, Core1CommandName, sizeof(Core1CommandName));
+                        strncpy(Core1CommandName, executable.name, sizeof(Core1CommandName));
                         status::setCore1Running(true);
                         
                         multicore_launch_core1(core1_entry);

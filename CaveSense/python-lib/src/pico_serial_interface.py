@@ -88,6 +88,7 @@ class PicoSerialInterface:
                     if temp_serial.in_waiting > 0:
                         line = temp_serial.readline().decode('utf-8', errors='ignore').strip()
                         if line:
+                            # print(f"DEBUG: Received from {port_name}: {line}")
                             parts = line.split(':', 1)
                             identifier = parts[0].strip()
                             if identifier == "INFO":
@@ -147,12 +148,15 @@ class PicoSerialInterface:
     def format_ostream(self):
         """Reads serial data and formats it according to Pico's output: 'IDENTIFIER: <json>'."""
         if not self.serial_connection or not self.serial_connection.isOpen():
+            print("DEBUG: Serial connection not open in format_ostream")
             return
+        print("DEBUG: Read thread started")
         while not self._stop_event.is_set():
             try:
                 if self.serial_connection.in_waiting > 0:
                     line = self.serial_connection.readline().decode('utf-8', errors='ignore').strip()
                     if line:
+                        print(f"PICO: {line}")
                         with self._lock:
                             parts = line.split(':', 1)
                             identifier = parts[0].strip()
@@ -181,6 +185,7 @@ class PicoSerialInterface:
                 print(f"Error reading from serial port: {e}")
                 break
             time.sleep(0.01)
+        print("DEBUG: Read thread stopped")
 
     def poll_status(self, timeout=3):
         """
@@ -217,6 +222,55 @@ class PicoSerialInterface:
         except SerialException as e:
             print(f"Error polling status: {e}")
             return None, None
+
+    def start_sensor_scan(self):
+        """
+        Starts sensor scanning on the Pico.
+        
+        Returns:
+            bool: True if command sent successfully, False otherwise
+        """
+        if not self.serial_connection or not self.serial_connection.isOpen():
+            print("Serial connection is not open.")
+            return False
+        
+        try:
+            self.serial_connection.write(b"CMD_START_BEGINSCAN\n")
+            return True
+        except SerialException as e:
+            print(f"Error starting sensor scan: {e}")
+            return False
+    
+    def stop_sensor_scan(self):
+        """
+        Stops sensor scanning on the Pico.
+        
+        Returns:
+            bool: True if command sent successfully, False otherwise
+        """
+        if not self.serial_connection or not self.serial_connection.isOpen():
+            print("Serial connection is not open.")
+            return False
+        
+        try:
+            self.serial_connection.write(b"CMD_START_ENDSCAN\n")
+            return True
+        except SerialException as e:
+            print(f"Error stopping sensor scan: {e}")
+            return False
+    
+    def get_latest_sensor_data(self, count=5):
+        """
+        Gets the latest sensor readings from Core1Stream.
+        
+        Args:
+            count (int): Number of latest readings to return
+            
+        Returns:
+            list: Latest sensor data entries
+        """
+        with self._lock:
+            return self.Core1Stream[-count:] if len(self.Core1Stream) >= count else self.Core1Stream.copy()
 
     
 
