@@ -64,7 +64,11 @@ def callback(sender, app_data, user_data):
 
 
 dpg.create_context()
+
+# Configure for HiDPI displays
+dpg.set_global_font_scale(2.5)
 dpg.create_viewport(title="Dockable Layout", width=1000, height=600)
+dpg.configure_viewport("primary", resizable=True, vsync=True)
 
 # Enable docking everywhere
 dpg.configure_app(docking=True, docking_space=True)
