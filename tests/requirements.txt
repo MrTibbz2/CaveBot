@@ -1,5 +1,0 @@
-pytest>=7.0.0
-pytest-mock>=3.10.0
-# Optional dependencies for full hardware testing:
-# pyserial  # For RPI serial interface tests
-# bleak     # For Spike Prime BLE tests
