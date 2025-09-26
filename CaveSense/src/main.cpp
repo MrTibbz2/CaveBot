@@ -5,7 +5,6 @@
 // without written permission is strictly prohibited.
 // Redistribution or adaptation is allowed for personal study only.
 
-#include <stdio.h>
 #include "pico/multicore.h"
 #include "serial_handler.h"
 #include "pico/stdlib.h"
@@ -107,6 +106,7 @@ int main() {
         char* stringcommand = cmdHandler.ReadBuffer(tud_cdc_connected, tud_cdc_available);
         if (stringcommand == "error") { led = !led; if (led) {led_off();} else {led_on();} sleep_ms(500); continue; }
         else {
+            printf("DEBUG: Received command: %s\n", stringcommand);
             if (strcmp(stringcommand, "CMD_STATUS") == 0) {
                 const char* inp = "GETSTATE";
                 commands::Command statusCommand = cmdHandler.checkCommand((char*)inp);
