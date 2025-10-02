@@ -1,6 +1,5 @@
 from datasend import HubController
 import time
-import math
 
 class Prime:
     def __init__(self, hub_name):
