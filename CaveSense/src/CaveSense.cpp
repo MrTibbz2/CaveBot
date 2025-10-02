@@ -76,10 +76,10 @@ static void core1_scan_task() {
             
             // Output JSON with all sensor readings
             if (scanner->scanning.load()) {
-                std::cout << "{\"sensor_data\":{";
+                std::cout << "{\"sensor_data\": {";
                 for (size_t i = 0; i < scanner->Sensors.size(); ++i) {
                     if (i > 0) std::cout << ",";
-                    std::cout << "\"" << scanner->SensorNames[i] << "\":" << scanner->Sensors[i].distance;
+                    std::cout << "\"" << scanner->SensorNames[i] << "\": " << scanner->Sensors[i].distance;
                 }
                 std::cout << "}}" << std::endl;
             }
@@ -166,17 +166,16 @@ void uart::executeCommand(const std::string& command, Scanner& scanner, Status& 
             
         case Commands::GETSTATUS:
             if (currentStatus == Status::SCANNING) {
-                std::cout << "{\"status\": \"SCANNING\"}";
+                std::cout << "{\"status\": \"SCANNING\"}" << std::endl;
             } else if (currentStatus == Status::IDLE) {
-                std::cout << "{\"status\": \"IDLE\"}";
+                std::cout << "{\"status\": \"IDLE\"}" << std::endl;
             } else if (currentStatus == Status::USB_WAITING) {
-                std::cout << "{\"status\": \"USB_WAITING\"}";
+                std::cout << "{\"status\": \"USB_WAITING\"}" << std::endl;
             } else if (currentStatus == Status::FAULT) {
-                std::cout << "{\"status\": \"FAULT\"}";
+                std::cout << "{\"status\": \"FAULT\"}" << std::endl;
             } else {
-                std::cout << "{\"status\": \"UNKNOWN\"}";
+                std::cout << "{\"status\": \"UNKNOWN\"}" << std::endl;
             }
-    
             break;
     }
 }
