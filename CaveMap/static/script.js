@@ -174,6 +174,7 @@ function toRadians(degrees) {
     return degrees * (Math.PI / 180);
 }
 export let pointctr = 0;
+export let PlottedPoints = [];
 export function PlotPoint(point) {
     // Store the point in our array
     PlottedPoints.push({ x: point.x, y: point.y });
