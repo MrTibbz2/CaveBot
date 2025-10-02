@@ -51,7 +51,7 @@ static void _SensorIrq() {
         // that PIO's state machine and write it to the distance sensor
         if (pio_interrupt_get(pio1, i)) {
             DistanceSensor* sensor = DistanceSensor::GetMappedSensor(1, i);
-            sensor->distance = (~pio_sm_get(pio0, i) * 2) / 58;
+            sensor->distance = (~pio_sm_get(pio1, i) * 2) / 58;
             sensor->is_sensing = false;
             pio_interrupt_clear(pio1, i);
         };

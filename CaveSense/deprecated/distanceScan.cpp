@@ -58,6 +58,8 @@ void sensor::BeginSensorRead(const int sensorcount, const int* sensorpins) {
                 });
             }
             if (sensors[i]->distance > 0) {
+                printf("Sensor %d: %d cm\n", i, sensors[i]->distance);
+                
                 sensorreads[i] = sensors[i]->distance;
             }
         }
