@@ -30,19 +30,16 @@ void CaveSense::init() {
     
     // Create scanner as shared_ptr
     scanner = std::make_shared<Scanner>();
-    
-    // Launch persistent core1 task
-    currentScannerWeak = scanner;
-    multicore_launch_core1(core1_scan_task);
 }
 Scanner::Scanner() {
     std::cout << "Initializing " << SENSOR_CONFIG.size() << " sensors..." << std::endl;
     for (const auto& config : SENSOR_CONFIG) {
-        std::cout << "Creating sensor: trigger=" << (int)config.triggerPin 
+        std::cout << "Creating sensor " << config.name << ": trigger=" << (int)config.triggerPin 
                   << ", echo=" << (int)config.echoPin 
                   << ", pio=" << (config.pio == pio0 ? "pio0" : "pio1")
                   << ", sm=" << config.sm << std::endl;
         Sensors.emplace_back(config.pio, config.sm, config.triggerPin);
+        SensorNames.push_back(config.name);
     }
     std::cout << "Scanner initialization complete" << std::endl;
 }
@@ -56,46 +53,41 @@ static std::weak_ptr<Scanner> currentScannerWeak;
 
 // Static function for core1 execution
 static void core1_scan_task() {
-    std::cout << "Core1 scan task started" << std::endl;
-    
     while (true) {
-        auto scanner = currentScannerWeak.lock(); // Safe access
+        auto scanner = currentScannerWeak.lock();
         if (!scanner) {
-            std::cout << "Scanner destroyed, core1 exiting" << std::endl;
-            return; // Scanner destroyed, exit
+            sleep_ms(10);
+            continue;
         }
         
-        if (scanner->stopRequested.load()) {
-            std::cout << "Stop requested, core1 exiting" << std::endl;
-            break;
-        }
-        
-        std::cout << "Scanning " << scanner->Sensors.size() << " sensors..." << std::endl;
-        
-        for (auto& sensor : scanner->Sensors) {
-            if (scanner->stopRequested.load()) break;
-            
-            sensor.TriggerRead();
-            
-            // Wait for sensor to complete
-            while (sensor.is_sensing && !scanner->stopRequested.load()) {
-                sleep_us(100);
+        if (scanner->scanning.load()) {
+            // Trigger all sensors
+            for (size_t i = 0; i < scanner->Sensors.size(); ++i) {
+                if (!scanner->scanning.load()) break;
+                scanner->Sensors[i].TriggerRead();
             }
             
-            if (!scanner->stopRequested.load()) {
-                std::cout << "Sensor reading: " << sensor.distance << " cm" << std::endl;
+            // Wait for all sensors to complete
+            for (size_t i = 0; i < scanner->Sensors.size(); ++i) {
+                while (scanner->Sensors[i].is_sensing && scanner->scanning.load()) {
+                    sleep_us(100);
+                }
             }
+            
+            // Output JSON with all sensor readings
+            if (scanner->scanning.load()) {
+                std::cout << "{\"sensor_data\":{";
+                for (size_t i = 0; i < scanner->Sensors.size(); ++i) {
+                    if (i > 0) std::cout << ",";
+                    std::cout << "\"" << scanner->SensorNames[i] << "\":" << scanner->Sensors[i].distance;
+                }
+                std::cout << "}}" << std::endl;
+            }
+            
+            sleep_ms(100);
+        } else {
+            sleep_ms(10);
         }
-        
-        // Delay between scan cycles
-        sleep_ms(100);
-    }
-    
-    std::cout << "Core1 scan task ending" << std::endl;
-    
-    // Safe final access
-    if (auto scanner = currentScannerWeak.lock()) {
-        scanner->scanning.store(false);
     }
 }
 
@@ -105,11 +97,7 @@ bool Scanner::BeginScan() {
         return false;
     }
     
-    stopRequested.store(false);
     scanning.store(true);
-    currentScannerWeak = shared_from_this();
-    
-    multicore_launch_core1(core1_scan_task);
     return true;
 }
 
@@ -177,7 +165,18 @@ void uart::executeCommand(const std::string& command, Scanner& scanner, Status& 
             break;
             
         case Commands::GETSTATUS:
-            std::cout << "STATUS:" << static_cast<int>(currentStatus) << std::endl;
+            if (currentStatus == Status::SCANNING) {
+                std::cout << "{\"status\": \"SCANNING\"}";
+            } else if (currentStatus == Status::IDLE) {
+                std::cout << "{\"status\": \"IDLE\"}";
+            } else if (currentStatus == Status::USB_WAITING) {
+                std::cout << "{\"status\": \"USB_WAITING\"}";
+            } else if (currentStatus == Status::FAULT) {
+                std::cout << "{\"status\": \"FAULT\"}";
+            } else {
+                std::cout << "{\"status\": \"UNKNOWN\"}";
+            }
+    
             break;
     }
 }
@@ -194,6 +193,10 @@ void CaveSense::main() {
     
     currentStatus = Status::IDLE;
     std::cout << "CaveSense initialized - Ready for commands" << std::endl;
+    
+    // Launch persistent core1 task
+    currentScannerWeak = scanner;
+    multicore_launch_core1(core1_scan_task);
     
     // Main event loop
     while (true) {

@@ -67,6 +67,7 @@ public:
     
     // Public access for static core1 function
     std::vector<DistanceSensor> Sensors;
+    std::vector<std::string> SensorNames;
     std::atomic<bool> scanning{false};
 private:
         

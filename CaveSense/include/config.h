@@ -6,8 +6,9 @@ struct SensorConfig {
     uint8_t echoPin;
     PIO pio;
     uint sm;
+    std::string name;
 };
 
 const std::array<SensorConfig, 1> SENSOR_CONFIG = {{ // echo must me trigger + 1
-    {0, 1, pio0, 0},   // Sensor 0
+    {0, 1, pio0, 0, "Front"},   // Sensor 0
 }};
