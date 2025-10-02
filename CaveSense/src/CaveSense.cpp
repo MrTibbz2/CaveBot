@@ -30,6 +30,10 @@ void CaveSense::init() {
     
     // Create scanner as shared_ptr
     scanner = std::make_shared<Scanner>();
+    
+    // Launch persistent core1 task
+    currentScannerWeak = scanner;
+    multicore_launch_core1(core1_scan_task);
 }
 Scanner::Scanner() {
     std::cout << "Initializing " << SENSOR_CONFIG.size() << " sensors..." << std::endl;

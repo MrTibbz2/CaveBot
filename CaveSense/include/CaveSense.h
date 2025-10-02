@@ -58,20 +58,9 @@ public:
     bool BeginScan(); // creates the core1 task and begins scanning, outputting to logs
     bool EndScan() {
         if (!scanning.load()) {
-            return true; // Already stopped
+            return true;
         }
-        
-        stopRequested.store(true);
-        uint64_t stopRequestedTime = time_us_64();
-        
-        // Wait for graceful shutdown
-        while (scanning.load()) {
-            if (time_us_64() - stopRequestedTime > 5000000) { // 5 second timeout
-                std::cout << "Timeout waiting for core1 to stop." << std::endl;
-                return false; // Timeout - scan didn't stop gracefully
-            }
-            sleep_ms(10);
-        }
+        scanning.store(false);
         return true;
     };  // set flag. waits for timeout of core1 to end otherwise fails.
     bool IsScanning() { return scanning.load(); }; // returns true if currently scanning
@@ -79,7 +68,6 @@ public:
     // Public access for static core1 function
     std::vector<DistanceSensor> Sensors;
     std::atomic<bool> scanning{false};
-    std::atomic<bool> stopRequested{false};
 private:
         
 };
