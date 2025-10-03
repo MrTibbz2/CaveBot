@@ -131,7 +131,7 @@ export let bot = {
         backleft: { x: -5, y: -10, angle: 180},
         backright: { x: 5, y: -10, angle: 180}
     },
-    async move(distance) {
+    move(distance) {
         // Calculate new position based on current angle
         // Robot convention: 0° = North, 90° = East
         // Convert to math convention: 90° = North, 0° = East
@@ -174,6 +174,7 @@ function toRadians(degrees) {
     return degrees * (Math.PI / 180);
 }
 export let pointctr = 0;
+export let PlottedPoints = [];
 export function PlotPoint(point) {
     // Store the point in our array
     PlottedPoints.push({ x: point.x, y: point.y });
@@ -234,6 +235,7 @@ export function getSensorReading(sensorName, distance) {
 export function DebugPlotPoint(sensor, distance) {
     const point = getSensorReading(sensor, distance);
     if (point) {
+        console.log(`Plotting ${sensor}: distance=${distance}cm at (${point.x.toFixed(1)}, ${point.y.toFixed(1)})`);
         PlotPoint(point);
     }
 }
