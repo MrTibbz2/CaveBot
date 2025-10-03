@@ -7,7 +7,7 @@
 
 
 import { expressions } from './expr.js';
-
+import { BotSiml } from './siml.js';
 let calculator; // Declare in outer scope so it's accessible globally
 function getExpressionById(id) {
   return window.calculator.getExpressions().find(expr => expr.id === id);
@@ -246,3 +246,4 @@ notes for today:
 var L = calculator.HelperExpression({ latex: 'L' });
 L.valueOf().listValue
 */
+window.BotSiml = BotSiml; // Expose globally for debugging

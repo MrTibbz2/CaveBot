@@ -6,12 +6,13 @@
 ## 1. SYSTEM OVERVIEW
 
 ### 1.1 Purpose
-Transform noisy ultrasonic sensor point clouds into clean geometric wall segments in real-time for robot navigation and mapping.
+Transform somewhat noisy ultrasonic sensor point readings of a maze into clean geometric wall segments in real-time for robot navigation and mapping.
 
 ### 1.2 Input
 - 8 ultrasonic sensors providing distance readings
-- Robot position and orientation data
+- Robot position and orientation data (not entirely required.)
 - Continuous stream of obstacle detection points
+- should be able to use different bot configs, using different measuerments of bots.
 
 ### 1.3 Output
 - Array of wall segments (start point, end point, confidence)
@@ -180,6 +181,7 @@ function finishLine(activeLine) {
 - Robot explores maze with loops/cycles
 - Robot approaches same wall from opposite direction
 
+
 **Solutions:**
 ```javascript
 function handleRevisitedArea(newPoint, sensorName) {
@@ -328,7 +330,17 @@ function extrapolateCornerWall(corner) {
 - High-precision arithmetic for critical calculations
 - Coordinate system reset/recalibration procedures
 
+### 5.13 Wall is seen once and never again
+**Problem:** bad scan is let through filtering, bot assumes wall is where nothing is.
+**Scenarios:**
+- Robot backtracks along same path
+- bad scan leads to the bot thinking it cant go somewhere
+- walls are in incorrect places based off one bad scan
+**Solutions:**
+- wall decay system.
+- if a wall is seen once with a low confidence score and never seen again when passing that area, remove the wall.
 ---
+
 
 ## 6. ADVANCED FEATURES
 
@@ -685,39 +697,16 @@ onLineFinished(line)         // Line completed
 
 ### 10.3 Edge Cases
 - Sensor failure/dropout
-- Rapid robot movement
-- Very short walls
+- short walls
 - Overlapping detection areas
 - Robot revisiting mapped areas
 - Backtracking and loop navigation
 - Multi-directional wall approach
-- Maximum sensor range scenarios
-- Dynamic/moving obstacles
 - Sensor interference and cross-talk
 - Angled and curved walls
 - Coordinate system drift
-- Multi-robot environments
-- Sensor calibration errors
 
 ---
-
-## 12. PERFORMANCE CONSIDERATIONS
-
-### 11.1 Computational Complexity
-- O(n) for point addition
-- O(m) for wall lookup (m = number of walls)
-- Spatial indexing for large environments
-
-### 11.2 Memory Usage
-- Bounded wall storage
-- Efficient point representation
-- Garbage collection strategies
-
-### 11.3 Real-time Requirements
-- Sub-100ms processing per sensor reading
-- Smooth visual updates
-- Responsive user interface
-
 ---
 
 ## 13. EXPECTED RESULTS
@@ -726,11 +715,6 @@ onLineFinished(line)         // Line completed
 - Wall detection rate: >95% for clear walls
 - False positive rate: <5%
 - Position accuracy: ±2cm for wall endpoints
-
-### 12.2 Performance Metrics
-- Processing latency: <50ms per sensor reading
-- Memory usage: <10MB for typical room
-- Update rate: 10Hz minimum
 
 ### 12.3 Robustness
 - Handles 20% sensor noise
@@ -742,25 +726,6 @@ onLineFinished(line)         // Line completed
 - Real-time updates in Desmos calculator
 - Color-coded confidence levels
 - Interactive wall inspection tools
-
----
-
-## 14. FUTURE ENHANCEMENTS
-
-### 13.1 Advanced Algorithms
-- Kalman filtering for noise reduction
-- Machine learning for pattern recognition
-- Probabilistic wall detection
-
-### 13.2 Integration Features
-- Export to standard mapping formats (ROS, SLAM)
-- Integration with path planning algorithms
-- Multi-robot collaborative mapping
-
-### 13.3 Visualization Improvements
-- 3D wall representation
-- Texture and material detection
-- Augmented reality overlay
 
 ---
 
