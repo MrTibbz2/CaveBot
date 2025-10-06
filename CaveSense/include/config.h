@@ -9,6 +9,6 @@ struct SensorConfig {
     std::string name;
 };
 
-const std::array<SensorConfig, 1> SENSOR_CONFIG = {{ // echo must me trigger + 1
-    {0, 1, pio0, 0, "Front"},   // Sensor 0
+const std::array<SensorConfig, 1> SENSOR_CONFIG = {{ // echo must be trigger - 1
+    {1, 0, pio0, 0, "Front"},   // Sensor 0: trigger=1, echo=0
 }};

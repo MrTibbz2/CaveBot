@@ -1,6 +1,7 @@
 // 2025 Lachlan McKenna. All rights reserved.
 
-
+// note: i am not a javascript dev. if you complain, shut the fuck up.
+// javascript devs are useless and annoying. go learn something hard.
 // I hope to god that we never may have to touch this again.
 // you touch this, i will beat you up. - mrtibbs
 // hours wasted here: 18. 
@@ -14,7 +15,7 @@ function getExpressionById(id) {
 }
 
 
-window.getExpressionById = getExpressionById; // Expose globally for debugging
+window.getExpressionById = getExpressionById; // Expose for debugging, i love console.
 // Expose globally for debugging
 export let points = [];
 window.calculator = calculator; // Assign to window for global access

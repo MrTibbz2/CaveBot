@@ -10,8 +10,8 @@ public:
     /**
      * Initializes the sensor.
      * @note Due to the PIO implementation, the echo pin must be
-     *       connected to trigger_gpio + 1. If you connect the
-     *       trigger pin to GPIO 5, then GPIO 6 must be the echo pin.
+     *       connected to trigger_gpio - 1. If you connect the
+     *       trigger pin to GPIO 5, then GPIO 4 must be the echo pin.
      * @param[in] trigger_gpio GPIO connected to the trigger pin
      * @param[in] pio PIO block to use, Either pio0 or pio1
      * @param[in] sm The state machine to use, 0 to 3

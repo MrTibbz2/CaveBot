@@ -16,8 +16,8 @@ using the raspberry pi pico.
 int main() {
     // Create an instance of the sensor
     // specify the pio, state machine, and gpio pin connected to trigger
-    // echo pin must be on gpio pin trigger + 1.
-    DistanceSensor hcsr04{pio0, 0, 0};
+    // echo pin must be on gpio pin trigger - 1.
+    DistanceSensor hcsr04{pio0, 0, 1};
 
     // Trigger background sense
     hcsro4.TriggerRead();
