@@ -170,6 +170,7 @@ def turn_to_angle(target_angle=90, max_speed=100):
 
     motorA.dc(0)
     motorB.dc(0)
+    print(f"Reached target angle: {current_angle:.1f} degrees")
 
     heading_offset = hub.imu.rotation(Axis.Z)
     wait(50)
@@ -183,6 +184,7 @@ def turn_left_gyro(speed=100, angle=90):
     target = (current_heading + angle) % 360
     turn_to_angle(target, max_speed=speed)
     heading_offset = hub.imu.rotation(Axis.Z)
+    print(f"heading_offset: {current_heading}")
     wait(50)
 
 def turn_right_gyro(speed=100, angle=90):
@@ -191,6 +193,7 @@ def turn_right_gyro(speed=100, angle=90):
     target = (current_heading - angle) % 360
     turn_to_angle(target, max_speed=speed)
     heading_offset = hub.imu.rotation(Axis.Z)
+    print(f"heading_offset: {current_heading}")
     wait(50)
 
 command_map = {
