@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Archie Bradby
+# All rights reserved.
+
 import primeCommands
 
 hub_name = "NSE_Pybricks"
