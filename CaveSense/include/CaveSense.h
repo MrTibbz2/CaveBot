@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
-#include "distance_sensor.h"
+#include "hcsr04.h"
 #include "pico/time.h"
 
 
@@ -55,18 +55,17 @@ private:
 class Scanner : public std::enable_shared_from_this<Scanner> {
 public:
     Scanner();
-    bool BeginScan(); // creates the core1 task and begins scanning, outputting to logs
+    bool BeginScan();
     bool EndScan() {
         if (!scanning.load()) {
             return true;
         }
         scanning.store(false);
         return true;
-    };  // set flag. waits for timeout of core1 to end otherwise fails.
-    bool IsScanning() { return scanning.load(); }; // returns true if currently scanning
+    };
+    bool IsScanning() { return scanning.load(); };
     
-    // Public access for static core1 function
-    std::vector<DistanceSensor> Sensors;
+    std::vector<HCSR04> Sensors;
     std::vector<std::string> SensorNames;
     std::atomic<bool> scanning{false};
 private:

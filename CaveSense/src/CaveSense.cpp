@@ -35,10 +35,9 @@ Scanner::Scanner() {
     std::cout << "Initializing " << SENSOR_CONFIG.size() << " sensors..." << std::endl;
     for (const auto& config : SENSOR_CONFIG) {
         std::cout << "Creating sensor " << config.name << ": trigger=" << (int)config.triggerPin 
-                  << ", echo=" << (int)config.echoPin 
-                  << ", pio=" << (config.pio == pio0 ? "pio0" : "pio1")
-                  << ", sm=" << config.sm << std::endl;
-        Sensors.emplace_back(config.pio, config.sm, config.triggerPin);
+                  << ", echo=" << (int)config.echoPin << std::endl;
+        Sensors.emplace_back(config.triggerPin, config.echoPin);
+        Sensors.back().init();
         SensorNames.push_back(config.name);
     }
     std::cout << "Scanner initialization complete" << std::endl;
@@ -61,28 +60,13 @@ static void core1_scan_task() {
         }
         
         if (scanner->scanning.load()) {
-            // Trigger all sensors
+            std::cout << "{\"sensor_data\": {";
             for (size_t i = 0; i < scanner->Sensors.size(); ++i) {
-                if (!scanner->scanning.load()) break;
-                scanner->Sensors[i].TriggerRead();
+                if (i > 0) std::cout << ",";
+                float distance = scanner->Sensors[i].measure_cm();
+                std::cout << "\"" << scanner->SensorNames[i] << "\": " << distance;
             }
-            
-            // Wait for all sensors to complete
-            for (size_t i = 0; i < scanner->Sensors.size(); ++i) {
-                while (scanner->Sensors[i].is_sensing && scanner->scanning.load()) {
-                    sleep_us(100);
-                }
-            }
-            
-            // Output JSON with all sensor readings
-            if (scanner->scanning.load()) {
-                std::cout << "{\"sensor_data\": {";
-                for (size_t i = 0; i < scanner->Sensors.size(); ++i) {
-                    if (i > 0) std::cout << ",";
-                    std::cout << "\"" << scanner->SensorNames[i] << "\": " << scanner->Sensors[i].distance;
-                }
-                std::cout << "}}" << std::endl;
-            }
+            std::cout << "}}" << std::endl;
             
             sleep_ms(100);
         } else {
