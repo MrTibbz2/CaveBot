@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Archie Bradby
+# All rights reserved.
+
 from pybricks.pupdevices import Motor
 from pybricks.hubs import PrimeHub
 from pybricks.parameters import Port, Color, Axis

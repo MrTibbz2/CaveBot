@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+# Copyright (c) 2025 Archie Bradby
+# All rights reserved.
+
 from primeCommands import Prime
 
 hub_name = input("Enter hub name: ")

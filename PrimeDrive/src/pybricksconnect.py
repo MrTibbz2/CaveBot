@@ -1,3 +1,7 @@
+# Copyright (c) 2025 Archie Bradby
+# All rights reserved.
+
+
 import asyncio
 from contextlib import suppress
 from bleak import BleakScanner, BleakClient
