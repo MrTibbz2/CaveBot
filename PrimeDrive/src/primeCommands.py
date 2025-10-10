@@ -29,9 +29,9 @@ class Prime:
         time.sleep(4)
     
     def turnLeft(self):
-        self.hub.send(f"turnleft.100.90!")
+        self.hub.send(f"turnleft.50.90!")
         time.sleep(4)
 
     def turnRight(self):
-        self.hub.send(f"turnright.100.90!")
+        self.hub.send(f"turnright.50.90!")
         time.sleep(4)
