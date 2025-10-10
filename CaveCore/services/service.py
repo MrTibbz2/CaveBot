@@ -1,30 +1,10 @@
-# cavecore/services/service.py
+# the base service used by all services.
 class Service:
-    """
-    Base class for all CaveCore services.
-    Each service wraps a subsystem and exposes its API to CaveCore.
-    """
-
-    def __init__(self, core, name: str):
-        self.core = core
+    def __init__(self, name: str):
         self.name = name
 
-    def start(self):
-        """
-        Connect to or start the subsystem.
-        """
-        raise NotImplementedError
+    def init(self):
+        print(f"ERROR: Service {self.name} has no start implementation.")
 
-    def stop(self):
-        """
-        Stop or clean up the subsystem.
-        """
-        raise NotImplementedError
-
-
-def rpc_method(func):
-    """
-    Marks a method to be exposed via JSON-RPC.
-    """
-    func._rpc_exposed = True
-    return func
+    def kill(self):
+        print(f"ERROR: Service {self.name} has no stop implementation.")
