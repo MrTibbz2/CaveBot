@@ -44,7 +44,7 @@ def all_motors_off(speed=0, howLong=0):
     motorB.dc(0)
 
 def spin_around(speed=50, howLong=1000):
-    motorA.dc(-speed)
+    motorA.dc(speed)
     motorB.dc(-speed)
     colorlist = [Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.VIOLET]
     hub.light.animate(colorlist, 500)
@@ -53,9 +53,53 @@ def spin_around(speed=50, howLong=1000):
         motorA.dc(0)
         motorB.dc(0)
 
-def move_forward_corrected(speed=50, target_distance_cm=0):
+def move_forward_corrected(speed=10, target_distance_cm=0):
 
     kp = 2
+    stopwatch = StopWatch()
+    stopwatch.reset()
+
+    # Constants for distance calc
+    wheel_diameter = 0.056  # meters
+    wheel_circumference = wheel_diameter * 3.1416  # meters
+
+    # Reset motor angles
+    motorA.reset_angle(0)
+    motorB.reset_angle(0)
+
+    while True:
+        # Calculate traveled distance
+        avg_deg = (abs(motorA.angle()) + abs(motorB.angle())) / 2
+        distance_m = (avg_deg / 360) * wheel_circumference
+        distance_cm = distance_m * 100
+
+        # Break if target distance reached (if given)
+        if target_distance_cm > 0 and distance_cm >= target_distance_cm:
+            break
+
+        # Heading correction
+        current_angle = get_relative_heading()
+        error = current_angle
+        correction = kp * error
+
+        left_speed = max(min(speed + correction, 100), -100)
+        right_speed = max(min(speed - correction, 100), -100)
+
+        motorA.dc(left_speed)
+        motorB.dc(-right_speed)
+        print(f"Moving Forward: distance={distance_cm:.1f}cm")
+
+        wait(50)  # Increased wait time for stability
+
+    # Stop motors at end
+    motorA.dc(0)
+    motorB.dc(0)
+    print(f"Reached target distance: {distance_cm:.1f} cm")
+
+
+def move_backwards_corrected(speed=50, target_distance_cm=0):
+
+    kp = 0.5
     stopwatch = StopWatch()
     stopwatch.reset()
 
@@ -83,53 +127,11 @@ def move_forward_corrected(speed=50, target_distance_cm=0):
         correction = kp * error
 
         left_speed = max(min(-speed - correction, 100), -100)
-        right_speed = max(min(speed - correction, 100), -100)
+        right_speed = max(min(-speed + correction, 100), -100)
 
         motorA.dc(left_speed)
-        motorB.dc(right_speed)
-
-        wait(20)
-
-    # Stop motors at end
-    motorA.dc(0)
-    motorB.dc(0)
-    print(f"Reached target distance: {distance_cm:.1f} cm")
-
-
-def move_backwards_corrected(speed=50, target_distance_cm=0):
-
-    kp = 2
-    stopwatch = StopWatch()
-    stopwatch.reset()
-
-    # Constants for distance calc
-    wheel_diameter = 0.056  # meters
-    wheel_circumference = wheel_diameter * 3.1416  # meters
-
-    # Reset motor angles
-    motorA.reset_angle(0)
-    motorB.reset_angle(0)
-
-    while True:
-        # Calculate traveled distance
-        avg_deg = (abs(motorA.angle()) + abs(motorB.angle())) / 2
-        distance_m = (avg_deg / 360) * wheel_circumference
-        distance_cm = distance_m * 100
-
-        # Break if target distance reached (if given)
-        if target_distance_cm > 0 and distance_cm >= target_distance_cm:
-            break
-
-        # Heading correction
-        current_angle = get_relative_heading()
-        error = current_angle
-        correction = kp * error
-
-        left_speed = max(min(speed - correction, 100), -100)
-        right_speed = max(min(-speed - correction, 100), -100)
-
-        motorA.dc(left_speed)
-        motorB.dc(right_speed)
+        motorB.dc(-right_speed)
+        print(f"Moving Backwards: distance={distance_cm:.1f}cm")
 
         wait(20)
 
@@ -145,7 +147,8 @@ def angle_error(target, current):
 def turn_to_angle(target_angle=90, max_speed=100):
     global heading_offset
 
-    kp = 1.5
+    # Turn accuracy parameters, make sure its not too accurate or it will oscillate
+    kp = 5
     min_speed = 20
 
     while True:
@@ -166,8 +169,9 @@ def turn_to_angle(target_angle=90, max_speed=100):
             if speed > -min_speed:
                 speed = -min_speed
 
-        motorA.dc(speed)
-        motorB.dc(speed)
+        motorA.dc(-speed)
+        motorB.dc(-speed)
+        print(f"Turning: current={current_angle}")
 
         wait(20)
 
