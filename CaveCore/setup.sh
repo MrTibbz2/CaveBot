@@ -11,6 +11,6 @@ sudo apt-get update
 sudo apt-get install -y python3 python3-pip
 
 # Install required Python packages
-pip3 install pyserial websockets pybricksconnect
+pip3 install pyserial websockets bleak --break-system-packages
 
 echo "Setup complete! Run with: python3 main.py"

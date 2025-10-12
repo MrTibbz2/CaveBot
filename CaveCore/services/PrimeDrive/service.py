@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Archie Bradby
+# All rights reserved.
+
 from ..service import Service
 from .primeCommands import Prime
 
@@ -15,27 +18,31 @@ class PrimeDriveService(Service):
         if self.prime:
             self.prime.stop()
         print("PrimeDriveService stopped.")
-    
-    def move_forward(self, distance):
+
+    def moveForward(self, distance):
         if self.prime:
             self.prime.moveForward(distance)
-    
-    def move_backwards(self, distance):
+
+    def moveBackwards(self, distance):
         if self.prime:
             self.prime.moveBackwards(distance)
-    
-    def turn_left(self):
-        if self.prime:
-            self.prime.turnLeft()
-    
-    def turn_right(self):
-        if self.prime:
-            self.prime.turnRight()
-    
-    def turn_to(self, angle):
-        if self.prime:
-            self.prime.turnTo(angle)
-    
+
     def stop(self):
         if self.prime:
             self.prime.stop()
+
+    def partyTime(self):
+        if self.prime:
+            self.prime.partyTime()
+
+    def turnTo(self, target_angle):
+        if self.prime:
+            self.prime.turnTo(target_angle)
+
+    def turnLeft(self):
+        if self.prime:
+            self.prime.turnLeft()
+
+    def turnRight(self):
+        if self.prime:
+            self.prime.turnRight()

@@ -9,11 +9,11 @@ class Prime:
         self.hub = HubController(hub_name)
 
     def moveForward(self, distance):
-        self.hub.send(f"moveforward.50.{distance}!")
+        self.hub.send(f"moveforward.35.{distance}!")
         time.sleep(4)
 
     def moveBackwards(self, distance):
-        self.hub.send(f"movebackwards.50.{distance}!")
+        self.hub.send(f"movebackwards.35.{distance}!")
         time.sleep(4)
 
     def stop(self):
@@ -29,9 +29,9 @@ class Prime:
         time.sleep(4)
     
     def turnLeft(self):
-        self.hub.send(f"turnleft.100.90!")
+        self.hub.send(f"turnleft.50.90!")
         time.sleep(4)
 
     def turnRight(self):
-        self.hub.send(f"turnright.100.90!")
+        self.hub.send(f"turnright.50.90!")
         time.sleep(4)
