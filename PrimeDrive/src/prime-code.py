@@ -87,6 +87,7 @@ def move_forward_corrected(speed=10, target_distance_cm=0):
 
         motorA.dc(left_speed)
         motorB.dc(-right_speed)
+        print(f"Moving Forward: distance={distance_cm:.1f}cm")
 
         wait(50)  # Increased wait time for stability
 
@@ -130,6 +131,7 @@ def move_backwards_corrected(speed=50, target_distance_cm=0):
 
         motorA.dc(left_speed)
         motorB.dc(-right_speed)
+        print(f"Moving Backwards: distance={distance_cm:.1f}cm")
 
         wait(20)
 
@@ -169,6 +171,7 @@ def turn_to_angle(target_angle=90, max_speed=100):
 
         motorA.dc(-speed)
         motorB.dc(-speed)
+        print(f"Turning: current={current_angle}")
 
         wait(20)
 
