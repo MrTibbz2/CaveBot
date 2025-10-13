@@ -154,7 +154,7 @@ def turn_to_angle(target_angle=90, max_speed=100):
         current_angle = hub.imu.rotation(Axis.Z)
         error = angle_error(target_angle, current_angle)
 
-        if abs(error) < 3.0:
+        if abs(error) < 2.8:
             break
 
         speed = kp * error
