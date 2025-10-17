@@ -143,7 +143,7 @@ def move_backwards_corrected(speed=50, target_distance_cm=0):
 def angle_error(target, current):
     return (target - current + 180) % 360 - 180
 
-def turn_to_angle(target_angle=90, max_speed=100):
+def turn_to_angle(target_angle=90, max_speed=50):
     global heading_offset
 
     # Turn accuracy parameters, make sure its not too accurate or it will oscillate
@@ -154,7 +154,7 @@ def turn_to_angle(target_angle=90, max_speed=100):
         current_angle = hub.imu.rotation(Axis.Z)
         error = angle_error(target_angle, current_angle)
 
-        if abs(error) < 2.8:
+        if abs(error) < 0.8:
             break
 
         speed = kp * error
@@ -168,6 +168,7 @@ def turn_to_angle(target_angle=90, max_speed=100):
             if speed > -min_speed:
                 speed = -min_speed
 
+        # DONT CHANGE SIGN HERE, MOTORS ARE MOUNTED INVERSELY
         motorA.dc(-speed)
         motorB.dc(-speed)
         print(f"Turning: current={current_angle}")
@@ -207,7 +208,7 @@ command_map = {
     'movebackwards': move_backwards_corrected,
     'stop': all_motors_off,
     'spinaround': spin_around,
-    'turnto': turn_to_command,
+    'turnto': turn_to_angle,
     'turnleft': turn_left_gyro,
     'turnright': turn_right_gyro,
 }

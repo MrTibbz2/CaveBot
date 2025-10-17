@@ -25,13 +25,13 @@ class Prime:
         time.sleep(4)
     
     def turnTo(self, target_angle):
-        self.hub.send(f"turnto.100.{target_angle}!")
+        self.hub.send(f"turnto.50.{target_angle}!")
         time.sleep(4)
     
     def turnLeft(self):
-        self.hub.send(f"turnRight.50.90!")
+        self.hub.send(f"turnLeft.50.90!")
         time.sleep(4)
 
     def turnRight(self):
-        self.hub.send(f"turnLeft.50.90!")
+        self.hub.send(f"turnRight.50.90!")
         time.sleep(4)
