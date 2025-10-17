@@ -39,3 +39,5 @@ def maze(prime):
     prime.turnLeft()
     prime.moveForward(10)
 
+maze(prime)
+
