@@ -3,7 +3,7 @@ from services.PrimeDrive.service import PrimeDriveService
 from services.CaveMap.service import CaveMapService
 
 cavesense = CaveSenseService()
-primedrive = PrimeDriveService()
+primedrive = PrimeDriveService(hub_name="NSE_Pybricks")  # Change if needed
 cavemap = CaveMapService()
 
 

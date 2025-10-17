@@ -18,16 +18,17 @@ class CaveSense:
 
     def _find_pico(self) -> str:
         for port in serial.tools.list_ports.comports():
-            try:
-                ser = serial.Serial(port.device, 115200, timeout=0.5)
-                ser.write(b"GETSTATUS\n")
-                sleep(1)
-                line = ser.readline().decode().strip()
-                ser.close()
-                if line.startswith("{") and "status" in line:
-                    return port.device
-            except:
-                pass
+            if 'ACM' in port.device or 'USB' in port.device:
+                try:
+                    ser = serial.Serial(port.device, 115200, timeout=0.5)
+                    ser.write(b"GETSTATUS\n")
+                    sleep(1)
+                    line = ser.readline().decode().strip()
+                    ser.close()
+                    if line.startswith("{") and "status" in line:
+                        return port.device
+                except:
+                    pass
         raise RuntimeError("Pico not found")
 
     def _read_loop(self):

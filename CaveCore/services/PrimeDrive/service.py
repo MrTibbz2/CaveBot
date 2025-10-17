@@ -5,7 +5,7 @@ from ..service import Service
 from .primeCommands import Prime
 
 class PrimeDriveService(Service):
-    def __init__(self, hub_name="Pybricks Hub"):
+    def __init__(self, hub_name="NSE_Pybricks"):
         super().__init__("PrimeDriveService")
         self.hub_name = hub_name
         self.prime = None

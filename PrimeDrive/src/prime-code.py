@@ -12,6 +12,7 @@ from uselect import poll
 hub = PrimeHub()
 motorA = Motor(Port.A)
 motorB = Motor(Port.B)
+
 keyboard = poll()
 keyboard.register(stdin)
 
@@ -154,7 +155,7 @@ def turn_to_angle(target_angle=90, max_speed=100):
         current_angle = hub.imu.rotation(Axis.Z)
         error = angle_error(target_angle, current_angle)
 
-        if abs(error) < 3.0:
+        if abs(error) < 1.5:
             break
 
         speed = kp * error
