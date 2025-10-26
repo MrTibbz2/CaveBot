@@ -21,7 +21,7 @@ while prime.isMoving() == False:
     time.sleep(0.1)
 last_distance = 0.0
 while prime.isMoving():
-    moved_distance = float(prime.getDistance()) - last_distance
+    moved_distance = float(prime.return_payload()) - last_distance
     Mapmove(moved_distance)
     last_distance = float(prime.return_payload())
 stopscan()
