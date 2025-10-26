@@ -3,17 +3,9 @@ import time
 
 
 def maze():
-    primedrive.moveForward(24)
-    cavemap.move(24)
-    cavesense.begin_scan()
-    primedrive.turnRight()
-    cavemap.rotate(90)
-    primedrive.moveForward(60)
-    cavemap.move(60)
-    primedrive.turnLeft()
-    cavemap.rotate(-90)
-    primedrive.moveForward(30)
-    cavemap.move(30)
+    print("Maze started.")
+    
+
 
 
 def check_status():
