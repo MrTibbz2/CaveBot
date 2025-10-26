@@ -181,14 +181,18 @@ interface=$AP_INTERFACE
 driver=nl80211
 ssid=$AP_SSID
 hw_mode=g
-channel=7
-wmm_enabled=0
+channel=1
+ieee80211n=1
+ieee80211d=1
+country_code=AU
+wmm_enabled=1
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
 wpa_passphrase=$AP_PASSWORD
 wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
 rsn_pairwise=CCMP
 EOF
     
