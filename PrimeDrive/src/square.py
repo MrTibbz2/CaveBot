@@ -17,15 +17,35 @@ def Mapmove(yay):
 
 startscan()
 prime.moveForward(24)
-while prime.isMoving() == False:
-    time.sleep(0.1)
-last_distance = 0.0
-while prime.isMoving():
-    moved_distance = float(prime.return_payload()) - last_distance
-    Mapmove(moved_distance)
+
+# wait for movement to start, but avoid infinite hang
+start_wait_deadline = time.time() + 5.0  # 5s timeout
+while not prime.isMoving():
+    if time.time() > start_wait_deadline:
+        print("Timeout waiting for movement to start")
+        break
+    time.sleep(0.05)
+
+# initialize baseline from payload
+try:
     last_distance = float(prime.return_payload())
+except (TypeError, ValueError):
+    last_distance = 0.0
+
+# monitor while moving
+while prime.isMoving():
+    payload = prime.return_payload()
+    try:
+        current = float(payload)
+    except (TypeError, ValueError):
+        time.sleep(0.05)
+        continue
+    moved_distance = current - last_distance
+    Mapmove(moved_distance)
+    last_distance = current
+    time.sleep(0.05)
+
 stopscan()
-    
 
 # prime.turnLeft()
 # prime.moveForward(60)
