@@ -167,8 +167,8 @@ function start_ap() {
     ip addr add "$AP_IP" dev "$AP_INTERFACE"
     ip link set up dev "$AP_INTERFACE"
     
-    # Verify interface is up
-    if ! ip link show "$AP_INTERFACE" | grep -q "state UP"; then
+    # Verify interface is up (check for UP flag, not state)
+    if ! ip link show "$AP_INTERFACE" | grep -q "UP"; then
         log_error "Failed to bring up $AP_INTERFACE"
         exit 1
     fi
