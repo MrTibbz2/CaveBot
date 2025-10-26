@@ -13,3 +13,6 @@ prime = primeCommands.Prime(hub_name)
 # prime.turnRight()
 # prime.moveForward(30)
 prime.moveForward(30)
+
+while prime.isMoving():
+    print(prime.return_payload())
