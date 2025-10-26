@@ -57,6 +57,20 @@ class HubController:
         except Exception as e:
             print(f"Error in send: {e}")
     
+    def return_payload(self):
+        try:
+            return self.hub.return_payload()
+        except Exception as e:
+            print(f"Error in return_payload: {e}")
+            return None
+    
+    def is_moving(self):
+        try:
+            return self.hub.is_moving()
+        except Exception as e:
+            print(f"Error in is_moving: {e}")
+            return False
+    
     def wait_until_ready(self, poll_interval=0.1):
         # Wait until connected
         while not self.connected:

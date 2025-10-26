@@ -10,7 +10,7 @@ class Prime:
 
     def moveForward(self, distance):
         self.hub.send(f"moveforward.35.{distance}!")
-        time.sleep(4)
+        time.sleep(0.5)
 
     def moveBackwards(self, distance):
         self.hub.send(f"movebackwards.35.{distance}!")
@@ -35,3 +35,10 @@ class Prime:
     def turnRight(self):
         self.hub.send(f"turnLeft.50.90!")
         time.sleep(4)
+
+    def return_payload(self):
+        return self.hub.return_payload()
+    
+    def isMoving(self):
+        return self.hub.hub.is_moving()
+        

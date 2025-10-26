@@ -12,6 +12,7 @@ from uselect import poll
 hub = PrimeHub()
 motorA = Motor(Port.A)
 motorB = Motor(Port.B)
+
 keyboard = poll()
 keyboard.register(stdin)
 
@@ -86,14 +87,14 @@ def move_forward_corrected(speed=10, target_distance_cm=0):
 
         motorA.dc(left_speed)
         motorB.dc(-right_speed)
-        print(f"Moving Forward: distance={distance_cm:.1f}cm")
+        print(f"{distance_cm:.1f}")
 
         wait(50)  # Increased wait time for stability
 
     # Stop motors at end
     motorA.dc(0)
     motorB.dc(0)
-    print(f"Reached target distance: {distance_cm:.1f} cm")
+    print(f"{distance_cm:.1f}")
 
 
 def move_backwards_corrected(speed=50, target_distance_cm=0):
@@ -143,7 +144,7 @@ def move_backwards_corrected(speed=50, target_distance_cm=0):
 def angle_error(target, current):
     return (target - current + 180) % 360 - 180
 
-def turn_to_angle(target_angle=90, max_speed=50):
+def turn_to_angle(target_angle=90, max_speed=100):
     global heading_offset
 
     # Turn accuracy parameters, make sure its not too accurate or it will oscillate
@@ -154,7 +155,7 @@ def turn_to_angle(target_angle=90, max_speed=50):
         current_angle = hub.imu.rotation(Axis.Z)
         error = angle_error(target_angle, current_angle)
 
-        if abs(error) < 0.8:
+        if abs(error) < 1.5:
             break
 
         speed = kp * error
@@ -168,7 +169,6 @@ def turn_to_angle(target_angle=90, max_speed=50):
             if speed > -min_speed:
                 speed = -min_speed
 
-        # DONT CHANGE SIGN HERE, MOTORS ARE MOUNTED INVERSELY
         motorA.dc(-speed)
         motorB.dc(-speed)
         print(f"Turning: current={current_angle}")
@@ -208,7 +208,7 @@ command_map = {
     'movebackwards': move_backwards_corrected,
     'stop': all_motors_off,
     'spinaround': spin_around,
-    'turnto': turn_to_angle,
+    'turnto': turn_to_command,
     'turnleft': turn_left_gyro,
     'turnright': turn_right_gyro,
 }

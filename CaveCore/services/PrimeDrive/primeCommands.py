@@ -1,7 +1,7 @@
 # Copyright (c) 2025 Archie Bradby
 # All rights reserved.
 
-from .datasend import HubController
+from datasend import HubController
 import time
 
 class Prime:
@@ -10,7 +10,7 @@ class Prime:
 
     def moveForward(self, distance):
         self.hub.send(f"moveforward.35.{distance}!")
-        time.sleep(4)
+        time.sleep(0.5)
 
     def moveBackwards(self, distance):
         self.hub.send(f"movebackwards.35.{distance}!")
@@ -29,9 +29,16 @@ class Prime:
         time.sleep(4)
     
     def turnLeft(self):
-        self.hub.send(f"turnLeft.50.90!")
+        self.hub.send(f"turnRight.50.90!")
         time.sleep(4)
 
     def turnRight(self):
-        self.hub.send(f"turnRight.50.90!")
+        self.hub.send(f"turnLeft.50.90!")
         time.sleep(4)
+
+    def return_payload(self):
+        return self.hub.return_payload()
+    
+    def isMoving(self):
+        return self.hub.hub.is_moving()
+        

@@ -87,14 +87,14 @@ def move_forward_corrected(speed=10, target_distance_cm=0):
 
         motorA.dc(left_speed)
         motorB.dc(-right_speed)
-        print(f"Moving Forward: distance={distance_cm:.1f}cm")
+        print(f"{distance_cm:.1f}")
 
         wait(50)  # Increased wait time for stability
 
     # Stop motors at end
     motorA.dc(0)
     motorB.dc(0)
-    print(f"Reached target distance: {distance_cm:.1f} cm")
+    print(f"{distance_cm:.1f}")
 
 
 def move_backwards_corrected(speed=50, target_distance_cm=0):

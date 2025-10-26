@@ -14,7 +14,9 @@ class PybricksHubClient:
         self.client = None
         self.ready_event = asyncio.Event()
         self.main_task = None
-        self.last_payload = None 
+        self.last_payload = None
+        self.message_buffer = "" 
+        self.isMoving = False
 
     def handle_disconnect(self, _):
         print("Hub was disconnected.")
@@ -27,16 +29,34 @@ class PybricksHubClient:
                 payload = data[1:]
                 self.last_payload = str(payload, 'utf-8')
                 if payload == b"rdy":
+                    self.isMoving = False
                     self.ready_event.set()
                     return "rdy"
                 else:
-                    print("Received:", self.last_payload)
+                    # self.return_payload()
+                    pass
         except Exception as e:
             print(f"Error in handle_rx: {e}")
 
     def get_last_payload(self):
         print("Last payload from hub:", self.last_payload)
         return self.last_payload
+    
+    def return_payload(self):
+        self.message_buffer += self.last_payload
+        if '\n' in self.message_buffer:
+            print(self.message_buffer.rstrip('\n'))
+            self.message_buffer = ""
+        return self.last_payload
+    
+    def is_moving(self):
+        if self.return_payload() == "rdy":
+            self.isMoving = False
+            return self.isMoving
+        else:
+            self.isMoving = True
+            return self.isMoving
+            
 
     async def connect(self):
         try:
