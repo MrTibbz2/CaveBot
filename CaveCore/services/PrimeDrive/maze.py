@@ -7,7 +7,7 @@ hub_name = "NSE_Pybricks"
 
 prime = primeCommands.Prime(hub_name)
 
-def maze(prime):
+# def maze(prime):
     # prime.moveForward(60)
     # prime.turnRight()
     # prime.moveForward(43)
@@ -38,11 +38,11 @@ def maze(prime):
     # prime.moveForward(40)
     # prime.turnLeft()
     # prime.moveForward(10)
-    prime.moveForward(24)
-    prime.turnLeft()
-    prime.moveForward(60)
-    prime.turnRight()
-    prime.moveForward(30)
 
-maze(prime)
+# maze(prime)
 
+prime.moveForward(24)
+prime.turnLeft()
+prime.moveForward(60)
+prime.turnRight()
+prime.moveForward(30)

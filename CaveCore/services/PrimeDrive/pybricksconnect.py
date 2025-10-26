@@ -30,7 +30,7 @@ class PybricksHubClient:
                     self.ready_event.set()
                     return "rdy"
                 else:
-                    print("Received:", payload)
+                    print("Received:", self.last_payload)
         except Exception as e:
             print(f"Error in handle_rx: {e}")
 
