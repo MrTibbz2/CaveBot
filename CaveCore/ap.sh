@@ -9,8 +9,8 @@
 set -euo pipefail  # Exit on error, undefined variables, and pipe failures
 
 # Configuration
-AP_INTERFACE="wlan0"
-CLIENT_INTERFACE="wlan1"
+AP_INTERFACE="wlan1"
+CLIENT_INTERFACE="wlan0"
 AP_SSID="PiHotspot"
 AP_PASSWORD="raspberry123"
 DHCP_RANGE="192.168.50.10,192.168.50.50,255.255.255.0,24h"
