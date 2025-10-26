@@ -2,8 +2,14 @@ from core import cavemap, cavesense, primedrive
 import time
 
 
+
+
 def maze():
-    print("Maze started.")
+    primedrive.scan_and_move(24, cavemap.move, cavesense.begin_scan, cavesense.end_scan)
+    primedrive.turnLeft()
+    primedrive.scan_and_move(60, cavemap.move, cavesense.begin_scan, cavesense.end_scan)
+    primedrive.turnRight()
+    primedrive.scan_and_move(30, cavemap.move, cavesense.begin_scan, cavesense.end_scan)
     
 
 

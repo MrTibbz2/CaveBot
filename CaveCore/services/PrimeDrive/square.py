@@ -15,38 +15,41 @@ def stopscan():
 def Mapmove(yay):
     print(f"Moving forward: {yay}")
 
-startscan()
-prime.moveForward(24)
-
-# wait for movement to start
-start_wait_deadline = time.time() + 5.0
-while not prime.isMoving():
-    if time.time() > start_wait_deadline:
-        print("Timeout waiting for movement to start")
-        break
-    time.sleep(0.05)
-
-last_distance = 0.0
-total_distance = 0.0
-
-while prime.isMoving():
-    payload = prime.return_payload()
-    try:
-        current = float(payload)
-    except (TypeError, ValueError):
+def scan_and_move(distance, move_callback, start_scan, stop_scan):
+    start_scan()
+    prime.moveForward(distance)
+    
+    # wait for movement to start
+    start_wait_deadline = time.time() + 5.0
+    while not prime.isMoving():
+        if time.time() > start_wait_deadline:
+            print("Timeout waiting for movement to start")
+            break
+        time.sleep(0.05)
+    
+    last_distance = 0.0
+    total_distance = 0.0
+    
+    while prime.isMoving():
+        payload = prime.return_payload()
+        try:
+            current = float(payload)
+        except (TypeError, ValueError):
+            time.sleep(0.1)
+            continue
+        
+        moved_distance = current - last_distance
+        if moved_distance > 0:
+            move_callback(moved_distance)
+            total_distance += moved_distance
+            print(f"Total distance moved: {total_distance}")
+        
+        last_distance = current
         time.sleep(0.1)
-        continue
     
-    moved_distance = current - last_distance
-    if moved_distance > 0:
-        Mapmove(moved_distance)
-        total_distance += moved_distance
-        print(f"Total distance moved: {total_distance}")
-    
-    last_distance = current
-    time.sleep(0.1)
+    stop_scan()
 
-stopscan()
+scan_and_move(24, Mapmove, startscan, stopscan)
 
 # prime.turnLeft()
 # prime.moveForward(60)
