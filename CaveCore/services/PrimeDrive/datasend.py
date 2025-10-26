@@ -3,7 +3,7 @@
 
 import asyncio
 from contextlib import suppress
-from pybricksconnect import PybricksHubClient
+from .pybricksconnect import PybricksHubClient
 from threading import Thread
 import time
 

@@ -1,7 +1,7 @@
 # Copyright (c) 2025 Archie Bradby
 # All rights reserved.
 
-from datasend import HubController
+from .datasend import HubController
 import time
 
 class Prime:
