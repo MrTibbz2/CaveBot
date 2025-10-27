@@ -123,14 +123,14 @@ export let bot = {
     // width: 20, // Width in cm
     // height: 20, // Height in cm // these shouldnt be needed, use only sensor offsets.
     sensors: {
-        leftfront: { x: -10, y: 5, angle: 270},
-        leftback: { x: -10, y: -5, angle: 270},
-        rightfront: { x: 10, y: 5, angle: 90},
-        rightback: { x: 10, y: -5, angle: 90},
-        frontleft: { x: -5, y: 10, angle: 0},
-        frontright: { x: 5, y: 10, angle: 0},
-        backleft: { x: -5, y: -10, angle: 180},
-        backright: { x: 5, y: -10, angle: 180}
+        leftfront: { x: -7.5, y: 2.5, angle: 270},
+        leftback: { x: -7.5, y: -2.5, angle: 270},
+        rightfront: { x: 7.5, y: 2.5, angle: 90},
+        rightback: { x: 7.5, y: -2.5, angle: 90},
+        frontleft: { x: -2.5, y: 7.5, angle: 0},
+        frontright: { x: 2.5, y: 7.5, angle: 0},
+        backleft: { x: -2.5, y: -7.5, angle: 180},
+        backright: { x: 2.5, y: -7.5, angle: 180}
     },
     move(distance) {
         // Calculate new position based on current angle

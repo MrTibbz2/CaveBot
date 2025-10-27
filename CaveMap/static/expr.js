@@ -50,7 +50,7 @@ export const expressions = [
   {
     "id": "27",
     "type": "expression",
-    "latex": "W=10",
+    "latex": "W=7.5",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -98,7 +98,7 @@ export const expressions = [
   {
     "id": "26",
     "type": "expression",
-    "latex": "L=10",
+    "latex": "L=7.5",
     "color": "#6042a6",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -727,7 +727,7 @@ export const expressions = [
   {
     "id": "sensor_frontleft",
     "type": "expression",
-    "latex": "s_{1}=\\left(N+W*-0.5*\\cos(t)-L*1*\\sin(t),\\ M+W*-0.5*\\sin(t)+L*1*\\cos(t)\\right)",
+    "latex": "s_{1}=\\left(N+W*-0.333*\\cos(t)-L*1*\\sin(t),\\ M+W*-0.333*\\sin(t)+L*1*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -774,7 +774,7 @@ export const expressions = [
   {
     "id": "sensor_frontright",
     "type": "expression",
-    "latex": "s_{2}=\\left(N+W*+0.5*\\cos(t)-L*1*\\sin(t),\\ M+W*+0.5*\\sin(t)+L*1*\\cos(t)\\right)",
+    "latex": "s_{2}=\\left(N+W*+0.333*\\cos(t)-L*1*\\sin(t),\\ M+W*+0.333*\\sin(t)+L*1*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -821,7 +821,7 @@ export const expressions = [
   {
     "id": "sensor_backleft",
     "type": "expression",
-    "latex": "s_{3}\\ =\\left(N+W*-0.5*\\cos(t)-L*-1*\\sin(t),\\ M+W*-0.5*\\sin(t)+L*-1*\\cos(t)\\right)",
+    "latex": "s_{3}\\ =\\left(N+W*-0.333*\\cos(t)-L*-1*\\sin(t),\\ M+W*-0.333*\\sin(t)+L*-1*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -868,7 +868,7 @@ export const expressions = [
   {
     "id": "sensor_backright",
     "type": "expression",
-    "latex": "s_{4}=\\left(N+W*+0.5*\\cos(t)-L*-1*\\sin(t),\\ M+W*+0.5*\\sin(t)+L*-1*\\cos(t)\\right)",
+    "latex": "s_{4}=\\left(N+W*+0.333*\\cos(t)-L*-1*\\sin(t),\\ M+W*+0.333*\\sin(t)+L*-1*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -915,7 +915,7 @@ export const expressions = [
   {
     "id": "sensor_leftback",
     "type": "expression",
-    "latex": "s_{5}=\\left(N+W*-1*\\cos(t)-L*-0.5*\\sin(t),\\ M+W*-1*\\sin(t)+L*-0.5*\\cos(t)\\right)",
+    "latex": "s_{5}=\\left(N+W*-1*\\cos(t)-L*-0.333*\\sin(t),\\ M+W*-1*\\sin(t)+L*-0.333*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -962,7 +962,7 @@ export const expressions = [
   {
     "id": "sensor_leftfront",
     "type": "expression",
-    "latex": "s_{6}=\\left(N+W*-1*\\cos(t)-L*+0.5*\\sin(t),\\ M+W*-1*\\sin(t)+L*+0.5*\\cos(t)\\right)",
+    "latex": "s_{6}=\\left(N+W*-1*\\cos(t)-L*+0.333*\\sin(t),\\ M+W*-1*\\sin(t)+L*+0.333*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -1009,7 +1009,7 @@ export const expressions = [
   {
     "id": "sensor_rightfront",
     "type": "expression",
-    "latex": "s_{7}=\\left(N+W*+1*\\cos(t)-L*+0.5*\\sin(t),\\ M+W*+1*\\sin(t)+L*+0.5*\\cos(t)\\right)",
+    "latex": "s_{7}=\\left(N+W*+1*\\cos(t)-L*+0.333*\\sin(t),\\ M+W*+1*\\sin(t)+L*+0.333*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
@@ -1056,7 +1056,7 @@ export const expressions = [
   {
     "id": "sensor_rightback",
     "type": "expression",
-    "latex": "s_{8}=\\left(N+W*+1*\\cos(t)-L*-0.5*\\sin(t),\\ M+W*+1*\\sin(t)+L*-0.5*\\cos(t)\\right)",
+    "latex": "s_{8}=\\left(N+W*+1*\\cos(t)-L*-0.333*\\sin(t),\\ M+W*+1*\\sin(t)+L*-0.333*\\cos(t)\\right)",
     "color": "#000000",
     "lineStyle": "SOLID",
     "lineWidth": "",
