@@ -24,6 +24,7 @@ async def ws_client():
                         elif "move" in data and isinstance(data["move"], (int, float)):
                             window.evaluate_js(f'bot.move({data["move"]})')
                         elif "rotate" in data and isinstance(data["rotate"], (int, float)):
+                            print("Rotating")
                             window.evaluate_js(f'bot.rotate({data["rotate"]})')
                     except (json.JSONDecodeError, KeyError, TypeError) as e:
                         print(f"Invalid message: {e}")
