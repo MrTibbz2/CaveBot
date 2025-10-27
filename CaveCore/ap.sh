@@ -9,8 +9,8 @@
 set -euo pipefail  # Exit on error, undefined variables, and pipe failures
 
 # Configuration
-AP_INTERFACE="wlan0"
-CLIENT_INTERFACE="wlan1"
+AP_INTERFACE="wlan1"
+CLIENT_INTERFACE="wlan0"
 AP_SSID="PiHotspot"
 AP_PASSWORD="raspberry123"
 DHCP_RANGE="192.168.50.10,192.168.50.50,255.255.255.0,24h"
@@ -167,8 +167,8 @@ function start_ap() {
     ip addr add "$AP_IP" dev "$AP_INTERFACE"
     ip link set up dev "$AP_INTERFACE"
     
-    # Verify interface is up
-    if ! ip link show "$AP_INTERFACE" | grep -q "state UP"; then
+    # Verify interface is up (check for UP flag, not state)
+    if ! ip link show "$AP_INTERFACE" | grep -q "UP"; then
         log_error "Failed to bring up $AP_INTERFACE"
         exit 1
     fi
@@ -181,14 +181,18 @@ interface=$AP_INTERFACE
 driver=nl80211
 ssid=$AP_SSID
 hw_mode=g
-channel=7
-wmm_enabled=0
+channel=1
+ieee80211n=1
+ieee80211d=1
+country_code=AU
+wmm_enabled=1
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
 wpa_passphrase=$AP_PASSWORD
 wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
 rsn_pairwise=CCMP
 EOF
     
