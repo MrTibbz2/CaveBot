@@ -6,9 +6,9 @@ import time
 
 def maze():
     primedrive.scan_and_move(24, cavemap.move, cavesense.begin_scan, cavesense.end_scan)
-    primedrive.turnLeft()
+    primedrive.turnLeft(cavemap)
     primedrive.scan_and_move(60, cavemap.move, cavesense.begin_scan, cavesense.end_scan)
-    primedrive.turnRight()
+    primedrive.turnRight(cavemap)
     primedrive.scan_and_move(30, cavemap.move, cavesense.begin_scan, cavesense.end_scan)
     
 

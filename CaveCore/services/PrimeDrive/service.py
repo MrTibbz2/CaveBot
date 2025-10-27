@@ -40,13 +40,17 @@ class PrimeDriveService(Service):
         if self.prime:
             self.prime.turnTo(target_angle)
 
-    def turnLeft(self):
+    def turnLeft(self, cavemap=None):
         if self.prime:
             self.prime.turnLeft()
+            if cavemap:
+                cavemap.rotate(-90)
 
-    def turnRight(self):
+    def turnRight(self, cavemap=None):
         if self.prime:
             self.prime.turnRight()
+            if cavemap:
+                cavemap.rotate(90)
 
     def scan_and_move(self, distance, move_callback, start_scan, stop_scan):
         if not self.prime:
@@ -70,7 +74,7 @@ class PrimeDriveService(Service):
             try:
                 current = float(payload)
             except (TypeError, ValueError):
-                time.sleep(0.1)
+                time.sleep(0.5)
                 continue
             
             moved_distance = current - last_distance
@@ -80,7 +84,7 @@ class PrimeDriveService(Service):
                 print(f"Total distance moved: {total_distance}")
             
             last_distance = current
-            time.sleep(0.1)
+            time.sleep(0.5)
         
         stop_scan()
 
