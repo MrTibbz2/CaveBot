@@ -74,7 +74,7 @@ class PrimeDriveService(Service):
             try:
                 current = float(payload)
             except (TypeError, ValueError):
-                time.sleep(0.5)
+                time.sleep(0.3)
                 continue
             
             moved_distance = current - last_distance
@@ -84,7 +84,7 @@ class PrimeDriveService(Service):
                 print(f"Total distance moved: {total_distance}")
             
             last_distance = current
-            time.sleep(0.5)
+            time.sleep(0.3)
         
         stop_scan()
 

@@ -9,6 +9,7 @@ class CaveSenseService(Service):
         self.last_reading_dropped = 0
         self.max_point_length = 15
         self.min_point_length = 2
+        self.max_sensor_difference = 8
 
     def init(self, cavemap=None):
         self.cavemap = cavemap
@@ -20,13 +21,27 @@ class CaveSenseService(Service):
             print(f"CaveSenseService failed to start: {e}")
     
     def _on_sensor_data(self, data):
-        if self.last_reading_dropped == 5:
+        if self.last_reading_dropped == 4:
             self.last_reading_dropped = 0
             return
         else:
             self.last_reading_dropped += 1
 
         print(f"Sensor scan: {data}")
+
+        # Check sensor pair differences
+        pairs = [
+            ("frontleft", "frontright"),
+            ("leftfront", "leftback"),
+            ("rightfront", "rightback"),
+            ("backleft", "backright")
+        ]
+        for s1, s2 in pairs:
+            if s1 in data and s2 in data:
+                diff = abs(data[s1] - data[s2])
+                if diff > self.max_sensor_difference:
+                    print(f"Scan dropped: {s1}={data[s1]}, {s2}={data[s2]} (diff={diff:.1f} > {self.max_sensor_difference})")
+                    return
 
         if self.cavemap:
             # Filter out points outside the allowed distance range
